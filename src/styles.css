@@ -8,10 +8,10 @@ body {
   margin: 0;
   background: #080b12;
   color: #f0f2f7;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
 }
 
 a,
 button {
   -webkit-tap-highlight-color: transparent;
 }
-
