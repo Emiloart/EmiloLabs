@@ -158,10 +158,10 @@ function LiveNetworkScene() {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobile = window.innerWidth < 720;
-    const particleCount = reduced ? (mobile ? 150 : 240) : (mobile ? 380 : 780);
-    const depthCount = reduced ? 80 : mobile ? 160 : 320;
+    const particleCount = reduced ? (mobile ? 130 : 240) : (mobile ? 260 : 780);
+    const depthCount = reduced ? 80 : mobile ? 120 : 320;
     const pulseCount = reduced ? 4 : mobile ? 8 : 14;
-    const radius = mobile ? 8.4 : 11.6;
+    const radius = mobile ? 6.7 : 11.6;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 140);
     const renderer = new THREE.WebGLRenderer({
@@ -177,7 +177,7 @@ function LiveNetworkScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.domElement.className = "live-network-canvas";
     mount.appendChild(renderer.domElement);
-    camera.position.set(0, 0, mobile ? 30 : 32);
+    camera.position.set(0, 0, mobile ? 35 : 32);
 
     const root = new THREE.Group();
     scene.add(root);
@@ -196,11 +196,11 @@ function LiveNetworkScene() {
       const sx = Math.cos(theta) * ring * radius;
       const sy = y * radius;
       const sz = Math.sin(theta) * ring * radius;
-      const spread = mobile ? 24 : 36;
+      const spread = mobile ? 18 : 36;
       const scatterAngle = i * 2.399 + Math.sin(i * 0.37) * 0.6;
       const scatterRadius = spread * (0.38 + ((i * 37) % 100) / 100);
-      const scatterY = Math.sin(i * 0.91) * (mobile ? 13 : 18);
-      const scatterZ = Math.cos(i * 1.27) * (mobile ? 12 : 20);
+      const scatterY = Math.sin(i * 0.91) * (mobile ? 10 : 18);
+      const scatterZ = Math.cos(i * 1.27) * (mobile ? 9 : 20);
 
       spherePositions[i * 3] = sx;
       spherePositions[i * 3 + 1] = sy;
@@ -277,10 +277,10 @@ function LiveNetworkScene() {
     for (let i = 0; i < depthCount; i += 1) {
       const angle = i * 2.17;
       const layer = ((i * 29) % 100) / 100;
-      const spread = mobile ? 34 : 52;
+      const spread = mobile ? 26 : 52;
       depthPositions[i * 3] = Math.cos(angle) * spread * (0.36 + layer);
-      depthPositions[i * 3 + 1] = Math.sin(i * 1.31) * (mobile ? 21 : 30);
-      depthPositions[i * 3 + 2] = -22 - layer * 28;
+      depthPositions[i * 3 + 1] = Math.sin(i * 1.31) * (mobile ? 16 : 30);
+      depthPositions[i * 3 + 2] = -22 - layer * (mobile ? 20 : 28);
     }
     const depthGeometry = new THREE.BufferGeometry();
     depthGeometry.setAttribute("position", new THREE.BufferAttribute(depthPositions, 3));
@@ -386,14 +386,14 @@ function LiveNetworkScene() {
       root.rotation.y = t * 0.36 + scroll * 0.95 + mouse.x * 0.1;
       root.rotation.x = -0.18 + Math.sin(t * 0.17) * 0.04 + mouse.y * 0.08;
       root.rotation.z = Math.sin(t * 0.11) * 0.035;
-      root.scale.setScalar(0.92 + globeStrength * 0.08);
+      root.scale.setScalar((mobile ? 0.82 : 0.92) + globeStrength * (mobile ? 0.05 : 0.08));
       nodeMaterial.opacity = (reduced ? 0.32 : 0.62) + globeStrength * (reduced ? 0.08 : 0.22);
       lineMaterial.opacity = (reduced ? 0.01 : 0.025) + globeStrength * (reduced ? 0.04 : 0.095);
       depthParticles.rotation.y = -t * 0.018 + scroll * 0.24;
       depthParticles.rotation.x = mouse.y * 0.025;
       camera.position.x = mouse.x * (mobile ? 1.2 : 2.2);
       camera.position.y = -mouse.y * (mobile ? 0.8 : 1.4) + scroll * 3;
-      camera.position.z = (mobile ? 29 : 31) + scroll * 6;
+      camera.position.z = (mobile ? 35 : 31) + scroll * (mobile ? 3 : 6);
       camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
@@ -474,7 +474,6 @@ function EmiloLogo({ className = "", compact = false }) {
 function SectionLabel({ children }) {
   return (
     <div className="section-label">
-      <span />
       <strong>{children}</strong>
     </div>
   );
@@ -510,7 +509,6 @@ function Navbar() {
 
         <div className="desktop-nav">
           {NAV_LINKS.map(link => <a key={link.label} href={link.href}>{link.label}</a>)}
-          <a className="nav-cta" href={`mailto:${CONTACT_EMAIL}`}>Email</a>
         </div>
 
         <button
@@ -531,7 +529,6 @@ function Navbar() {
           {NAV_LINKS.map(link => (
             <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
           ))}
-          <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => setMenuOpen(false)}>Email</a>
         </div>
       )}
     </nav>
@@ -566,19 +563,35 @@ function InstitutionPreview() {
     <div className="institution-preview light-panel">
       <div className="panel-topline">
         <span>CONNECTED SYSTEM</span>
-        <span>live</span>
       </div>
-      <div className="mini-flow">
+      <div className="institution-graph">
+        <svg className="institution-links" viewBox="0 0 100 100" aria-hidden="true">
+          <line x1="50" y1="50" x2="50" y2="16" />
+          <line x1="50" y1="50" x2="82" y2="32" />
+          <line x1="50" y1="50" x2="82" y2="70" />
+          <line x1="50" y1="50" x2="18" y2="70" />
+          <line x1="50" y1="50" x2="18" y2="32" />
+        </svg>
+        <div className="graph-core">
+          <div className="core-ring" />
+          <EmiloLogo compact className="preview-logo" />
+        </div>
         {INSTITUTION_FLOW.map((item, index) => (
-          <div key={item.title} className="mini-step" style={{ "--delay": `${index * 90}ms` }}>
+          <div
+            key={item.title}
+            className="graph-node"
+            style={{
+              "--x": ["50%", "82%", "82%", "18%", "18%"][index],
+              "--y": ["16%", "32%", "70%", "70%", "32%"][index],
+              "--mobile-x": ["50%", "70%", "70%", "30%", "30%"][index],
+              "--mobile-y": ["16%", "34%", "72%", "72%", "34%"][index],
+              "--delay": `${index * 90}ms`,
+            }}
+          >
             <span>{item.signal}</span>
             <strong>{item.title}</strong>
           </div>
         ))}
-      </div>
-      <div className="preview-core">
-        <div className="core-ring" />
-        <EmiloLogo compact className="preview-logo" />
       </div>
     </div>
   );
@@ -911,6 +924,10 @@ export default function EmiloLabsWebsite() {
           font-family: var(--sans);
         }
 
+        html {
+          scroll-behavior: smooth;
+        }
+
         a,
         button {
           -webkit-tap-highlight-color: transparent;
@@ -1080,17 +1097,22 @@ export default function EmiloLabsWebsite() {
           z-index: 2;
         }
 
+        .section,
+        .hero-section {
+          scroll-margin-top: 86px;
+        }
+
         .nav {
           position: fixed;
           inset: 0 0 auto;
           z-index: 20;
-          padding: 18px 0;
+          padding: 14px 0;
           transition: padding 180ms ease, background 180ms ease, border-color 180ms ease;
         }
 
         .nav-scrolled {
-          padding: 11px 0;
-          background: rgba(5, 7, 12, 0.76);
+          padding: 9px 0;
+          background: rgba(5, 7, 12, 0.84);
           border-bottom: 1px solid rgba(123,194,255,0.16);
           backdrop-filter: blur(20px);
         }
@@ -1103,6 +1125,11 @@ export default function EmiloLabsWebsite() {
           gap: 24px;
         }
 
+        .nav-inner {
+          width: min(1240px, calc(100% - 48px));
+          margin: 0 auto;
+        }
+
         .brand {
           display: inline-flex;
           align-items: center;
@@ -1112,15 +1139,15 @@ export default function EmiloLabsWebsite() {
         }
 
         .brand-mark {
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           object-fit: contain;
           opacity: 0.96;
           filter: brightness(1.38) saturate(1.2) drop-shadow(0 0 16px rgba(123,194,255,0.45));
         }
 
         .brand span {
-          font-weight: 700;
+          font-weight: 600;
           font-size: 0.9rem;
           letter-spacing: 0;
         }
@@ -1142,15 +1169,6 @@ export default function EmiloLabsWebsite() {
         .desktop-nav a:hover,
         .footer a:hover {
           color: var(--text);
-        }
-
-        .desktop-nav .nav-cta {
-          color: var(--text);
-          background: rgba(75,123,232,0.26);
-          border: 1px solid rgba(123,194,255,0.34);
-          border-radius: var(--radius);
-          padding: 9px 16px;
-          box-shadow: 0 0 26px rgba(75,123,232,0.22);
         }
 
         .menu-button {
@@ -1192,23 +1210,23 @@ export default function EmiloLabsWebsite() {
         }
 
         .hero-section {
-          min-height: 100vh;
+          min-height: 100svh;
           display: flex;
           align-items: center;
-          padding: 128px 0 94px;
+          padding: 116px 0 82px;
         }
 
         .hero-grid {
           display: grid;
-          grid-template-columns: 0.9fr 1.1fr;
+          grid-template-columns: minmax(420px, 0.92fr) minmax(480px, 1fr);
           align-items: center;
-          gap: 54px;
+          gap: 44px;
         }
 
         .hero-logo {
-          width: min(250px, 58vw);
+          width: min(220px, 54vw);
           height: auto;
-          margin-bottom: 28px;
+          margin-bottom: 22px;
           opacity: 0.98;
           filter: brightness(1.42) saturate(1.22) drop-shadow(0 0 28px rgba(123,194,255,0.42));
           animation: logoWake 6s ease-in-out infinite;
@@ -1228,40 +1246,35 @@ export default function EmiloLabsWebsite() {
         }
 
         .section-label {
-          margin-bottom: 18px;
+          margin-bottom: 14px;
         }
 
-        .section-label span,
         .hero-kicker::before {
-          content: "";
-          width: 26px;
-          height: 1px;
-          background: var(--blue-2);
-          box-shadow: 0 0 12px rgba(123,194,255,0.72);
+          display: none;
         }
 
         .hero-copy h1,
         .section h2 {
           color: var(--text);
-          font-weight: 700;
+          font-weight: 600;
           letter-spacing: 0;
         }
 
         .hero-copy h1 {
-          max-width: 760px;
-          margin: 18px 0 24px;
-          font-size: 5rem;
-          line-height: 0.96;
+          max-width: 700px;
+          margin: 16px 0 22px;
+          font-size: clamp(3.35rem, 5.1vw, 4.55rem);
+          line-height: 1.02;
           text-wrap: balance;
           overflow-wrap: break-word;
         }
 
         .hero-copy p {
-          max-width: 610px;
+          max-width: 560px;
           color: var(--soft);
-          font-size: 1.12rem;
-          line-height: 1.68;
-          margin-bottom: 32px;
+          font-size: 1.04rem;
+          line-height: 1.62;
+          margin-bottom: 28px;
           overflow-wrap: break-word;
           text-wrap: balance;
         }
@@ -1328,12 +1341,15 @@ export default function EmiloLabsWebsite() {
         }
 
         .institution-preview {
-          min-height: 590px;
-          padding: 20px;
+          min-height: 480px;
+          max-width: 760px;
+          width: 100%;
+          justify-self: end;
+          padding: 18px;
         }
 
         .panel-topline {
-          justify-content: space-between;
+          justify-content: flex-start;
           width: 100%;
           color: var(--muted);
         }
@@ -1342,54 +1358,75 @@ export default function EmiloLabsWebsite() {
           color: var(--blue-2);
         }
 
-        .mini-flow {
+        .institution-graph {
           position: relative;
           z-index: 2;
-          display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
-          gap: 10px;
-          margin-top: 24px;
+          height: 390px;
+          margin-top: 18px;
+          overflow: hidden;
         }
 
-        .mini-step {
-          min-height: 126px;
-          padding: 14px;
+        .institution-links {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+        }
+
+        .institution-links line {
+          stroke: rgba(123,194,255,0.32);
+          stroke-width: 0.35;
+          filter: drop-shadow(0 0 5px rgba(123,194,255,0.72));
+          animation: linePulse 4.6s ease-in-out infinite;
+        }
+
+        .graph-core {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 188px;
+          height: 188px;
+          display: grid;
+          place-items: center;
+          transform: translate(-50%, -50%);
+        }
+
+        .graph-node {
+          position: absolute;
+          left: var(--x);
+          top: var(--y);
+          width: 144px;
+          min-height: 82px;
+          padding: 13px 14px;
           border: 1px solid rgba(123,194,255,0.16);
           border-radius: var(--radius);
-          background: rgba(5,7,12,0.42);
-          transform: translateY(0);
+          background: rgba(5,7,12,0.62);
+          box-shadow: inset 0 0 18px rgba(75,123,232,0.08), 0 0 24px rgba(75,123,232,0.08);
+          transform: translate(-50%, -50%);
           animation: riseSignal 5s ease-in-out infinite;
           animation-delay: var(--delay);
         }
 
-        .mini-step span {
+        .graph-node span {
           display: block;
           color: var(--muted);
           font-family: var(--mono);
           font-size: 0.62rem;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
 
-        .mini-step strong {
+        .graph-node strong {
           display: block;
           color: var(--text);
           font-size: 0.98rem;
           line-height: 1.2;
         }
 
-        .preview-core {
-          position: absolute;
-          inset: auto 0 48px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 350px;
-        }
-
         .core-ring {
           position: absolute;
-          width: 290px;
-          height: 290px;
+          width: 186px;
+          height: 186px;
           border: 1px solid rgba(123,194,255,0.24);
           border-radius: 50%;
           box-shadow:
@@ -1408,19 +1445,19 @@ export default function EmiloLabsWebsite() {
         }
 
         .core-ring::after {
-          inset: 74px;
+          inset: 68px;
           border-color: rgba(169,135,255,0.18);
         }
 
         .preview-logo {
-          width: 170px;
+          width: 112px;
           opacity: 0.95;
           filter: brightness(1.42) saturate(1.2) drop-shadow(0 0 36px rgba(123,194,255,0.5));
           z-index: 2;
         }
 
         .section {
-          padding: 108px 0;
+          padding: 86px 0;
         }
 
         .reveal {
@@ -1435,10 +1472,10 @@ export default function EmiloLabsWebsite() {
         }
 
         .section h2 {
-          max-width: 720px;
-          font-size: 3.45rem;
-          line-height: 1.05;
-          margin-bottom: 18px;
+          max-width: 680px;
+          font-size: clamp(2.2rem, 3.7vw, 3rem);
+          line-height: 1.08;
+          margin-bottom: 16px;
         }
 
         .origin-section p,
@@ -1457,9 +1494,9 @@ export default function EmiloLabsWebsite() {
         .split-heading {
           display: grid;
           grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.62fr);
-          gap: 42px;
+          gap: 34px;
           align-items: end;
-          margin-bottom: 38px;
+          margin-bottom: 26px;
         }
 
         .split-heading h2 {
@@ -1470,8 +1507,8 @@ export default function EmiloLabsWebsite() {
           position: relative;
           display: grid;
           grid-template-columns: repeat(5, minmax(0, 1fr));
-          gap: 12px;
-          padding: 20px;
+          gap: 10px;
+          padding: 16px;
         }
 
         .map-line {
@@ -1493,8 +1530,8 @@ export default function EmiloLabsWebsite() {
 
         .map-node {
           position: relative;
-          min-height: 250px;
-          padding: 22px 18px;
+          min-height: 176px;
+          padding: 18px 16px;
           text-align: left;
           color: var(--soft);
           border: 1px solid rgba(123,194,255,0.14);
@@ -1509,7 +1546,7 @@ export default function EmiloLabsWebsite() {
           display: block;
           width: 12px;
           height: 12px;
-          margin-bottom: 56px;
+          margin-bottom: 32px;
           border-radius: 50%;
           background: rgba(123,194,255,0.45);
           box-shadow: 0 0 18px rgba(123,194,255,0.45);
@@ -1550,43 +1587,62 @@ export default function EmiloLabsWebsite() {
         .technology-card p,
         .initiative-card p {
           color: var(--muted);
-          font-size: 0.9rem;
-          line-height: 1.62;
+          font-size: 0.88rem;
+          line-height: 1.5;
         }
 
         .research-grid,
-        .technology-grid,
-        .initiative-grid {
+        .technology-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .initiative-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 12px;
         }
 
         .research-card,
         .technology-card,
         .initiative-card {
-          min-height: 190px;
-          padding: 25px 22px;
+          min-height: 136px;
+          padding: 20px 18px;
           transform: translateY(0);
           animation: cardBreathe 6s ease-in-out infinite;
           animation-delay: var(--delay, 0ms);
         }
 
+        .technology-section,
+        .initiatives-section {
+          padding-top: 76px;
+          padding-bottom: 76px;
+        }
+
+        .technology-card,
+        .initiative-card {
+          background:
+            linear-gradient(180deg, rgba(13,25,43,0.78), rgba(5,8,14,0.7)),
+            rgba(8,12,20,0.68);
+        }
+
         .tier-tabs {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
-          margin-bottom: 16px;
+          gap: 8px;
+          margin-bottom: 12px;
         }
 
         .tier-tabs button {
-          min-height: 42px;
-          padding: 10px 15px;
+          min-height: 34px;
+          padding: 7px 11px;
           color: var(--soft);
           border: 1px solid var(--line);
-          border-radius: 999px;
+          border-radius: var(--radius);
           background: rgba(8,12,20,0.64);
           cursor: pointer;
+          font-size: 0.82rem;
         }
 
         .tier-tabs button.is-active {
@@ -1598,19 +1654,19 @@ export default function EmiloLabsWebsite() {
 
         .product-stage {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) 340px;
-          gap: 16px;
-          padding: 16px;
+          grid-template-columns: minmax(0, 1fr) 316px;
+          gap: 12px;
+          padding: 12px;
           outline: none;
         }
 
         .product-rail {
           display: grid;
           grid-auto-flow: column;
-          grid-auto-columns: minmax(240px, 31%);
-          gap: 12px;
+          grid-auto-columns: minmax(218px, 30%);
+          gap: 10px;
           overflow-x: auto;
-          padding: 2px 2px 16px;
+          padding: 2px;
           scroll-snap-type: x mandatory;
           scrollbar-width: none;
         }
@@ -1620,8 +1676,8 @@ export default function EmiloLabsWebsite() {
         }
 
         .product-card {
-          min-height: 238px;
-          padding: 20px 18px;
+          min-height: 182px;
+          padding: 18px 16px;
           text-align: left;
           color: var(--soft);
           border: 1px solid rgba(123,194,255,0.14);
@@ -1643,7 +1699,7 @@ export default function EmiloLabsWebsite() {
         .product-card strong {
           display: block;
           color: var(--text);
-          font-size: 1.32rem;
+          font-size: 1.18rem;
           line-height: 1.12;
           margin-bottom: 12px;
         }
@@ -1652,8 +1708,8 @@ export default function EmiloLabsWebsite() {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          min-height: 330px;
-          padding: 26px 24px;
+          min-height: 260px;
+          padding: 22px 20px;
           border: 1px solid rgba(123,194,255,0.14);
           border-radius: var(--radius);
           background: rgba(5,7,12,0.6);
@@ -1661,7 +1717,7 @@ export default function EmiloLabsWebsite() {
 
         .active-product h3 {
           color: var(--text);
-          font-size: 2.2rem;
+          font-size: 1.92rem;
           line-height: 1.04;
           margin-bottom: 16px;
         }
@@ -1684,7 +1740,7 @@ export default function EmiloLabsWebsite() {
           justify-content: space-between;
           gap: 12px;
           margin-top: auto;
-          padding-top: 24px;
+          padding-top: 18px;
         }
 
         .product-controls button {
@@ -1858,8 +1914,13 @@ export default function EmiloLabsWebsite() {
         }
 
         @keyframes riseSignal {
-          0%, 100% { transform: translateY(0); border-color: rgba(123,194,255,0.14); }
-          50% { transform: translateY(-5px); border-color: rgba(123,194,255,0.34); }
+          0%, 100% { border-color: rgba(123,194,255,0.14); box-shadow: inset 0 0 18px rgba(75,123,232,0.08), 0 0 18px rgba(75,123,232,0.05); }
+          50% { border-color: rgba(123,194,255,0.34); box-shadow: inset 0 0 22px rgba(75,123,232,0.14), 0 0 26px rgba(75,123,232,0.16); }
+        }
+
+        @keyframes linePulse {
+          0%, 100% { opacity: 0.38; }
+          50% { opacity: 0.9; }
         }
 
         @keyframes ringTurn {
@@ -1883,11 +1944,45 @@ export default function EmiloLabsWebsite() {
           }
 
           .hero-copy h1 {
-            font-size: 4rem;
+            font-size: clamp(3rem, 7vw, 4rem);
           }
 
           .institution-preview {
-            min-height: 520px;
+            min-height: 430px;
+            justify-self: stretch;
+            max-width: none;
+          }
+
+          .institution-graph {
+            height: 340px;
+          }
+
+          .graph-node {
+            width: 132px;
+            min-height: 76px;
+            padding: 12px;
+          }
+
+          .graph-core {
+            width: 158px;
+            height: 158px;
+          }
+
+          .core-ring {
+            width: 156px;
+            height: 156px;
+          }
+
+          .core-ring::before {
+            inset: 28px;
+          }
+
+          .core-ring::after {
+            inset: 58px;
+          }
+
+          .preview-logo {
+            width: 96px;
           }
 
           .relationship-map {
@@ -1932,20 +2027,16 @@ export default function EmiloLabsWebsite() {
             display: block;
           }
 
-          .mini-flow {
-            grid-template-columns: 1fr 1fr;
-          }
-
-          .mini-step:last-child {
-            grid-column: 1 / -1;
-          }
-
           .product-stage {
             grid-template-columns: 1fr;
           }
 
           .product-rail {
-            grid-auto-columns: minmax(250px, 46%);
+            grid-auto-columns: minmax(220px, 44%);
+          }
+
+          .initiative-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
@@ -1975,13 +2066,13 @@ export default function EmiloLabsWebsite() {
 
           .hero-section {
             min-height: auto;
-            padding: 112px 0 70px;
+            padding: 96px 0 42px;
           }
 
           .hero-copy h1,
           .section h2 {
-            font-size: 2.22rem;
-            line-height: 1.05;
+            font-size: clamp(2rem, 10vw, 2.52rem);
+            line-height: 1.08;
           }
 
           .hero-copy p {
@@ -1989,7 +2080,8 @@ export default function EmiloLabsWebsite() {
           }
 
           .hero-logo {
-            width: min(220px, 64vw);
+            width: min(178px, 52vw);
+            margin-bottom: 18px;
           }
 
           .hero-actions {
@@ -2002,40 +2094,108 @@ export default function EmiloLabsWebsite() {
           }
 
           .section {
-            padding: 78px 0;
+            padding: 58px 0;
           }
 
           .institution-preview {
-            min-height: 460px;
+            min-height: 330px;
+            padding: 14px;
           }
 
-          .mini-flow,
           .research-grid,
           .technology-grid,
           .initiative-grid {
             grid-template-columns: 1fr;
           }
 
-          .preview-core {
-            height: 210px;
-            bottom: 30px;
+          .institution-graph {
+            height: 270px;
+          }
+
+          .institution-links line {
+            stroke-width: 0.45;
+          }
+
+          .institution-links {
+            transform: scaleX(0.78);
+            transform-origin: center;
+          }
+
+          .graph-node {
+            left: var(--mobile-x);
+            top: var(--mobile-y);
+            width: 104px;
+            min-height: 58px;
+            padding: 9px 10px;
+          }
+
+          .graph-node span {
+            font-size: 0.54rem;
+            margin-bottom: 5px;
+          }
+
+          .graph-node strong {
+            font-size: 0.78rem;
+          }
+
+          .graph-core {
+            width: 112px;
+            height: 112px;
           }
 
           .core-ring {
-            width: 210px;
-            height: 210px;
+            width: 110px;
+            height: 110px;
+          }
+
+          .core-ring::before {
+            inset: 20px;
+          }
+
+          .core-ring::after {
+            inset: 41px;
           }
 
           .preview-logo {
-            width: 124px;
+            width: 68px;
+          }
+
+          .map-node {
+            min-height: 108px;
+            padding: 16px;
+          }
+
+          .map-node::before {
+            margin-bottom: 14px;
+          }
+
+          .research-card,
+          .technology-card,
+          .initiative-card {
+            min-height: auto;
+            padding: 17px 16px;
+          }
+
+          .tier-tabs button {
+            min-height: 32px;
+            padding: 6px 9px;
+            font-size: 0.78rem;
           }
 
           .product-rail {
-            grid-auto-columns: minmax(238px, 86%);
+            grid-auto-columns: minmax(214px, 84%);
+          }
+
+          .product-card {
+            min-height: 164px;
+          }
+
+          .active-product {
+            min-height: 230px;
           }
 
           .active-product h3 {
-            font-size: 1.9rem;
+            font-size: 1.68rem;
           }
 
           .ecosystem-track {
