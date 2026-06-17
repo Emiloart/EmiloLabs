@@ -93,18 +93,21 @@ const TECHNOLOGY_AREAS = [
 ];
 
 const ECOSYSTEM_MARKS = [
-  { name: "Starknet", mark: "SN" },
-  { name: "Aleo", mark: "A" },
-  { name: "Shardeum", mark: "S" },
-  { name: "Base", mark: "B" },
-  { name: "IOTA", mark: "I" },
-  { name: "Trust Wallet", mark: "T" },
-  { name: "Supabase", mark: "SB" },
-  { name: "WireGuard", mark: "WG" },
-  { name: "Cairo", mark: "C" },
-  { name: "Leo", mark: "L" },
-  { name: "Rust", mark: "R" },
-  { name: "Go", mark: "GO" },
+  { name: "Starknet", logo: "/ecosystem/starknet.svg" },
+  { name: "Aleo", logo: "/ecosystem/aleo.svg" },
+  { name: "IOTA", logo: "/ecosystem/iota.svg" },
+  { name: "Ethereum", logo: "/ecosystem/ethereum.svg" },
+  { name: "Supabase", logo: "/ecosystem/supabase.svg" },
+  { name: "WireGuard", logo: "/ecosystem/wireguard.svg" },
+  { name: "Rust", logo: "/ecosystem/rust.svg" },
+  { name: "Go", logo: "/ecosystem/go.svg" },
+  { name: "React", logo: "/ecosystem/react.svg" },
+  { name: "Three.js", logo: "/ecosystem/threejs.svg" },
+  { name: "Vite", logo: "/ecosystem/vite.svg" },
+  { name: "Node.js", logo: "/ecosystem/nodejs.svg" },
+  { name: "PostgreSQL", logo: "/ecosystem/postgresql.svg" },
+  { name: "Cloudflare", logo: "/ecosystem/cloudflare.svg" },
+  { name: "Vercel", logo: "/ecosystem/vercel.svg" },
 ];
 
 const ECOSYSTEM_LOOP = [...ECOSYSTEM_MARKS, ...ECOSYSTEM_MARKS];
@@ -155,14 +158,12 @@ function LiveNetworkScene() {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobile = window.innerWidth < 720;
-    const columns = reduced ? (mobile ? 6 : 9) : (mobile ? 7 : 12);
-    const rows = reduced ? (mobile ? 5 : 7) : (mobile ? 6 : 8);
-    const orbitCount = reduced ? 12 : mobile ? 16 : 28;
-    const gridCount = columns * rows;
-    const nodeCount = gridCount + orbitCount;
-    const depth = mobile ? 18 : 28;
+    const particleCount = reduced ? (mobile ? 150 : 240) : (mobile ? 380 : 780);
+    const depthCount = reduced ? 80 : mobile ? 160 : 320;
+    const pulseCount = reduced ? 4 : mobile ? 8 : 14;
+    const radius = mobile ? 8.4 : 11.6;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 120);
+    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 140);
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -176,163 +177,138 @@ function LiveNetworkScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.domElement.className = "live-network-canvas";
     mount.appendChild(renderer.domElement);
-    camera.position.set(0, 0, 30);
+    camera.position.set(0, 0, mobile ? 30 : 32);
 
-    const base = [];
-    const positions = new Float32Array(nodeCount * 3);
+    const root = new THREE.Group();
+    scene.add(root);
 
-    for (let row = 0; row < rows; row += 1) {
-      for (let column = 0; column < columns; column += 1) {
-        const nx = column / Math.max(columns - 1, 1) - 0.5;
-        const ny = row / Math.max(rows - 1, 1) - 0.5;
-        const x = nx * (mobile ? 27 : 38) + Math.sin(row * 0.9) * 0.5;
-        const y = ny * (mobile ? 18 : 22) + Math.sin(column * 0.72) * 0.38;
-        const z = Math.sin(column * 0.72 + row * 0.58) * depth * 0.2;
-        const index = row * columns + column;
-        base.push({ x, y, z, speed: 0.34 + ((row + column) % 5) * 0.08, drift: row * 0.9 + column * 0.47 });
-        positions[index * 3] = x;
-        positions[index * 3 + 1] = y;
-        positions[index * 3 + 2] = z;
-      }
-    }
+    const spherePositions = new Float32Array(particleCount * 3);
+    const scatterPositions = new Float32Array(particleCount * 3);
+    const positions = new Float32Array(particleCount * 3);
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
-    for (let i = 0; i < orbitCount; i += 1) {
-      const angle = (i / orbitCount) * Math.PI * 2;
-      const radiusX = mobile ? 10 : 15;
-      const radiusY = mobile ? 6.5 : 9;
-      const index = gridCount + i;
-      const x = Math.cos(angle) * radiusX;
-      const y = Math.sin(angle) * radiusY;
-      const z = Math.sin(angle * 2) * depth * 0.12;
-      base.push({ x, y, z, speed: 0.48 + (i % 4) * 0.06, drift: angle });
-      positions[index * 3] = x;
-      positions[index * 3 + 1] = y;
-      positions[index * 3 + 2] = z;
+    const smooth = value => value * value * (3 - 2 * value);
+
+    for (let i = 0; i < particleCount; i += 1) {
+      const y = 1 - (i / Math.max(1, particleCount - 1)) * 2;
+      const ring = Math.sqrt(Math.max(0, 1 - y * y));
+      const theta = i * goldenAngle;
+      const sx = Math.cos(theta) * ring * radius;
+      const sy = y * radius;
+      const sz = Math.sin(theta) * ring * radius;
+      const spread = mobile ? 24 : 36;
+      const scatterAngle = i * 2.399 + Math.sin(i * 0.37) * 0.6;
+      const scatterRadius = spread * (0.38 + ((i * 37) % 100) / 100);
+      const scatterY = Math.sin(i * 0.91) * (mobile ? 13 : 18);
+      const scatterZ = Math.cos(i * 1.27) * (mobile ? 12 : 20);
+
+      spherePositions[i * 3] = sx;
+      spherePositions[i * 3 + 1] = sy;
+      spherePositions[i * 3 + 2] = sz;
+      scatterPositions[i * 3] = Math.cos(scatterAngle) * scatterRadius;
+      scatterPositions[i * 3 + 1] = scatterY;
+      scatterPositions[i * 3 + 2] = scatterZ;
+      positions[i * 3] = sx;
+      positions[i * 3 + 1] = sy;
+      positions[i * 3 + 2] = sz;
     }
 
     const nodeGeometry = new THREE.BufferGeometry();
     nodeGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const nodeMaterial = new THREE.PointsMaterial({
       color: 0x79b7ff,
-      size: mobile ? 0.06 : 0.045,
+      size: mobile ? 0.07 : 0.055,
       transparent: true,
-      opacity: reduced ? 0.45 : 0.72,
+      opacity: reduced ? 0.38 : 0.74,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
     const points = new THREE.Points(nodeGeometry, nodeMaterial);
-    scene.add(points);
+    root.add(points);
 
-    const pairs = [];
-    const gridIndex = (row, column) => row * columns + column;
-    for (let row = 0; row < rows; row += 1) {
-      for (let column = 0; column < columns; column += 1) {
-        const current = gridIndex(row, column);
-        if (column < columns - 1) pairs.push([current, gridIndex(row, column + 1)]);
-        if (row < rows - 1) pairs.push([current, gridIndex(row + 1, column)]);
-        if ((row + column) % 3 === 0 && row < rows - 1 && column < columns - 1) {
-          pairs.push([current, gridIndex(row + 1, column + 1)]);
-        }
+    const lineVertices = [];
+    const ringSegments = mobile ? 56 : 86;
+    const latitudes = reduced ? [-0.48, 0, 0.48] : [-0.68, -0.36, 0, 0.36, 0.68];
+    const meridians = reduced ? 4 : 7;
+
+    latitudes.forEach(latitude => {
+      const y = latitude * radius;
+      const ringRadius = Math.sqrt(Math.max(0, radius * radius - y * y));
+      for (let i = 0; i < ringSegments; i += 1) {
+        const a = (i / ringSegments) * Math.PI * 2;
+        const b = ((i + 1) / ringSegments) * Math.PI * 2;
+        lineVertices.push(
+          Math.cos(a) * ringRadius, y, Math.sin(a) * ringRadius,
+          Math.cos(b) * ringRadius, y, Math.sin(b) * ringRadius,
+        );
+      }
+    });
+
+    for (let m = 0; m < meridians; m += 1) {
+      const meridian = (m / meridians) * Math.PI;
+      for (let i = 0; i < ringSegments; i += 1) {
+        const a = -Math.PI / 2 + (i / ringSegments) * Math.PI;
+        const b = -Math.PI / 2 + ((i + 1) / ringSegments) * Math.PI;
+        lineVertices.push(
+          Math.cos(a) * Math.cos(meridian) * radius,
+          Math.sin(a) * radius,
+          Math.cos(a) * Math.sin(meridian) * radius,
+          Math.cos(b) * Math.cos(meridian) * radius,
+          Math.sin(b) * radius,
+          Math.cos(b) * Math.sin(meridian) * radius,
+        );
       }
     }
 
-    for (let i = 0; i < orbitCount; i += 1) {
-      const current = gridCount + i;
-      const next = gridCount + ((i + 1) % orbitCount);
-      pairs.push([current, next]);
-      if (i % 4 === 0) {
-        const angle = (i / orbitCount) * Math.PI * 2;
-        const row = Math.max(0, Math.min(rows - 1, Math.floor(rows / 2 + Math.sin(angle) * (rows / 3))));
-        const column = Math.max(0, Math.min(columns - 1, Math.floor(columns / 2 + Math.cos(angle) * (columns / 3))));
-        pairs.push([current, gridIndex(row, column)]);
-      }
-    }
-
-    const linePositions = new Float32Array(pairs.length * 6);
+    const linePositions = new Float32Array(lineVertices);
     const lineGeometry = new THREE.BufferGeometry();
     lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
     const lineMaterial = new THREE.LineBasicMaterial({
       color: 0x2f8cff,
       transparent: true,
-      opacity: reduced ? 0.08 : 0.18,
+      opacity: reduced ? 0.025 : 0.1,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(lines);
+    root.add(lines);
 
-    const circuitGroup = new THREE.Group();
-    const circuitMaterial = new THREE.LineBasicMaterial({
-      color: 0x4b7be8,
+    const depthPositions = new Float32Array(depthCount * 3);
+    for (let i = 0; i < depthCount; i += 1) {
+      const angle = i * 2.17;
+      const layer = ((i * 29) % 100) / 100;
+      const spread = mobile ? 34 : 52;
+      depthPositions[i * 3] = Math.cos(angle) * spread * (0.36 + layer);
+      depthPositions[i * 3 + 1] = Math.sin(i * 1.31) * (mobile ? 21 : 30);
+      depthPositions[i * 3 + 2] = -22 - layer * 28;
+    }
+    const depthGeometry = new THREE.BufferGeometry();
+    depthGeometry.setAttribute("position", new THREE.BufferAttribute(depthPositions, 3));
+    const depthMaterial = new THREE.PointsMaterial({
+      color: 0x9ddcff,
+      size: mobile ? 0.045 : 0.035,
       transparent: true,
-      opacity: reduced ? 0.05 : 0.12,
+      opacity: reduced ? 0.12 : 0.24,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
-
-    for (let i = 0; i < 16; i += 1) {
-      const y = -14 + i * 1.85;
-      const z = -18 - (i % 4) * 1.8;
-      const pointsPath = [
-        new THREE.Vector3(-32, y, z),
-        new THREE.Vector3(-12, y + Math.sin(i) * 1.2, z + 2),
-        new THREE.Vector3(8, y + Math.cos(i * 0.7) * 1.2, z + 1),
-        new THREE.Vector3(32, y, z),
-      ];
-      const curve = new THREE.CatmullRomCurve3(pointsPath);
-      const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(80));
-      const line = new THREE.Line(geometry, circuitMaterial);
-      circuitGroup.add(line);
-    }
-
-    for (let i = 0; i < 8; i += 1) {
-      const x = -24 + i * 7;
-      const z = -22 - (i % 3) * 2;
-      const pointsPath = [
-        new THREE.Vector3(x, -15, z),
-        new THREE.Vector3(x + Math.sin(i) * 1.5, -4, z + 1),
-        new THREE.Vector3(x + Math.cos(i) * 1.5, 7, z + 1),
-        new THREE.Vector3(x, 16, z),
-      ];
-      const curve = new THREE.CatmullRomCurve3(pointsPath);
-      const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(80));
-      const line = new THREE.Line(geometry, circuitMaterial);
-      circuitGroup.add(line);
-    }
-    scene.add(circuitGroup);
-
-    const ringGroup = new THREE.Group();
-    const ringMaterial = new THREE.LineBasicMaterial({
-      color: 0x7bc2ff,
-      transparent: true,
-      opacity: reduced ? 0.06 : 0.16,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-
-    [5.5, 8.5, 12].forEach((radius, index) => {
-      const curve = new THREE.EllipseCurve(0, 0, radius * 1.5, radius, 0, Math.PI * 2, false, 0);
-      const points2D = curve.getPoints(160);
-      const geometry = new THREE.BufferGeometry().setFromPoints(
-        points2D.map(point => new THREE.Vector3(point.x, point.y, -5 - index * 2)),
-      );
-      const ring = new THREE.Line(geometry, ringMaterial);
-      ring.rotation.x = 0.12 + index * 0.08;
-      ringGroup.add(ring);
-    });
-    scene.add(ringGroup);
+    const depthParticles = new THREE.Points(depthGeometry, depthMaterial);
+    scene.add(depthParticles);
 
     const pulseMaterial = new THREE.MeshBasicMaterial({
       color: 0x9ddcff,
       transparent: true,
-      opacity: reduced ? 0.35 : 0.85,
+      opacity: reduced ? 0.28 : 0.82,
       blending: THREE.AdditiveBlending,
     });
-    const pulseGeometry = new THREE.SphereGeometry(mobile ? 0.09 : 0.07, 10, 10);
-    const pulses = Array.from({ length: reduced ? 5 : 13 }, (_, i) => {
+    const pulseGeometry = new THREE.SphereGeometry(mobile ? 0.075 : 0.065, 12, 12);
+    const pulses = Array.from({ length: pulseCount }, (_, i) => {
       const mesh = new THREE.Mesh(pulseGeometry, pulseMaterial);
-      mesh.userData = { pair: pairs[(i * 17) % pairs.length] || [0, 1], offset: Math.random() };
-      scene.add(mesh);
+      mesh.userData = {
+        lane: i / Math.max(1, pulseCount - 1),
+        offset: i * 0.41,
+      };
+      root.add(mesh);
       return mesh;
     });
 
@@ -358,59 +334,72 @@ function LiveNetworkScene() {
       const t = time * 0.001;
       const scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const scroll = window.scrollY / scrollMax;
+      const cycle = 9;
+      const phase = (t % cycle) / cycle;
+      let globeStrength = 1;
+
+      if (phase < 1 / 3) {
+        globeStrength = 1;
+      } else if (phase < 0.55) {
+        globeStrength = 1 - smooth((phase - 1 / 3) / (0.55 - 1 / 3));
+      } else if (phase < 0.76) {
+        globeStrength = 0;
+      } else {
+        globeStrength = smooth((phase - 0.76) / 0.24);
+      }
 
       mouse.x += (targetMouse.x - mouse.x) * 0.045;
       mouse.y += (targetMouse.y - mouse.y) * 0.045;
 
-      for (let i = 0; i < nodeCount; i += 1) {
-        const item = base[i];
-        const wave = reduced ? 0 : Math.sin(t * item.speed + item.drift) * 0.42;
-        positions[i * 3] = item.x + wave * 0.7;
-        positions[i * 3 + 1] = item.y + Math.cos(t * item.speed + item.drift) * 0.25;
-        positions[i * 3 + 2] = item.z + wave;
+      for (let i = 0; i < particleCount; i += 1) {
+        const si = i * 3;
+        const drift = reduced ? 0 : Math.sin(t * 0.75 + i * 0.19) * (1 - globeStrength);
+        const breathe = reduced ? 0 : Math.sin(t * 1.15 + i * 0.07) * 0.18 * globeStrength;
+        const sx = spherePositions[si] * (1 + breathe * 0.012);
+        const sy = spherePositions[si + 1] * (1 + breathe * 0.012);
+        const sz = spherePositions[si + 2] * (1 + breathe * 0.012);
+        const dx = scatterPositions[si] + Math.cos(t * 0.9 + i) * drift * 1.4;
+        const dy = scatterPositions[si + 1] + Math.sin(t * 0.72 + i * 0.41) * drift;
+        const dz = scatterPositions[si + 2] + Math.sin(t * 0.54 + i * 0.23) * drift * 1.8;
+
+        positions[si] = THREE.MathUtils.lerp(dx, sx, globeStrength);
+        positions[si + 1] = THREE.MathUtils.lerp(dy, sy, globeStrength);
+        positions[si + 2] = THREE.MathUtils.lerp(dz, sz, globeStrength);
       }
       nodeGeometry.attributes.position.needsUpdate = true;
 
-      pairs.forEach(([a, b], index) => {
-        const ai = a * 3;
-        const bi = b * 3;
-        const li = index * 6;
-        linePositions[li] = positions[ai];
-        linePositions[li + 1] = positions[ai + 1];
-        linePositions[li + 2] = positions[ai + 2];
-        linePositions[li + 3] = positions[bi];
-        linePositions[li + 4] = positions[bi + 1];
-        linePositions[li + 5] = positions[bi + 2];
-      });
-      lineGeometry.attributes.position.needsUpdate = true;
-
       pulses.forEach((pulse, index) => {
-        const [a, b] = pulse.userData.pair;
-        const progress = (t * (0.14 + index * 0.01) + pulse.userData.offset) % 1;
-        const ai = a * 3;
-        const bi = b * 3;
+        const progress = (t * (0.11 + index * 0.006) + pulse.userData.offset) % 1;
+        const latitude = THREE.MathUtils.lerp(-0.58, 0.58, pulse.userData.lane);
+        const y = latitude * radius;
+        const ringRadius = Math.sqrt(Math.max(0, radius * radius - y * y));
+        const angle = progress * Math.PI * 2;
         pulse.position.set(
-          THREE.MathUtils.lerp(positions[ai], positions[bi], progress),
-          THREE.MathUtils.lerp(positions[ai + 1], positions[bi + 1], progress),
-          THREE.MathUtils.lerp(positions[ai + 2], positions[bi + 2], progress),
+          Math.cos(angle) * ringRadius,
+          y,
+          Math.sin(angle) * ringRadius,
         );
-        pulse.scale.setScalar(0.7 + Math.sin(progress * Math.PI) * 1.5);
+        pulse.scale.setScalar((0.55 + Math.sin(progress * Math.PI) * 1.35) * Math.max(0.15, globeStrength));
+        pulse.visible = globeStrength > 0.08;
       });
 
-      points.rotation.y = t * 0.025 + scroll * 0.55;
-      points.rotation.x = -0.12 + mouse.y * 0.08;
-      lines.rotation.copy(points.rotation);
-      circuitGroup.rotation.y = -t * 0.014 + scroll * 0.35;
-      circuitGroup.position.y = Math.sin(t * 0.22) * 0.5;
-      ringGroup.rotation.z = t * 0.035;
-      ringGroup.rotation.y = scroll * 0.45 + mouse.x * 0.1;
+      root.rotation.y = t * 0.36 + scroll * 0.95 + mouse.x * 0.1;
+      root.rotation.x = -0.18 + Math.sin(t * 0.17) * 0.04 + mouse.y * 0.08;
+      root.rotation.z = Math.sin(t * 0.11) * 0.035;
+      root.scale.setScalar(0.92 + globeStrength * 0.08);
+      nodeMaterial.opacity = (reduced ? 0.32 : 0.62) + globeStrength * (reduced ? 0.08 : 0.22);
+      lineMaterial.opacity = (reduced ? 0.01 : 0.025) + globeStrength * (reduced ? 0.04 : 0.095);
+      depthParticles.rotation.y = -t * 0.018 + scroll * 0.24;
+      depthParticles.rotation.x = mouse.y * 0.025;
       camera.position.x = mouse.x * (mobile ? 1.2 : 2.2);
       camera.position.y = -mouse.y * (mobile ? 0.8 : 1.4) + scroll * 3;
-      camera.position.z = 29 + scroll * 7;
+      camera.position.z = (mobile ? 29 : 31) + scroll * 6;
       camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
-      frame = requestAnimationFrame(animate);
+      if (!reduced) {
+        frame = requestAnimationFrame(animate);
+      }
     };
     animate();
 
@@ -424,10 +413,8 @@ function LiveNetworkScene() {
       nodeMaterial.dispose();
       lineGeometry.dispose();
       lineMaterial.dispose();
-      circuitGroup.children.forEach(child => child.geometry.dispose());
-      circuitMaterial.dispose();
-      ringGroup.children.forEach(child => child.geometry.dispose());
-      ringMaterial.dispose();
+      depthGeometry.dispose();
+      depthMaterial.dispose();
       pulseGeometry.dispose();
       pulseMaterial.dispose();
       renderer.dispose();
@@ -804,7 +791,7 @@ function CredibilityBand() {
         <div className="ecosystem-track">
           {ECOSYSTEM_LOOP.map((item, index) => (
             <div className="ecosystem-logo" key={`${item.name}-${index}`} aria-hidden={index >= ECOSYSTEM_MARKS.length ? "true" : undefined}>
-              <span>{item.mark}</span>
+              <span><img src={item.logo} alt="" loading="lazy" /></span>
               <strong>{item.name}</strong>
             </div>
           ))}
@@ -812,7 +799,7 @@ function CredibilityBand() {
         <div className="ecosystem-track" aria-hidden="true">
           {ECOSYSTEM_LOOP.map((item, index) => (
             <div className="ecosystem-logo" key={`copy-${item.name}-${index}`}>
-              <span>{item.mark}</span>
+              <span><img src={item.logo} alt="" loading="lazy" /></span>
               <strong>{item.name}</strong>
             </div>
           ))}
@@ -890,7 +877,6 @@ export default function EmiloLabsWebsite() {
   return (
     <div className="site-shell">
       <LiveNetworkScene />
-      <AmbientLayer />
       <style>{`
         :root {
           --bg: #05070c;
@@ -1626,7 +1612,11 @@ export default function EmiloLabsWebsite() {
           overflow-x: auto;
           padding: 2px 2px 16px;
           scroll-snap-type: x mandatory;
-          scrollbar-color: rgba(123,194,255,0.5) rgba(255,255,255,0.05);
+          scrollbar-width: none;
+        }
+
+        .product-rail::-webkit-scrollbar {
+          display: none;
         }
 
         .product-card {
@@ -1745,14 +1735,19 @@ export default function EmiloLabsWebsite() {
           height: 58px;
           border: 1px solid rgba(123,194,255,0.14);
           border-radius: 50%;
-          color: rgba(231,242,255,0.68);
           background:
             linear-gradient(145deg, rgba(123,194,255,0.1), rgba(5,7,12,0.2)),
             rgba(5,7,12,0.54);
           box-shadow: inset 0 0 22px rgba(75,123,232,0.1), 0 0 22px rgba(75,123,232,0.08);
-          font-family: var(--mono);
-          font-size: 0.78rem;
-          font-weight: 600;
+        }
+
+        .ecosystem-logo img {
+          display: block;
+          width: 28px;
+          height: 28px;
+          object-fit: contain;
+          opacity: 0.76;
+          filter: drop-shadow(0 0 12px rgba(123,194,255,0.28));
         }
 
         .ecosystem-logo strong {
