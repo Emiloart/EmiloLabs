@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#05070C"/>
+  <path d="M0 0H1200V630H0V0Z" fill="url(#bg)"/>
+  <g opacity="0.28">
+    <path d="M70 115H1130M70 215H1130M70 315H1130M70 415H1130M70 515H1130" stroke="#4B7BE8"/>
+    <path d="M120 70V560M270 70V560M420 70V560M570 70V560M720 70V560M870 70V560M1020 70V560" stroke="#4B7BE8"/>
+  </g>
+  <image href="/emilo-labs-logo.svg" x="170" y="92" width="360" height="234"/>
+  <text x="610" y="240" font-family="IBM Plex Sans, Arial, sans-serif" font-size="66" font-weight="700" fill="#F3F7FF">At the Core of a</text>
+  <text x="610" y="318" font-family="IBM Plex Sans, Arial, sans-serif" font-size="66" font-weight="700" fill="#7BC2FF">Connected Future</text>
+  <text x="612" y="385" font-family="IBM Plex Sans, Arial, sans-serif" font-size="27" fill="#BFCBDF">Systems beneath safer digital life.</text>
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(780 120) rotate(128) scale(680 760)">
+      <stop stop-color="#123E66"/>
+      <stop offset="0.45" stop-color="#07111F"/>
+      <stop offset="1" stop-color="#05070C"/>
+    </radialGradient>
+  </defs>
+</svg>

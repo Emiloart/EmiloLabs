@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="markFill" x1="214" y1="164" x2="820" y2="810" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1D4F7C"/>
+      <stop offset="0.52" stop-color="#123E66"/>
+      <stop offset="1" stop-color="#092D50"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="245" y1="142" x2="777" y2="838" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8ACDFF" stop-opacity="0.6"/>
+      <stop offset="0.45" stop-color="#3F86D8" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#061B34" stop-opacity="0.72"/>
+    </linearGradient>
+    <filter id="shadow" x="120" y="110" width="780" height="780" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#031426" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="-6" stdDeviation="10" flood-color="#77C3FF" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" fill="none"/>
+  <g filter="url(#shadow)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M563 190C426 177 306 234 244 341C179 453 199 600 292 690C355 751 441 783 534 778V673C465 678 405 657 361 615C307 564 292 482 325 417C360 347 437 311 530 318H564V222C564 210 564 200 563 190Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="18"/>
+    <path d="M322 454H494C512 454 526 468 526 486V537C526 555 512 569 494 569H302C288 569 277 558 277 544V479C277 465 288 454 302 454H322Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="18"/>
+    <path d="M596 311C596 291 612 275 632 275H642C662 275 678 291 678 311V662H796C828 662 859 652 884 633C875 692 842 742 793 772C765 790 732 799 696 799H632C612 799 596 783 596 763V311Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="18"/>
+    <path d="M679 510C737 510 791 485 824 443C835 429 858 438 858 456V541C858 560 845 576 826 580C785 589 733 593 679 590V510Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="18"/>
+  </g>
+</svg>

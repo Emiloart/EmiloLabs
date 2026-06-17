@@ -1,418 +1,128 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
 
 const CONTACT_EMAIL = "emilolabs@gmail.com";
 
 const NAV_LINKS = [
-  { label: "Organization", href: "#organization" },
+  { label: "Origin", href: "#origin" },
+  { label: "Institution", href: "#institution" },
   { label: "Research", href: "#research" },
   { label: "Products", href: "#products" },
-  { label: "Technology", href: "#technology" },
-  { label: "Open Source", href: "#opensource" },
-  { label: "Initiatives", href: "#initiatives" },
+  { label: "Capabilities", href: "#capabilities" },
   { label: "Contact", href: "#contact" },
 ];
 
-const FOCUS_AREAS = [
+const INSTITUTION_FLOW = [
   {
-    name: "Software Engineering",
-    short: "Software",
-    color: "#6EA8FE",
-    angle: -112,
-    summary: "Product systems, developer tooling, public websites, and production software foundations.",
+    title: "Research",
+    text: "Questions about identity, intelligence, security, privacy, finance, and coordination.",
+    signal: "Direction",
   },
   {
-    name: "Artificial Intelligence",
-    short: "AI",
-    color: "#A987FF",
-    angle: -62,
-    summary: "Research automation, agentic operations, deception detection, and decision-support systems.",
+    title: "Labs",
+    text: "Focused experiments where the thesis is tested before it becomes infrastructure.",
+    signal: "Exploration",
   },
   {
-    name: "Cybersecurity",
-    short: "Security",
-    color: "#66E38C",
-    angle: -12,
-    summary: "Device protection, vulnerability automation, ransomware defense, and resilient control planes.",
+    title: "Infrastructure",
+    text: "Reusable systems for proof, recovery, protection, communication, and automation.",
+    signal: "Foundation",
   },
   {
-    name: "Digital Identity",
-    short: "Identity",
-    color: "#4B7BE8",
-    angle: 36,
-    summary: "Reusable verification, credentials, reputation, and identity infrastructure.",
+    title: "Products",
+    text: "Interfaces that turn the underlying systems into usable digital experiences.",
+    signal: "Surface",
   },
   {
-    name: "Privacy Technologies",
-    short: "Privacy",
-    color: "#63D6E8",
-    angle: 86,
-    summary: "Private recovery, selective disclosure, anonymous identity, and encrypted communication.",
-  },
-  {
-    name: "Financial Technologies",
-    short: "FinTech",
-    color: "#F6B44B",
-    angle: 136,
-    summary: "Safer lending, exchange, escrow, personal finance, and value-transfer systems.",
-  },
-  {
-    name: "Consumer Protection",
-    short: "Protection",
-    color: "#EF4B7A",
-    angle: 186,
-    summary: "Scam prevention, online safety, fraud research, and user protection before harm occurs.",
-  },
-  {
-    name: "Internet Infrastructure",
-    short: "Internet",
-    color: "#E8D36F",
-    angle: 236,
-    summary: "Communication, coordination, open-source infrastructure, and public digital systems.",
+    title: "Public Impact",
+    text: "Safer ways to communicate, verify, recover, transact, and coordinate online.",
+    signal: "Outcome",
   },
 ];
 
 const RESEARCH_AREAS = [
+  ["Identity", "Reusable proof for people, platforms, and institutions."],
+  ["Privacy", "Continuity and recovery without unnecessary exposure."],
+  ["Security", "Protection before failure, not cleanup after harm."],
+  ["Intelligent Systems", "AI that assists, detects, coordinates, and stays bounded."],
+  ["Financial Systems", "Safer value exchange, lending, settlement, and planning."],
+  ["Internet Systems", "Infrastructure for communication and digital coordination."],
+];
+
+const PRODUCT_TIERS = [
   {
-    tag: "AI SYSTEMS",
-    title: "Intelligence that can be supervised",
-    desc: "Agents, research automation, decision support, and safety loops designed around visibility and control.",
+    title: "Active Products",
+    note: "The clearest product surfaces.",
+    products: [
+      ["ShadeFast", "Beta", "Anonymous communities for real-world groups."],
+      ["HDIP", "Private", "Reusable digital identity infrastructure."],
+      ["VerifyFlow", "Private", "Measurable verification workflows."],
+      ["Achievo", "Beta", "Verifiable achievement records."],
+      ["Reach", "Private", "Private communication infrastructure."],
+    ],
   },
   {
-    tag: "SECURITY",
-    title: "Protection before failure",
-    desc: "Threat models, device control, ransomware defense, vulnerability response, and consumer safety tooling.",
+    title: "Research & Infrastructure",
+    note: "Systems being tested below the product layer.",
+    products: [
+      ["ZKShade", "Research", "Private account recovery primitive."],
+      ["ZKShade Starknet", "Research", "Anonymous recovery on Starknet."],
+      ["LabGuard", "Private", "Device security and recovery suite."],
+      ["Ransomware DSS", "Research", "Ransomware defense decision support."],
+      ["AI Finance Tracker", "Research", "Personal finance intelligence prototype."],
+    ],
   },
   {
-    tag: "IDENTITY",
-    title: "Reusable proof for digital systems",
-    desc: "Credentials, verifier rails, KYC measurement, reputation, and evidence systems that move across contexts.",
-  },
-  {
-    tag: "PRIVACY",
-    title: "Continuity without exposure",
-    desc: "Zero-knowledge recovery, anonymous identity, selective disclosure, and private communication models.",
-  },
-  {
-    tag: "FINANCIAL TECHNOLOGY",
-    title: "Safer value exchange",
-    desc: "P2P lending, escrow settlement, financial automation, exchange flows, and explainable finance systems.",
-  },
-  {
-    tag: "INTERNET INFRASTRUCTURE",
-    title: "Better coordination online",
-    desc: "Protocols, tools, communities, workflows, and public systems that help people coordinate with less friction.",
+    title: "Coming Soon",
+    note: "Roadmap systems with defined direction.",
+    products: [
+      ["UTB", "Coming Soon", "Continuous AI research system."],
+      ["SCOS Pro", "Coming Soon", "Autonomous chief of staff layer."],
+      ["HSG Pro", "Coming Soon", "AI deception detection for everyday users."],
+      ["SPFS Pro", "Coming Soon", "Personal finance operating system."],
+      ["HYEX", "Coming Soon", "Hybrid value exchange system."],
+      ["ASL Pro", "Coming Soon", "Autonomous security layer."],
+    ],
   },
 ];
 
-const PROJECTS = [
-  {
-    name: "ShadeFast",
-    repo: "shadeFast",
-    domain: "Communication & Digital Experiences",
-    language: "Dart",
-    stage: "Product build",
-    url: "https://github.com/Emiloart/shadeFast",
-    updated: "Jun 15, 2026",
-    summary: "Anonymous community app for schools, workplaces, faith groups, neighborhoods, and private groups.",
-    signal: "Feeds, communities, private rooms, anonymous sessions, moderation controls, Supabase RLS, and retention workflows.",
-  },
-  {
-    name: "Reach",
-    repo: "Reach",
-    domain: "Identity & Privacy",
-    language: "Rust",
-    stage: "Architecture",
-    url: "https://github.com/Emiloart/Reach",
-    updated: "Jun 14, 2026",
-    summary: "Privacy-first messaging for direct chats, small private groups, and pseudonymous communities.",
-    signal: "End-to-end encryption, metadata minimization, scoped identity, per-device trust, and abuse controls.",
-  },
-  {
-    name: "LendEarn",
-    repo: "lendearn",
-    domain: "Financial Technology",
-    language: "JavaScript",
-    stage: "App build",
-    url: "https://github.com/Emiloart/lendearn",
-    updated: "Jun 12, 2026",
-    summary: "P2P lending with referral mechanics on Shardeum.",
-    signal: "Explores repayment behavior, referral proof, and on-chain context as part of a credit surface.",
-  },
-  {
-    name: "ZKShade Starknet",
-    repo: "Zkshade-starknet",
-    domain: "Identity & Privacy",
-    language: "Cairo",
-    stage: "Prototype",
-    url: "https://github.com/Emiloart/Zkshade-starknet",
-    updated: "Jun 11, 2026",
-    summary: "Cairo prototype for anonymous identity recovery on Starknet.",
-    signal: "Uses commitments so a person can prove continuity without exposing email, phone, username, or platform IDs.",
-  },
-  {
-    name: "ZKShade",
-    repo: "zkshade",
-    domain: "Identity & Privacy",
-    language: "Leo",
-    stage: "Prototype",
-    url: "https://github.com/Emiloart/zkshade",
-    updated: "Jun 10, 2026",
-    summary: "Aleo/Leo recovery primitive for anonymous social identity.",
-    signal: "Demonstrates registration and recovery with private material and commitments across device changes.",
-  },
-  {
-    name: "LabGuard",
-    repo: "labguard",
-    domain: "Security & Consumer Protection",
-    language: "Dart",
-    stage: "Private suite",
-    url: "https://github.com/Emiloart/labguard",
-    updated: "Jun 6, 2026",
-    summary: "Android-first security suite for VPN, trusted devices, and recovery actions.",
-    signal: "Combines WireGuard control, trusted-device management, lost-device flows, and remote security actions.",
-  },
-  {
-    name: "Achievo",
-    repo: "achievo",
-    domain: "Identity & Privacy",
-    language: "TypeScript",
-    stage: "Platform",
-    url: "https://github.com/Emiloart/achievo",
-    updated: "Jun 5, 2026",
-    summary: "Verifiable achievement and credential infrastructure.",
-    signal: "Organizations publish programs, reviewers validate evidence, and participants export proof artifacts.",
-  },
-  {
-    name: "VerifyFlow",
-    repo: "VerifyFlow",
-    domain: "Identity & Privacy",
-    language: "TypeScript",
-    stage: "Product",
-    url: "https://github.com/Emiloart/VerifyFlow",
-    updated: "Jun 5, 2026",
-    summary: "Controlled measurement system for KYC and verification flows.",
-    signal: "Tests onboarding, provider checks, outcomes, re-checks, and tier upgrades through neutral adapters.",
-  },
-  {
-    name: "Nest Foods Ltd",
-    repo: "nestfoodsltd",
-    domain: "Open Source & Delivery",
-    language: "TypeScript",
-    stage: "Corporate site",
-    url: "https://github.com/Emiloart/nestfoodsltd",
-    updated: "Jun 5, 2026",
-    summary: "Corporate website for Nest Foods Limited and the De-Nest Bread public brand.",
-    signal: "Public-facing web delivery with product information, standards, contact, careers, privacy, and forms.",
-  },
-  {
-    name: "HDIP",
-    repo: "HDIP",
-    domain: "Identity & Privacy",
-    language: "Go",
-    stage: "Phase 1 hardening",
-    url: "https://github.com/Emiloart/HDIP",
-    updated: "May 2, 2026",
-    summary: "Hybrid Decentralized Identity Passport for reusable verification and cross-platform identity.",
-    signal: "Governance scaffolding, issuer and verifier logic, persistence, auth boundaries, bridge work, and runbooks.",
-  },
-  {
-    name: "UTB",
-    repo: "UTB",
-    domain: "AI & Intelligent Systems",
-    language: "Research",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/UTB",
-    updated: "Apr 3, 2026",
-    summary: "Ultra Hybrid Brain, an AI-native intelligence platform for continuous automated research.",
-    signal: "Collects from multiple data sources and turns scattered inputs into structured insight.",
-  },
-  {
-    name: "HYEX",
-    repo: "HYEX",
-    domain: "Financial Technology",
-    language: "Concept",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/HYEX",
-    updated: "Apr 3, 2026",
-    summary: "Hybrid crypto-to-fiat exchange and marketplace system.",
-    signal: "Safer P2P trading through in-app custody, escrow-controlled settlement, and merchant-oriented usability.",
-  },
-  {
-    name: "SCOS Pro",
-    repo: "SCOSpro",
-    domain: "AI & Intelligent Systems",
-    language: "Concept",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/SCOSpro",
-    updated: "Apr 3, 2026",
-    summary: "Smart Chief of Staff Pro, a persistent autonomous agent layer for a user's digital environment.",
-    signal: "Moves tasks, decisions, and workflows into supervised autonomous loops.",
-  },
-  {
-    name: "HSG Pro",
-    repo: "HSGpro",
-    domain: "Security & Consumer Protection",
-    language: "Concept",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/HSGpro",
-    updated: "Apr 3, 2026",
-    summary: "Hybrid Smart Guard Pro, an AI-driven deception detection layer between users and the internet.",
-    signal: "Targets the moment before a user trusts a message, link, seller, profile, or claim.",
-  },
-  {
-    name: "SPFS Pro",
-    repo: "SPFSpro",
-    domain: "Financial Technology",
-    language: "Concept",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/SPFSpro",
-    updated: "Apr 3, 2026",
-    summary: "Smart Personal Finance System Pro, an AI-native personal finance operating system.",
-    signal: "Financial visibility, planning, decisions, and automation beyond a narrow expense tracker.",
-  },
-  {
-    name: "ASL Pro",
-    repo: "ASLpro",
-    domain: "Security & Consumer Protection",
-    language: "Concept",
-    stage: "Concept",
-    url: "https://github.com/Emiloart/ASLpro",
-    updated: "Apr 3, 2026",
-    summary: "Autonomous Security Layer Pro for code, dependency, infrastructure, and CI/CD security.",
-    signal: "Continuously scans software surfaces and moves from alerting toward prioritized remediation.",
-  },
-  {
-    name: "Emilo Labs",
-    repo: "EmiloLabs",
-    domain: "Open Source & Delivery",
-    language: "Website",
-    stage: "Public hub",
-    url: "https://github.com/Emiloart/EmiloLabs",
-    updated: "Apr 3, 2026",
-    summary: "Public home for the Emilo Labs organization.",
-    signal: "Explains the mission, research areas, product registry, technology base, open-source work, and initiatives.",
-  },
-  {
-    name: "Anonymous",
-    repo: "anonymous-",
-    domain: "Communication & Digital Experiences",
-    language: "Seed",
-    stage: "Seed repo",
-    url: "https://github.com/Emiloart/anonymous-",
-    updated: "Mar 21, 2026",
-    summary: "Minimal public seed repository for an anonymous product idea.",
-    signal: "Keeps the anonymous social track visible as a recurring exploration.",
-  },
-  {
-    name: "Devflow Quest",
-    repo: "devflow-quest",
-    domain: "Open Source & Delivery",
-    language: "Workflow",
-    stage: "Lab",
-    url: "https://github.com/Emiloart/devflow-quest",
-    updated: "Oct 15, 2025",
-    summary: "Developer workflow lab with CI and linting practice.",
-    signal: "A lightweight experiment in repeatable delivery, linting, and workflow discipline.",
-  },
-  {
-    name: "AI Finance Tracker",
-    repo: "ai-finance-tracker",
-    domain: "Financial Technology",
-    language: "App",
-    stage: "Prototype",
-    url: "https://github.com/Emiloart/ai-finance-tracker",
-    updated: "Oct 15, 2025",
-    summary: "AI-powered personal finance tracker for expenses, budgets, and spending insight.",
-    signal: "Explores how AI can reduce manual finance tracking and surface clearer spending patterns.",
-  },
-  {
-    name: "Ransomware DSS",
-    repo: "ransomware_dss",
-    domain: "Security & Consumer Protection",
-    language: "HTML / Python",
-    stage: "Research prototype",
-    url: "https://github.com/Emiloart/ransomware_dss",
-    updated: "Oct 11, 2025",
-    summary: "Research and prototype system focused on ransomware detection and deterrence.",
-    signal: "Flask, authentication, dashboards, modules, and decision-support flows for ransomware defense.",
-  },
+const CAPABILITIES = [
+  ["Identity Systems", "Credentials, verification, reputation, and recovery."],
+  ["Privacy Infrastructure", "Anonymous continuity, selective disclosure, private communication."],
+  ["Security Engineering", "Device trust, vulnerability response, threat decisions."],
+  ["Intelligent Systems", "Research automation, guarded agents, decision support."],
+  ["Financial Technology", "Escrow, lending, settlement, financial intelligence."],
+  ["Digital Experiences", "Interfaces that make complex systems usable."],
 ];
 
-const TECHNOLOGY_AREAS = [
-  {
-    area: "Software engineering",
-    desc: "Product architecture, public web systems, application delivery, workflows, and maintainable implementation practice.",
-    signals: ["ShadeFast", "Nest Foods Ltd", "Devflow Quest"],
-  },
-  {
-    area: "Artificial intelligence",
-    desc: "Autonomous research, personal operations, deception detection, finance assistance, and decision-support loops.",
-    signals: ["UTB", "SCOS Pro", "HSG Pro"],
-  },
-  {
-    area: "Cybersecurity",
-    desc: "Device trust, VPN control planes, vulnerability automation, ransomware decision support, and recovery workflows.",
-    signals: ["LabGuard", "ASL Pro", "Ransomware DSS"],
-  },
-  {
-    area: "Identity systems",
-    desc: "Credential issuance, verifier flows, KYC measurement, reputation records, and reusable verification infrastructure.",
-    signals: ["HDIP", "VerifyFlow", "Achievo"],
-  },
-  {
-    area: "Privacy technologies",
-    desc: "Anonymous identity, zero-knowledge recovery, selective disclosure, encrypted communication, and scoped identity.",
-    signals: ["ZKShade", "ZKShade Starknet", "Reach"],
-  },
-  {
-    area: "Financial technology",
-    desc: "Escrow, reputation lending, P2P settlement, personal finance intelligence, and safer value exchange.",
-    signals: ["HYEX", "LendEarn", "SPFS Pro"],
-  },
+const ECOSYSTEM_MARKS = [
+  "Starknet",
+  "Aleo",
+  "Shardeum",
+  "Base",
+  "IOTA",
+  "Trust Wallet",
+  "Supabase",
+  "WireGuard",
+  "Cairo",
+  "Leo",
+  "Rust",
+  "Go",
 ];
 
 const INITIATIVES = [
-  {
-    title: "Internet safety",
-    desc: "Systems that help people evaluate messages, links, profiles, sellers, claims, and online interactions before damage happens.",
-  },
-  {
-    title: "Consumer protection",
-    desc: "Research and product work focused on scams, fraud patterns, reputation gaps, and user protection in everyday digital life.",
-  },
-  {
-    title: "Digital literacy",
-    desc: "Clearer tools, explanations, and product experiences that help users understand what systems are asking them to trust.",
-  },
-  {
-    title: "Open collaboration",
-    desc: "Public repositories, technical notes, prototypes, and developer-facing work that make the organization inspectable.",
-  },
-  {
-    title: "Future interfaces",
-    desc: "Experiments in anonymous communities, AI assistants, private communication, identity recovery, and financial coordination.",
-  },
+  ["Internet safety", "Tools and research for safer everyday digital decisions."],
+  ["Consumer protection", "Systems that reduce fraud, scams, and identity harm."],
+  ["Digital literacy", "Clearer experiences for systems people are asked to trust."],
+  ["Future interfaces", "New models for communication, recovery, finance, and AI assistance."],
 ];
 
-const PRODUCT_DOMAINS = ["All", ...Array.from(new Set(PROJECTS.map(project => project.domain)))];
-
-function useCountUp(target, duration = 1200, start = false) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!start) return;
-    let startTime = null;
-    const step = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [duration, start, target]);
-
-  return count;
-}
+const FLAT_PRODUCTS = PRODUCT_TIERS.flatMap(tier => tier.products.map(([name, status, summary]) => ({
+  name,
+  status,
+  summary,
+  tier: tier.title,
+})));
 
 function useInView(threshold = 0.18) {
   const ref = useRef(null);
@@ -430,27 +140,265 @@ function useInView(threshold = 0.18) {
   return [ref, inView];
 }
 
-function ELMark({ size = 44 }) {
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(query.matches);
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, []);
+
+  return reduced;
+}
+
+function LiveNetworkScene() {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return undefined;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobile = window.innerWidth < 720;
+    const nodeCount = reduced ? 70 : mobile ? 95 : 170;
+    const depth = mobile ? 22 : 34;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 120);
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance",
+      preserveDrawingBuffer: true,
+    });
+    const mouse = { x: 0, y: 0 };
+    const targetMouse = { x: 0, y: 0 };
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.6));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.domElement.className = "live-network-canvas";
+    mount.appendChild(renderer.domElement);
+    camera.position.set(0, 0, 30);
+
+    const base = [];
+    const positions = new Float32Array(nodeCount * 3);
+
+    for (let i = 0; i < nodeCount; i += 1) {
+      const radius = 8 + Math.random() * 16;
+      const angle = Math.random() * Math.PI * 2;
+      const z = (Math.random() - 0.5) * depth;
+      const x = Math.cos(angle) * radius + (Math.random() - 0.5) * 16;
+      const y = Math.sin(angle) * radius * 0.58 + (Math.random() - 0.5) * 10;
+      base.push({ x, y, z, speed: 0.35 + Math.random() * 0.85, drift: Math.random() * Math.PI * 2 });
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
+    }
+
+    const nodeGeometry = new THREE.BufferGeometry();
+    nodeGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const nodeMaterial = new THREE.PointsMaterial({
+      color: 0x79b7ff,
+      size: mobile ? 0.06 : 0.045,
+      transparent: true,
+      opacity: reduced ? 0.45 : 0.72,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const points = new THREE.Points(nodeGeometry, nodeMaterial);
+    scene.add(points);
+
+    const pairs = [];
+    for (let i = 0; i < nodeCount; i += 1) {
+      const nearest = [];
+      for (let j = i + 1; j < nodeCount; j += 1) {
+        const dx = base[i].x - base[j].x;
+        const dy = base[i].y - base[j].y;
+        const dz = base[i].z - base[j].z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < (mobile ? 7.5 : 6.2)) nearest.push([j, dist]);
+      }
+      nearest.sort((a, b) => a[1] - b[1]);
+      nearest.slice(0, 2).forEach(([j]) => pairs.push([i, j]));
+    }
+
+    const linePositions = new Float32Array(pairs.length * 6);
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: 0x2f8cff,
+      transparent: true,
+      opacity: reduced ? 0.08 : 0.18,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lines);
+
+    const circuitGroup = new THREE.Group();
+    const circuitMaterial = new THREE.LineBasicMaterial({
+      color: 0x4b7be8,
+      transparent: true,
+      opacity: reduced ? 0.05 : 0.12,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    for (let i = 0; i < 18; i += 1) {
+      const y = -12 + i * 1.45;
+      const pointsPath = [
+        new THREE.Vector3(-28, y, -16 - Math.random() * 8),
+        new THREE.Vector3(-10 + Math.random() * 8, y + (Math.random() - 0.5) * 5, -12),
+        new THREE.Vector3(8 + Math.random() * 8, y + (Math.random() - 0.5) * 5, -10),
+        new THREE.Vector3(30, y + (Math.random() - 0.5) * 3, -14),
+      ];
+      const curve = new THREE.CatmullRomCurve3(pointsPath);
+      const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(80));
+      const line = new THREE.Line(geometry, circuitMaterial);
+      circuitGroup.add(line);
+    }
+    scene.add(circuitGroup);
+
+    const pulseMaterial = new THREE.MeshBasicMaterial({
+      color: 0x9ddcff,
+      transparent: true,
+      opacity: reduced ? 0.35 : 0.85,
+      blending: THREE.AdditiveBlending,
+    });
+    const pulseGeometry = new THREE.SphereGeometry(mobile ? 0.09 : 0.07, 10, 10);
+    const pulses = Array.from({ length: reduced ? 5 : 13 }, (_, i) => {
+      const mesh = new THREE.Mesh(pulseGeometry, pulseMaterial);
+      mesh.userData = { pair: pairs[(i * 17) % pairs.length] || [0, 1], offset: Math.random() };
+      scene.add(mesh);
+      return mesh;
+    });
+
+    const updateSize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.6));
+    };
+
+    const updatePointer = (event) => {
+      const point = event.touches?.[0] || event;
+      targetMouse.x = (point.clientX / window.innerWidth - 0.5) * 2;
+      targetMouse.y = (point.clientY / window.innerHeight - 0.5) * 2;
+    };
+
+    window.addEventListener("resize", updateSize);
+    window.addEventListener("pointermove", updatePointer);
+    window.addEventListener("touchmove", updatePointer, { passive: true });
+
+    let frame = 0;
+    const animate = (time = 0) => {
+      const t = time * 0.001;
+      const scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const scroll = window.scrollY / scrollMax;
+
+      mouse.x += (targetMouse.x - mouse.x) * 0.045;
+      mouse.y += (targetMouse.y - mouse.y) * 0.045;
+
+      for (let i = 0; i < nodeCount; i += 1) {
+        const item = base[i];
+        const wave = reduced ? 0 : Math.sin(t * item.speed + item.drift) * 0.42;
+        positions[i * 3] = item.x + wave * 0.7;
+        positions[i * 3 + 1] = item.y + Math.cos(t * item.speed + item.drift) * 0.25;
+        positions[i * 3 + 2] = item.z + wave;
+      }
+      nodeGeometry.attributes.position.needsUpdate = true;
+
+      pairs.forEach(([a, b], index) => {
+        const ai = a * 3;
+        const bi = b * 3;
+        const li = index * 6;
+        linePositions[li] = positions[ai];
+        linePositions[li + 1] = positions[ai + 1];
+        linePositions[li + 2] = positions[ai + 2];
+        linePositions[li + 3] = positions[bi];
+        linePositions[li + 4] = positions[bi + 1];
+        linePositions[li + 5] = positions[bi + 2];
+      });
+      lineGeometry.attributes.position.needsUpdate = true;
+
+      pulses.forEach((pulse, index) => {
+        const [a, b] = pulse.userData.pair;
+        const progress = (t * (0.14 + index * 0.01) + pulse.userData.offset) % 1;
+        const ai = a * 3;
+        const bi = b * 3;
+        pulse.position.set(
+          THREE.MathUtils.lerp(positions[ai], positions[bi], progress),
+          THREE.MathUtils.lerp(positions[ai + 1], positions[bi + 1], progress),
+          THREE.MathUtils.lerp(positions[ai + 2], positions[bi + 2], progress),
+        );
+        pulse.scale.setScalar(0.7 + Math.sin(progress * Math.PI) * 1.5);
+      });
+
+      points.rotation.y = t * 0.025 + scroll * 0.55;
+      points.rotation.x = -0.12 + mouse.y * 0.08;
+      lines.rotation.copy(points.rotation);
+      circuitGroup.rotation.y = -t * 0.014 + scroll * 0.35;
+      circuitGroup.position.y = Math.sin(t * 0.22) * 0.5;
+      camera.position.x = mouse.x * (mobile ? 1.2 : 2.2);
+      camera.position.y = -mouse.y * (mobile ? 0.8 : 1.4) + scroll * 3;
+      camera.position.z = 29 + scroll * 7;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+      frame = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateSize);
+      window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("touchmove", updatePointer);
+      mount.removeChild(renderer.domElement);
+      nodeGeometry.dispose();
+      nodeMaterial.dispose();
+      lineGeometry.dispose();
+      lineMaterial.dispose();
+      circuitGroup.children.forEach(child => child.geometry.dispose());
+      circuitMaterial.dispose();
+      pulseGeometry.dispose();
+      pulseMaterial.dispose();
+      renderer.dispose();
+    };
+  }, []);
+
+  return <div ref={mountRef} className="live-network-scene" aria-hidden="true" />;
+}
+
+function EmiloLogo({ className = "", compact = false }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <text x="8" y="72" fontFamily="IBM Plex Sans, sans-serif" fontWeight="700" fontSize="82" fill="url(#elgrad)">E</text>
-      <text x="42" y="72" fontFamily="IBM Plex Sans, sans-serif" fontWeight="700" fontSize="82" fill="url(#elgrad)">L</text>
-      <defs>
-        <linearGradient id="elgrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#6EA8FE" />
-          <stop offset="100%" stopColor="#4B7BE8" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <img
+      className={className}
+      src={compact ? "/emilo-labs-mark.svg" : "/emilo-labs-logo.svg"}
+      alt={compact ? "" : "Emilo Labs"}
+      aria-hidden={compact ? "true" : undefined}
+      draggable="false"
+    />
   );
 }
 
-function SectionLabel({ text }) {
+function SectionLabel({ children }) {
   return (
     <div className="section-label">
       <span />
-      <strong>{text}</strong>
+      <strong>{children}</strong>
     </div>
+  );
+}
+
+function Reveal({ id, className = "", children }) {
+  const [ref, inView] = useInView(0.16);
+  return (
+    <section id={id} ref={ref} className={`section reveal ${inView ? "is-visible" : ""} ${className}`}>
+      {children}
+    </section>
   );
 }
 
@@ -459,24 +407,22 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 36);
-    handler();
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
+    const onScroll = () => setScrolled(window.scrollY > 28);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
       <div className="nav-inner">
         <a href="#home" className="brand" aria-label="Emilo Labs home">
-          <ELMark size={36} />
+          <EmiloLogo compact className="brand-mark" />
           <span>EMILO LABS</span>
         </a>
 
         <div className="desktop-nav">
-          {NAV_LINKS.map(link => (
-            <a key={link.label} href={link.href}>{link.label}</a>
-          ))}
+          {NAV_LINKS.map(link => <a key={link.label} href={link.href}>{link.label}</a>)}
           <a className="nav-cta" href={`mailto:${CONTACT_EMAIL}`}>Email</a>
         </div>
 
@@ -498,7 +444,7 @@ function Navbar() {
           {NAV_LINKS.map(link => (
             <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
           ))}
-          <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => setMenuOpen(false)}>Email {CONTACT_EMAIL}</a>
+          <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => setMenuOpen(false)}>Email</a>
         </div>
       )}
     </nav>
@@ -506,443 +452,308 @@ function Navbar() {
 }
 
 function Hero() {
-  const [heroRef, heroInView] = useInView(0.1);
-  const [activeFocus, setActiveFocus] = useState(0);
-  const focusCount = useCountUp(FOCUS_AREAS.length, 900, heroInView);
-  const productCount = useCountUp(PROJECTS.length, 1100, heroInView);
-  const researchCount = useCountUp(RESEARCH_AREAS.length, 1000, heroInView);
-  const active = FOCUS_AREAS[activeFocus];
-
   return (
-    <section id="home" ref={heroRef} className="hero-section">
-      <div className="grid-field" aria-hidden="true" />
-      <div className="watermark" aria-hidden="true">EL</div>
-
+    <header id="home" className="hero-section">
       <div className="container hero-grid">
         <div className="hero-copy">
-          <div className="eyebrow">
-            <span />
-            TECHNOLOGY RESEARCH AND DEVELOPMENT
-          </div>
-          <h1>Emilo Labs is a technology research and development organization.</h1>
-          <p className="hero-lede">
-            Building software, infrastructure, intelligent systems, security technologies, and digital experiences for a safer, more connected future.
+          <EmiloLogo className="hero-logo" />
+          <div className="hero-kicker">AT THE CORE OF A CONNECTED FUTURE</div>
+          <h1>Building the systems beneath connected digital life.</h1>
+          <p>
+            Emilo Labs researches and builds infrastructure, products, and public-interest technology for a safer internet.
           </p>
-
           <div className="hero-actions">
-            <a className="primary-button" href="#organization">Understand Emilo Labs</a>
+            <a className="primary-button" href="#origin">Explore the institution</a>
             <a className="secondary-button" href="#products">View products</a>
           </div>
-
-          <div className="hero-stats" aria-label="Organization summary">
-            {[
-              { value: focusCount, label: "Focus areas" },
-              { value: productCount, label: "Products and systems" },
-              { value: researchCount, label: "Research tracks" },
-            ].map(item => (
-              <div key={item.label}>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="institution-console">
-          <div className="console-header">
-            <span>INSTITUTION MAP</span>
-            <span>interactive</span>
-          </div>
-
-          <div className="console-layout">
-            <div className="focus-graph">
-              <div className="scanline" aria-hidden="true" />
-              <svg className="focus-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                {FOCUS_AREAS.map((area, index) => {
-                  const radians = (area.angle * Math.PI) / 180;
-                  const x = 50 + 35 * Math.cos(radians);
-                  const y = 50 + 35 * Math.sin(radians);
-                  return (
-                    <line
-                      key={area.name}
-                      x1="50"
-                      y1="50"
-                      x2={x}
-                      y2={y}
-                      stroke={index === activeFocus ? area.color : "rgba(146,156,178,0.25)"}
-                      strokeWidth={index === activeFocus ? "0.55" : "0.22"}
-                    />
-                  );
-                })}
-              </svg>
-
-              <div className="center-node">
-                <ELMark size={46} />
-                <strong>Emilo Labs</strong>
-                <span>institution</span>
-              </div>
-
-              {FOCUS_AREAS.map((area, index) => {
-                const radians = (area.angle * Math.PI) / 180;
-                const left = 50 + 35 * Math.cos(radians);
-                const top = 50 + 35 * Math.sin(radians);
-                const selected = index === activeFocus;
-
-                return (
-                  <button
-                    key={area.name}
-                    type="button"
-                    className={`focus-node ${selected ? "selected" : ""}`}
-                    style={{ "--node-color": area.color, left: `${left}%`, top: `${top}%` }}
-                    onMouseEnter={() => setActiveFocus(index)}
-                    onFocus={() => setActiveFocus(index)}
-                    onClick={() => setActiveFocus(index)}
-                  >
-                    <span />
-                    <strong>{area.short}</strong>
-                  </button>
-                );
-              })}
-            </div>
-
-            <aside className="focus-panel">
-              <span style={{ color: active.color }}>ACTIVE FOCUS</span>
-              <h2>{active.name}</h2>
-              <p>{active.summary}</p>
-              <div className="focus-panel-strip">
-                <strong>Research</strong>
-                <strong>Build</strong>
-                <strong>Protect</strong>
-                <strong>Innovate</strong>
-              </div>
-            </aside>
-          </div>
-        </div>
+        <InstitutionPreview />
       </div>
-    </section>
+    </header>
   );
 }
 
-function Organization() {
-  const pillars = [
-    ["Research", "Emerging technologies, digital systems, AI, cybersecurity, privacy, and internet infrastructure."],
-    ["Build", "Products, platforms, protocols, tools, websites, and software systems."],
-    ["Protect", "Security, privacy, trust, and consumer protection across digital environments."],
-    ["Innovate", "New interaction models for identity, communication, finance, automation, and coordination."],
-  ];
+function InstitutionPreview() {
+  return (
+    <div className="institution-preview light-panel">
+      <div className="panel-topline">
+        <span>CONNECTED SYSTEM</span>
+        <span>live</span>
+      </div>
+      <div className="mini-flow">
+        {INSTITUTION_FLOW.map((item, index) => (
+          <div key={item.title} className="mini-step" style={{ "--delay": `${index * 90}ms` }}>
+            <span>{item.signal}</span>
+            <strong>{item.title}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="preview-core">
+        <div className="core-ring" />
+        <EmiloLogo compact className="preview-logo" />
+      </div>
+    </div>
+  );
+}
+
+function Origin() {
+  return (
+    <Reveal id="origin" className="origin-section">
+      <div className="container narrow">
+        <SectionLabel>ORIGIN</SectionLabel>
+        <h2>Connection needs a core.</h2>
+        <p>
+          Digital life now depends on identity, intelligence, security, finance, and communication moving together.
+        </p>
+        <p>
+          Emilo Labs exists to build that connective layer: research that becomes infrastructure, infrastructure that becomes products, and products that improve how people coordinate online.
+        </p>
+      </div>
+    </Reveal>
+  );
+}
+
+function InstitutionMap() {
+  const [active, setActive] = useState(0);
+  const sectionRef = useRef(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (reduced) return undefined;
+    const update = () => {
+      const node = sectionRef.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      const viewport = window.innerHeight || 1;
+      const progress = Math.min(1, Math.max(0, (viewport * 0.72 - rect.top) / (rect.height + viewport * 0.2)));
+      setActive(Math.min(INSTITUTION_FLOW.length - 1, Math.floor(progress * INSTITUTION_FLOW.length)));
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [reduced]);
 
   return (
-    <section id="organization" className="section organization-section">
-      <div className="container organization-grid">
-        <div>
-          <SectionLabel text="ORGANIZATION" />
+    <Reveal id="institution" className="map-section">
+      <div className="container" ref={sectionRef}>
+        <SectionLabel>INSTITUTION</SectionLabel>
+        <div className="split-heading">
           <h2>An institution first. Products second.</h2>
-          <p className="section-lede">
-            Emilo Labs is a multidisciplinary technology organization operating across research, software, intelligent systems, security, identity, privacy, finance, consumer protection, and internet infrastructure.
-          </p>
-          <p className="section-copy">
-            The website should make one point immediately clear: Emilo Labs is not defined by one product category. It is the institution that researches, builds, tests, and connects multiple technology lines over time.
-          </p>
+          <p>Research, labs, infrastructure, products, public impact. That is the operating shape.</p>
         </div>
 
-        <div className="pillar-grid">
-          {pillars.map(([title, desc]) => (
-            <article key={title} className="pillar-card">
-              <span>{title}</span>
-              <p>{desc}</p>
-            </article>
+        <div className="relationship-map light-panel">
+          <div className="map-line" aria-hidden="true">
+            <i style={{ width: `${((active + 1) / INSTITUTION_FLOW.length) * 100}%` }} />
+          </div>
+          {INSTITUTION_FLOW.map((item, index) => (
+            <button
+              key={item.title}
+              type="button"
+              className={`map-node ${index <= active ? "is-active" : ""}`}
+              onMouseEnter={() => setActive(index)}
+              onFocus={() => setActive(index)}
+              onClick={() => setActive(index)}
+            >
+              <span>{item.signal}</span>
+              <strong>{item.title}</strong>
+              <p>{item.text}</p>
+            </button>
           ))}
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
 function Research() {
   return (
-    <section id="research" className="section research-section">
+    <Reveal id="research" className="research-section">
       <div className="container">
-        <SectionLabel text="RESEARCH" />
-        <div className="section-heading-row">
-          <h2>Research defines the direction.</h2>
-          <p>
-            Product work starts from questions about intelligence, security, identity, privacy, finance, safety, and coordination online.
-          </p>
+        <SectionLabel>RESEARCH</SectionLabel>
+        <div className="split-heading">
+          <h2>The questions behind the work.</h2>
+          <p>Research gives the institution its direction. The rest is execution.</p>
         </div>
 
         <div className="research-grid">
-          {RESEARCH_AREAS.map(area => (
-            <article key={area.title} className="research-card">
-              <span>{area.tag}</span>
-              <h3>{area.title}</h3>
-              <p>{area.desc}</p>
+          {RESEARCH_AREAS.map(([title, text], index) => (
+            <article key={title} className="research-card light-panel" style={{ "--delay": `${index * 70}ms` }}>
+              <strong>{title}</strong>
+              <p>{text}</p>
             </article>
           ))}
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
-function ProductsCarousel() {
-  const [domain, setDomain] = useState("All");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const railRef = useRef(null);
-  const itemRefs = useRef([]);
+function Products() {
+  const [tierIndex, setTierIndex] = useState(0);
+  const [productIndex, setProductIndex] = useState(0);
+  const tier = PRODUCT_TIERS[tierIndex];
+  const activeProduct = tier.products[productIndex] || tier.products[0];
 
-  const filteredProjects = useMemo(() => {
-    if (domain === "All") return PROJECTS;
-    return PROJECTS.filter(project => project.domain === domain);
-  }, [domain]);
+  const productCards = useMemo(() => tier.products.map(([name, status, summary]) => ({ name, status, summary })), [tier]);
 
-  const activeProject = filteredProjects[activeIndex] || filteredProjects[0];
-
-  const scrollActiveIntoView = (index) => {
-    requestAnimationFrame(() => {
-      itemRefs.current[index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    });
-  };
-
-  const selectDomain = (nextDomain) => {
-    setDomain(nextDomain);
-    setActiveIndex(0);
-    requestAnimationFrame(() => {
-      railRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-    });
-  };
-
-  const moveProject = (offset) => {
-    if (!filteredProjects.length) return;
-    const next = (activeIndex + offset + filteredProjects.length) % filteredProjects.length;
-    setActiveIndex(next);
-    scrollActiveIntoView(next);
+  const moveProduct = (offset) => {
+    const next = (productIndex + offset + productCards.length) % productCards.length;
+    setProductIndex(next);
   };
 
   const handleKeys = (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
-      moveProject(-1);
+      moveProduct(-1);
     }
     if (event.key === "ArrowRight") {
       event.preventDefault();
-      moveProject(1);
-    }
-    if (event.key === "Home") {
-      event.preventDefault();
-      setActiveIndex(0);
-      scrollActiveIntoView(0);
-    }
-    if (event.key === "End") {
-      event.preventDefault();
-      const last = filteredProjects.length - 1;
-      setActiveIndex(last);
-      scrollActiveIntoView(last);
+      moveProduct(1);
     }
   };
 
   return (
-    <section id="products" className="section products-section">
+    <Reveal id="products" className="products-section">
       <div className="container">
-        <SectionLabel text="PRODUCTS" />
-        <div className="section-heading-row">
-          <h2>Products are organized by domain.</h2>
-          <p>
-            A curated registry of active builds, prototypes, research systems, and public software connected to the organization.
-          </p>
+        <SectionLabel>PRODUCTS</SectionLabel>
+        <div className="split-heading">
+          <h2>Products with hierarchy.</h2>
+          <p>Active systems first. Research and roadmap systems stay visible without inflating the catalog.</p>
         </div>
 
-        <div className="domain-filter" aria-label="Product domain filters">
-          {PRODUCT_DOMAINS.map(item => (
+        <div className="tier-tabs" aria-label="Product tiers">
+          {PRODUCT_TIERS.map((item, index) => (
             <button
-              key={item}
+              key={item.title}
               type="button"
-              className={item === domain ? "active" : ""}
-              onClick={() => selectDomain(item)}
+              className={index === tierIndex ? "is-active" : ""}
+              onClick={() => {
+                setTierIndex(index);
+                setProductIndex(0);
+              }}
             >
-              {item}
+              {item.title}
             </button>
           ))}
         </div>
 
-        <div className="product-shell" onKeyDown={handleKeys} tabIndex={0}>
-          <div className="product-carousel-wrap">
-            <div className="product-rail" ref={railRef} aria-label="Product carousel">
-              {filteredProjects.map((project, index) => (
-                <button
-                  key={`${project.repo}-${project.domain}`}
-                  ref={node => { itemRefs.current[index] = node; }}
-                  type="button"
-                  className={`product-card ${index === activeIndex ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveIndex(index);
-                    scrollActiveIntoView(index);
-                  }}
-                  aria-pressed={index === activeIndex}
-                >
-                  <span className="product-card-domain">{project.domain}</span>
-                  <strong>{project.name}</strong>
-                  <small>{project.stage}</small>
-                  <p>{project.summary}</p>
-                </button>
-              ))}
-            </div>
-
-            <div className="carousel-controls">
-              <button type="button" onClick={() => moveProject(-1)} aria-label="Previous product">&lt;</button>
-              <span>{String(activeIndex + 1).padStart(2, "0")} / {String(filteredProjects.length).padStart(2, "0")}</span>
-              <button type="button" onClick={() => moveProject(1)} aria-label="Next product">&gt;</button>
-            </div>
+        <div className="product-stage light-panel" onKeyDown={handleKeys} tabIndex={0}>
+          <div className="product-rail">
+            {productCards.map((product, index) => (
+              <button
+                key={product.name}
+                type="button"
+                className={`product-card ${index === productIndex ? "is-active" : ""}`}
+                onClick={() => setProductIndex(index)}
+                aria-pressed={index === productIndex}
+                style={{ "--delay": `${index * 55}ms` }}
+              >
+                <span>{product.status}</span>
+                <strong>{product.name}</strong>
+                <p>{product.summary}</p>
+              </button>
+            ))}
           </div>
 
-          <aside className="active-product-panel">
-            <span>{activeProject?.domain}</span>
-            <h3>{activeProject?.name}</h3>
-            <p className="active-summary">{activeProject?.summary}</p>
-            <p className="active-signal">{activeProject?.signal}</p>
-
-            <div className="product-meta-grid">
-              {[
-                ["Stage", activeProject?.stage],
-                ["Stack", activeProject?.language],
-                ["Repo", activeProject?.repo],
-                ["Updated", activeProject?.updated],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <small>{label}</small>
-                  <strong>{value}</strong>
-                </div>
-              ))}
+          <aside className="active-product">
+            <span>{tier.title}</span>
+            <h3>{activeProduct[0]}</h3>
+            <p>{activeProduct[2]}</p>
+            <strong>{activeProduct[1]}</strong>
+            <div className="product-controls">
+              <button type="button" onClick={() => moveProduct(-1)} aria-label="Previous product">&lt;</button>
+              <small>{String(productIndex + 1).padStart(2, "0")} / {String(productCards.length).padStart(2, "0")}</small>
+              <button type="button" onClick={() => moveProduct(1)} aria-label="Next product">&gt;</button>
             </div>
-
-            <a className="primary-button compact" href={activeProject?.url} target="_blank" rel="noopener noreferrer">
-              Open repository
-            </a>
           </aside>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
-function Technology() {
+function Capabilities() {
   return (
-    <section id="technology" className="section technology-section">
+    <Reveal id="capabilities" className="capabilities-section">
       <div className="container">
-        <SectionLabel text="TECHNOLOGY" />
-        <div className="section-heading-row">
-          <h2>The technical base of the organization.</h2>
-          <p>
-            These capabilities describe the systems Emilo Labs researches, builds, and improves across its work.
-          </p>
+        <SectionLabel>CAPABILITIES</SectionLabel>
+        <div className="split-heading">
+          <h2>What the institution can build.</h2>
+          <p>Capabilities stay broad. Products carry the specifics.</p>
         </div>
 
-        <div className="technology-grid">
-          {TECHNOLOGY_AREAS.map(area => (
-            <article key={area.area} className="technology-card">
-              <h3>{area.area}</h3>
-              <p>{area.desc}</p>
-              <div>
-                {area.signals.map(signal => <span key={signal}>{signal}</span>)}
-              </div>
+        <div className="capability-grid">
+          {CAPABILITIES.map(([title, text], index) => (
+            <article key={title} className="capability-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
+              <strong>{title}</strong>
+              <p>{text}</p>
             </article>
           ))}
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
-function OpenSource() {
-  const lanes = [
-    { label: "Identity and privacy", repos: "HDIP, VerifyFlow, ZKShade, Reach" },
-    { label: "AI and operations", repos: "UTB, SCOS Pro, HSG Pro, AI Finance Tracker" },
-    { label: "Security", repos: "LabGuard, ASL Pro, Ransomware DSS" },
-    { label: "Finance", repos: "HYEX, LendEarn, SPFS Pro" },
-    { label: "Communication", repos: "ShadeFast, anonymous-" },
-    { label: "Delivery", repos: "EmiloLabs, Nest Foods Ltd, Devflow Quest" },
-  ];
-
+function CredibilityBand() {
   return (
-    <section id="opensource" className="section opensource-section">
-      <div className="container opensource-grid">
-        <div>
-          <SectionLabel text="OPEN SOURCE" />
-          <h2>GitHub is the public code surface.</h2>
-          <p className="section-lede">
-            The Emiloart GitHub profile exposes product repositories, prototypes, technical experiments, and delivery systems that make parts of the organization inspectable.
-          </p>
-          <a className="primary-button compact" href="https://github.com/Emiloart" target="_blank" rel="noopener noreferrer">
-            github.com/Emiloart
-          </a>
-        </div>
-
-        <div className="opensource-lanes">
-          {lanes.map(lane => (
-            <article key={lane.label}>
-              <strong>{lane.label}</strong>
-              <span>{lane.repos}</span>
-            </article>
-          ))}
+    <Reveal id="ecosystems" className="credibility-section">
+      <div className="container">
+        <div className="credibility-band light-panel">
+          <span>Ecosystems and technologies around the work</span>
+          <div>
+            {ECOSYSTEM_MARKS.map(mark => <strong key={mark}>{mark}</strong>)}
+          </div>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
 function Initiatives() {
   return (
-    <section id="initiatives" className="section initiatives-section">
+    <Reveal id="initiatives" className="initiatives-section">
       <div className="container">
-        <SectionLabel text="INITIATIVES" />
-        <div className="section-heading-row">
-          <h2>Public-interest work belongs here.</h2>
-          <p>
-            Initiatives cover the safety, literacy, collaboration, and future-interface work that does not fit neatly into one product.
-          </p>
+        <SectionLabel>INITIATIVES</SectionLabel>
+        <div className="split-heading">
+          <h2>Public-interest work.</h2>
+          <p>Not every important system begins as a product.</p>
         </div>
 
-        <div className="initiatives-grid">
-          {INITIATIVES.map((initiative, index) => (
-            <article key={initiative.title} className="initiative-card">
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{initiative.title}</h3>
-              <p>{initiative.desc}</p>
+        <div className="initiative-grid">
+          {INITIATIVES.map(([title, text]) => (
+            <article key={title} className="initiative-card light-panel">
+              <strong>{title}</strong>
+              <p>{text}</p>
             </article>
           ))}
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
 function Contact() {
   return (
-    <section id="contact" className="section contact-section">
+    <Reveal id="contact" className="contact-section">
       <div className="container contact-inner">
-        <SectionLabel text="CONTACT" />
+        <SectionLabel>CONTACT</SectionLabel>
         <h2>Reach Emilo Labs.</h2>
         <p>
-          For partnerships, research collaboration, media, product inquiries, or general contact, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          Partnerships, research collaboration, media, product inquiries, and general contact go to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
         </p>
-
         <div className="contact-actions">
-          <a className="primary-button" href={`mailto:${CONTACT_EMAIL}`}>Email {CONTACT_EMAIL}</a>
+          <a className="primary-button" href={`mailto:${CONTACT_EMAIL}`}>Email Emilo Labs</a>
           <a className="secondary-button" href="https://x.com/Ilodubahe" target="_blank" rel="noopener noreferrer">@Ilodubahe</a>
         </div>
-
-        <div className="structure-card" aria-label="Website hierarchy">
-          <span>INSTITUTIONAL STRUCTURE</span>
-          <pre>{`Emilo Labs
-├── Organization
-├── Research
-├── Products
-├── Technology
-├── Open Source
-├── Initiatives
-└── Contact`}</pre>
-        </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
@@ -951,7 +762,7 @@ function Footer() {
     <footer className="footer">
       <div className="container footer-inner">
         <a href="#home" className="brand" aria-label="Emilo Labs home">
-          <ELMark size={30} />
+          <EmiloLogo compact className="brand-mark" />
           <span>EMILO LABS</span>
         </a>
         <div>
@@ -979,25 +790,26 @@ export default function EmiloLabsWebsite() {
 
   return (
     <div className="site-shell">
+      <LiveNetworkScene />
       <style>{`
         :root {
-          --bg: #080A0F;
-          --bg-2: #0D1119;
-          --panel: #111722;
-          --panel-2: #151C29;
-          --text: #F3F6FB;
-          --muted: #96A1B7;
-          --soft: #C9D2E5;
-          --line: rgba(151, 164, 188, 0.16);
-          --blue: #4B7BE8;
-          --blue-2: #6EA8FE;
-          --green: #66E38C;
-          --amber: #F6B44B;
-          --rose: #EF4B7A;
-          --violet: #A987FF;
+          --bg: #05070c;
+          --bg-2: #090d15;
+          --panel: rgba(11, 17, 28, 0.72);
+          --panel-strong: rgba(12, 20, 34, 0.88);
+          --text: #f3f7ff;
+          --soft: #bfcbdf;
+          --muted: #7f8ba3;
+          --line: rgba(118, 170, 255, 0.18);
+          --line-strong: rgba(118, 190, 255, 0.42);
+          --blue: #4b7be8;
+          --blue-2: #7bc2ff;
+          --green: #66e38c;
+          --amber: #f6b44b;
+          --violet: #a987ff;
           --radius: 8px;
-          --mono: "IBM Plex Mono", monospace;
           --sans: "IBM Plex Sans", system-ui, sans-serif;
+          --mono: "IBM Plex Mono", monospace;
         }
 
         * {
@@ -1006,10 +818,7 @@ export default function EmiloLabsWebsite() {
           padding: 0;
         }
 
-        html {
-          background: var(--bg);
-        }
-
+        html,
         body {
           background: var(--bg);
           color: var(--text);
@@ -1022,7 +831,7 @@ export default function EmiloLabsWebsite() {
         }
 
         button {
-          font-family: inherit;
+          font: inherit;
         }
 
         button:focus-visible,
@@ -1032,10 +841,59 @@ export default function EmiloLabsWebsite() {
         }
 
         .site-shell {
+          position: relative;
           min-height: 100vh;
-          background: var(--bg);
-          color: var(--text);
           overflow-x: hidden;
+          background:
+            linear-gradient(180deg, rgba(5,7,12,0.18), rgba(5,7,12,0.92) 38%, rgba(5,7,12,0.96)),
+            radial-gradient(circle at 50% 0%, rgba(75,123,232,0.16), transparent 38%);
+        }
+
+        .site-shell::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(90deg, rgba(123,194,255,0.035) 1px, transparent 1px),
+            linear-gradient(rgba(123,194,255,0.03) 1px, transparent 1px);
+          background-size: 72px 72px;
+          mask-image: linear-gradient(to bottom, black, transparent 82%);
+          animation: gridDrift 22s linear infinite;
+        }
+
+        .site-shell::after {
+          content: "";
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          opacity: 0.42;
+          background:
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
+            linear-gradient(120deg, transparent 0 35%, rgba(123,194,255,0.08) 48%, transparent 60%);
+          background-size: 100% 100%, 260% 260%;
+          animation: lightSweep 13s ease-in-out infinite;
+          mix-blend-mode: screen;
+        }
+
+        .live-network-scene,
+        .live-network-canvas {
+          position: fixed;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+
+        .live-network-scene {
+          z-index: 0;
+        }
+
+        .live-network-canvas {
+          opacity: 0.86;
+          filter: saturate(1.12) contrast(1.08);
         }
 
         .container {
@@ -1043,24 +901,35 @@ export default function EmiloLabsWebsite() {
           margin: 0 auto;
         }
 
+        .narrow {
+          max-width: 850px;
+        }
+
+        .nav,
+        .section,
+        .hero-section,
+        .footer {
+          position: relative;
+          z-index: 2;
+        }
+
         .nav {
           position: fixed;
-          z-index: 60;
           inset: 0 0 auto;
+          z-index: 20;
           padding: 18px 0;
-          transition: background 200ms ease, border-color 200ms ease, padding 200ms ease;
+          transition: padding 180ms ease, background 180ms ease, border-color 180ms ease;
         }
 
         .nav-scrolled {
-          padding: 12px 0;
-          background: rgba(8, 10, 15, 0.92);
-          border-bottom: 1px solid rgba(151, 164, 188, 0.14);
-          backdrop-filter: blur(18px);
+          padding: 11px 0;
+          background: rgba(5, 7, 12, 0.76);
+          border-bottom: 1px solid rgba(123,194,255,0.16);
+          backdrop-filter: blur(20px);
         }
 
-        .nav-inner {
-          width: min(1240px, calc(100% - 48px));
-          margin: 0 auto;
+        .nav-inner,
+        .footer-inner {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -1070,14 +939,21 @@ export default function EmiloLabsWebsite() {
         .brand {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
+          gap: 11px;
           color: var(--text);
           text-decoration: none;
         }
 
+        .brand-mark {
+          width: 40px;
+          height: 40px;
+          object-fit: contain;
+          filter: drop-shadow(0 0 16px rgba(123,194,255,0.45));
+        }
+
         .brand span {
           font-weight: 700;
-          font-size: 0.92rem;
+          font-size: 0.9rem;
           letter-spacing: 0;
         }
 
@@ -1092,7 +968,7 @@ export default function EmiloLabsWebsite() {
           color: var(--muted);
           font-size: 0.86rem;
           text-decoration: none;
-          transition: color 180ms ease;
+          transition: color 160ms ease;
         }
 
         .desktop-nav a:hover,
@@ -1102,11 +978,11 @@ export default function EmiloLabsWebsite() {
 
         .desktop-nav .nav-cta {
           color: var(--text);
-          background: var(--blue);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(75,123,232,0.26);
+          border: 1px solid rgba(123,194,255,0.34);
           border-radius: var(--radius);
           padding: 9px 16px;
-          font-weight: 600;
+          box-shadow: 0 0 26px rgba(75,123,232,0.22);
         }
 
         .menu-button {
@@ -1115,7 +991,7 @@ export default function EmiloLabsWebsite() {
           height: 42px;
           border: 1px solid var(--line);
           border-radius: var(--radius);
-          background: rgba(17, 23, 34, 0.88);
+          background: rgba(12,20,34,0.82);
           cursor: pointer;
         }
 
@@ -1129,14 +1005,14 @@ export default function EmiloLabsWebsite() {
         }
 
         .mobile-menu {
+          width: min(1240px, calc(100% - 48px));
+          margin: 12px auto 0;
           display: grid;
           gap: 4px;
-          width: min(1240px, calc(100% - 48px));
-          margin: 14px auto 0;
-          padding: 18px;
-          background: rgba(13, 17, 25, 0.98);
+          padding: 14px;
           border: 1px solid var(--line);
           border-radius: var(--radius);
+          background: rgba(5,7,12,0.94);
           backdrop-filter: blur(18px);
         }
 
@@ -1147,53 +1023,32 @@ export default function EmiloLabsWebsite() {
           border-radius: 6px;
         }
 
-        .mobile-menu a:hover {
-          background: rgba(255,255,255,0.04);
-        }
-
         .hero-section {
           min-height: 100vh;
-          position: relative;
           display: flex;
           align-items: center;
-          padding: 132px 0 96px;
-          overflow: hidden;
-        }
-
-        .grid-field {
-          position: absolute;
-          inset: 0;
-          opacity: 0.06;
-          background-image:
-            linear-gradient(rgba(110,168,254,0.35) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(110,168,254,0.35) 1px, transparent 1px);
-          background-size: 64px 64px;
-        }
-
-        .watermark {
-          position: absolute;
-          right: -40px;
-          top: 52%;
-          transform: translateY(-50%);
-          color: rgba(110,168,254,0.035);
-          font-size: 28rem;
-          font-weight: 700;
-          line-height: 1;
-          pointer-events: none;
-          user-select: none;
+          padding: 128px 0 94px;
         }
 
         .hero-grid {
-          position: relative;
-          z-index: 2;
           display: grid;
-          grid-template-columns: 0.86fr 1.14fr;
+          grid-template-columns: 0.9fr 1.1fr;
           align-items: center;
-          gap: 44px;
+          gap: 54px;
         }
 
-        .eyebrow,
-        .section-label {
+        .hero-logo {
+          width: min(250px, 58vw);
+          height: auto;
+          margin-bottom: 28px;
+          filter: drop-shadow(0 0 28px rgba(123,194,255,0.42));
+          animation: logoWake 6s ease-in-out infinite;
+        }
+
+        .hero-kicker,
+        .section-label,
+        .panel-topline,
+        .credibility-band > span {
           display: inline-flex;
           align-items: center;
           gap: 10px;
@@ -1201,41 +1056,48 @@ export default function EmiloLabsWebsite() {
           font-family: var(--mono);
           font-size: 0.72rem;
           font-weight: 600;
+        }
+
+        .section-label {
           margin-bottom: 18px;
         }
 
-        .eyebrow span,
-        .section-label span {
-          width: 24px;
+        .section-label span,
+        .hero-kicker::before {
+          content: "";
+          width: 26px;
           height: 1px;
           background: var(--blue-2);
+          box-shadow: 0 0 12px rgba(123,194,255,0.72);
+        }
+
+        .hero-copy h1,
+        .section h2 {
+          color: var(--text);
+          font-weight: 700;
+          letter-spacing: 0;
         }
 
         .hero-copy h1 {
-          max-width: 720px;
-          color: var(--text);
-          font-size: 4.55rem;
-          line-height: 0.98;
-          font-weight: 700;
-          letter-spacing: 0;
-          margin-bottom: 24px;
+          max-width: 760px;
+          margin: 18px 0 24px;
+          font-size: 5rem;
+          line-height: 0.96;
         }
 
-        .hero-lede {
-          max-width: 660px;
+        .hero-copy p {
+          max-width: 610px;
           color: var(--soft);
-          font-size: 1.16rem;
-          line-height: 1.7;
+          font-size: 1.12rem;
+          line-height: 1.68;
           margin-bottom: 32px;
         }
 
         .hero-actions,
         .contact-actions {
           display: flex;
-          align-items: center;
-          gap: 14px;
           flex-wrap: wrap;
-          margin-bottom: 42px;
+          gap: 14px;
         }
 
         .primary-button,
@@ -1244,666 +1106,454 @@ export default function EmiloLabsWebsite() {
           align-items: center;
           justify-content: center;
           min-height: 46px;
-          border-radius: var(--radius);
           padding: 12px 20px;
+          border-radius: var(--radius);
           font-weight: 600;
-          font-size: 0.94rem;
           text-decoration: none;
-          transition: transform 160ms ease, background 180ms ease, border-color 180ms ease;
+          transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
         }
 
         .primary-button {
           color: var(--text);
-          background: var(--blue);
-          border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .primary-button:hover {
-          background: #5E91F2;
-          transform: translateY(-1px);
+          background: linear-gradient(135deg, rgba(75,123,232,0.96), rgba(38,108,216,0.88));
+          border: 1px solid rgba(123,194,255,0.38);
+          box-shadow: 0 0 32px rgba(75,123,232,0.32);
         }
 
         .secondary-button {
           color: var(--soft);
-          background: rgba(17, 23, 34, 0.55);
+          background: rgba(12,20,34,0.58);
           border: 1px solid var(--line);
         }
 
+        .primary-button:hover,
         .secondary-button:hover {
-          border-color: rgba(201, 210, 229, 0.35);
-          color: var(--text);
           transform: translateY(-1px);
+          border-color: var(--line-strong);
+          box-shadow: 0 0 38px rgba(75,123,232,0.28);
         }
 
-        .primary-button.compact {
-          min-height: 40px;
-          padding: 10px 15px;
-          font-size: 0.86rem;
-        }
-
-        .hero-stats {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-          max-width: 610px;
-        }
-
-        .hero-stats div {
-          background: rgba(17, 23, 34, 0.78);
+        .light-panel {
+          position: relative;
+          overflow: hidden;
           border: 1px solid var(--line);
           border-radius: var(--radius);
-          padding: 16px 15px;
-        }
-
-        .hero-stats strong {
-          display: block;
-          color: var(--text);
-          font-size: 2rem;
-          line-height: 1;
-        }
-
-        .hero-stats span {
-          display: block;
-          color: var(--muted);
-          font-size: 0.78rem;
-          margin-top: 7px;
-        }
-
-        .institution-console {
-          padding: 18px;
-          background: linear-gradient(145deg, rgba(21,28,41,0.96), rgba(8,10,15,0.94));
-          border: 1px solid rgba(110,168,254,0.22);
-          border-radius: 16px;
-          box-shadow: 0 28px 90px rgba(0,0,0,0.34);
-          animation: consoleFloat 7s ease-in-out infinite;
-        }
-
-        .console-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 16px;
-          margin-bottom: 14px;
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.68rem;
-        }
-
-        .console-header span:first-child {
-          color: var(--blue-2);
-          font-weight: 600;
-        }
-
-        .console-layout {
-          display: grid;
-          grid-template-columns: 1fr 0.74fr;
-          gap: 16px;
-        }
-
-        .focus-graph {
-          position: relative;
-          min-height: 440px;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
           background:
-            radial-gradient(circle at 50% 50%, rgba(110,168,254,0.15), rgba(8,10,15,0.16) 38%, rgba(8,10,15,0.96) 72%),
-            linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
+            linear-gradient(180deg, rgba(16,29,49,0.74), rgba(7,11,19,0.72)),
+            rgba(8,12,20,0.72);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 80px rgba(0,0,0,0.24);
+          backdrop-filter: blur(18px);
         }
 
-        .focus-lines {
+        .light-panel::after {
+          content: "";
           position: absolute;
           inset: 0;
-          width: 100%;
-          height: 100%;
-          opacity: 0.8;
-        }
-
-        .scanline {
-          position: absolute;
-          inset: 0 0 auto;
-          height: 44%;
-          background: linear-gradient(to bottom, transparent, rgba(110,168,254,0.08), transparent);
-          animation: scanMove 5.8s linear infinite;
+          background: linear-gradient(110deg, transparent 0 38%, rgba(123,194,255,0.13) 48%, transparent 60%);
+          transform: translateX(-120%);
+          animation: panelSweep 8s ease-in-out infinite;
           pointer-events: none;
         }
 
-        .center-node {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 166px;
-          height: 166px;
-          border-radius: 999px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          background: radial-gradient(circle, rgba(75,123,232,0.88), rgba(8,10,15,0.95) 70%);
-          border: 1px solid rgba(243,246,251,0.22);
-          box-shadow: 0 0 64px rgba(75,123,232,0.34);
+        .institution-preview {
+          min-height: 590px;
+          padding: 20px;
         }
 
-        .center-node::after {
-          content: "";
-          position: absolute;
-          inset: -22px;
-          border: 1px solid rgba(110,168,254,0.18);
-          border-radius: inherit;
-          animation: orbitPulse 5s ease-in-out infinite;
+        .panel-topline {
+          justify-content: space-between;
+          width: 100%;
+          color: var(--muted);
         }
 
-        .center-node strong {
-          font-size: 1rem;
-          margin-top: 4px;
+        .panel-topline span:first-child {
+          color: var(--blue-2);
         }
 
-        .center-node span {
-          color: #B7C8FF;
+        .mini-flow {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 10px;
+          margin-top: 24px;
+        }
+
+        .mini-step {
+          min-height: 126px;
+          padding: 14px;
+          border: 1px solid rgba(123,194,255,0.16);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.42);
+          transform: translateY(0);
+          animation: riseSignal 5s ease-in-out infinite;
+          animation-delay: var(--delay);
+        }
+
+        .mini-step span {
+          display: block;
+          color: var(--muted);
           font-family: var(--mono);
           font-size: 0.62rem;
-          margin-top: 4px;
+          margin-bottom: 10px;
         }
 
-        .focus-node {
-          position: absolute;
-          transform: translate(-50%, -50%);
-          width: 118px;
-          min-height: 66px;
-          padding: 10px;
-          text-align: left;
+        .mini-step strong {
+          display: block;
           color: var(--text);
-          background: rgba(17,23,34,0.84);
-          border: 1px solid rgba(151,164,188,0.22);
-          border-radius: var(--radius);
-          cursor: pointer;
-          transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+          font-size: 0.98rem;
+          line-height: 1.2;
         }
 
-        .focus-node.selected {
-          border-color: var(--node-color);
-          box-shadow: 0 0 28px color-mix(in srgb, var(--node-color), transparent 62%);
-        }
-
-        .focus-node span {
-          display: block;
-          width: 8px;
-          height: 8px;
-          border-radius: 999px;
-          background: var(--node-color);
-          margin-bottom: 8px;
-        }
-
-        .focus-node strong {
-          display: block;
-          font-size: 0.78rem;
-          line-height: 1.15;
-        }
-
-        .focus-panel {
-          min-height: 440px;
+        .preview-core {
+          position: absolute;
+          inset: auto 0 48px;
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          gap: 20px;
-          padding: 22px 20px;
-          background: var(--bg);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px;
+          justify-content: center;
+          align-items: center;
+          height: 350px;
         }
 
-        .focus-panel > span,
-        .product-card-domain,
-        .active-product-panel > span,
-        .structure-card > span {
-          font-family: var(--mono);
-          font-size: 0.64rem;
-          font-weight: 600;
+        .core-ring {
+          position: absolute;
+          width: 290px;
+          height: 290px;
+          border: 1px solid rgba(123,194,255,0.24);
+          border-radius: 50%;
+          box-shadow:
+            0 0 70px rgba(75,123,232,0.24),
+            inset 0 0 42px rgba(75,123,232,0.12);
+          animation: ringTurn 18s linear infinite;
         }
 
-        .focus-panel h2 {
-          font-size: 1.48rem;
-          line-height: 1.12;
-          margin: 10px 0 12px;
+        .core-ring::before,
+        .core-ring::after {
+          content: "";
+          position: absolute;
+          inset: 35px;
+          border: 1px solid rgba(102,227,140,0.16);
+          border-radius: 50%;
         }
 
-        .focus-panel p {
-          color: var(--muted);
-          font-size: 0.9rem;
-          line-height: 1.65;
+        .core-ring::after {
+          inset: 74px;
+          border-color: rgba(169,135,255,0.18);
         }
 
-        .focus-panel-strip {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
-        }
-
-        .focus-panel-strip strong {
-          padding: 10px 9px;
-          border: 1px solid var(--line);
-          border-radius: 6px;
-          color: var(--soft);
-          background: rgba(21,28,41,0.75);
-          font-size: 0.76rem;
+        .preview-logo {
+          width: 170px;
+          filter: drop-shadow(0 0 36px rgba(123,194,255,0.5));
+          z-index: 2;
         }
 
         .section {
-          padding: 112px 0;
-          background: var(--bg);
+          padding: 108px 0;
         }
 
-        .research-section,
-        .products-section,
-        .initiatives-section,
-        .contact-section {
-          background: #06080C;
+        .reveal {
+          opacity: 0;
+          transform: translateY(32px);
+          transition: opacity 700ms ease, transform 700ms ease;
         }
 
-        .organization-grid,
-        .opensource-grid {
-          display: grid;
-          grid-template-columns: 0.86fr 1.14fr;
-          gap: 54px;
-          align-items: start;
+        .reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0);
         }
 
-        .section h2,
-        .opensource-grid h2,
-        .contact-inner h2 {
-          color: var(--text);
-          font-size: 3.1rem;
-          line-height: 1.08;
-          font-weight: 700;
-          letter-spacing: 0;
+        .section h2 {
+          max-width: 720px;
+          font-size: 3.45rem;
+          line-height: 1.05;
           margin-bottom: 18px;
         }
 
-        .section-lede,
-        .section-copy,
-        .section-heading-row p,
+        .origin-section p,
+        .split-heading p,
         .contact-inner p {
-          color: var(--muted);
-          font-size: 1rem;
-          line-height: 1.72;
-        }
-
-        .section-lede {
-          max-width: 660px;
           color: var(--soft);
-          margin-bottom: 18px;
+          font-size: 1rem;
+          line-height: 1.7;
         }
 
-        .section-copy {
-          max-width: 660px;
-        }
-
-        .pillar-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .pillar-card,
-        .research-card,
-        .technology-card,
-        .initiative-card,
-        .opensource-lanes article,
-        .structure-card {
-          background: var(--panel);
-          border: 1px solid var(--line);
-          border-radius: var(--radius);
-        }
-
-        .pillar-card {
-          min-height: 170px;
-          padding: 26px 24px;
-        }
-
-        .pillar-card span,
-        .technology-card h3,
-        .initiative-card h3,
-        .opensource-lanes strong {
-          display: block;
-          color: var(--text);
-          font-size: 1.08rem;
-          font-weight: 700;
-          margin-bottom: 12px;
-        }
-
-        .pillar-card p,
-        .technology-card p,
-        .initiative-card p,
-        .opensource-lanes span {
-          color: var(--muted);
-          font-size: 0.9rem;
-          line-height: 1.65;
-        }
-
-        .section-heading-row {
-          display: grid;
-          grid-template-columns: 0.92fr 0.8fr;
-          gap: 38px;
-          align-items: end;
-          margin-bottom: 40px;
-        }
-
-        .section-heading-row h2 {
-          margin: 0;
-          max-width: 660px;
-        }
-
-        .section-heading-row p {
-          max-width: 530px;
-          margin-bottom: 5px;
-        }
-
-        .research-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 1px;
-          overflow: hidden;
-          background: rgba(151,164,188,0.12);
-          border: 1px solid var(--line);
-          border-radius: 14px;
-        }
-
-        .research-card {
-          min-height: 245px;
-          padding: 32px 28px;
-          border-radius: 0;
-          background: var(--bg);
-          transition: background 180ms ease;
-        }
-
-        .research-card:hover {
-          background: var(--panel);
-        }
-
-        .research-card span {
-          color: var(--blue-2);
-          display: block;
-          font-family: var(--mono);
-          font-size: 0.66rem;
-          font-weight: 600;
+        .origin-section p {
+          max-width: 760px;
           margin-bottom: 16px;
         }
 
-        .research-card h3 {
-          font-size: 1.12rem;
-          margin-bottom: 12px;
-          line-height: 1.25;
+        .split-heading {
+          display: grid;
+          grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.62fr);
+          gap: 42px;
+          align-items: end;
+          margin-bottom: 38px;
         }
 
-        .research-card p {
+        .split-heading h2 {
+          margin-bottom: 0;
+        }
+
+        .relationship-map {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 12px;
+          padding: 20px;
+        }
+
+        .map-line {
+          position: absolute;
+          left: 8%;
+          right: 8%;
+          top: 74px;
+          height: 1px;
+          background: rgba(123,194,255,0.14);
+        }
+
+        .map-line i {
+          display: block;
+          height: 100%;
+          background: var(--blue-2);
+          box-shadow: 0 0 20px rgba(123,194,255,0.7);
+          transition: width 360ms ease;
+        }
+
+        .map-node {
+          position: relative;
+          min-height: 250px;
+          padding: 22px 18px;
+          text-align: left;
+          color: var(--soft);
+          border: 1px solid rgba(123,194,255,0.14);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.5);
+          cursor: pointer;
+          transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+        }
+
+        .map-node::before {
+          content: "";
+          display: block;
+          width: 12px;
+          height: 12px;
+          margin-bottom: 56px;
+          border-radius: 50%;
+          background: rgba(123,194,255,0.45);
+          box-shadow: 0 0 18px rgba(123,194,255,0.45);
+        }
+
+        .map-node.is-active {
+          border-color: rgba(123,194,255,0.58);
+          background: rgba(14,27,48,0.74);
+          transform: translateY(-3px);
+        }
+
+        .map-node span,
+        .product-card span,
+        .active-product span {
+          display: block;
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.66rem;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+
+        .map-node strong,
+        .research-card strong,
+        .capability-card strong,
+        .initiative-card strong {
+          display: block;
+          color: var(--text);
+          font-size: 1.1rem;
+          line-height: 1.2;
+          margin-bottom: 10px;
+        }
+
+        .map-node p,
+        .research-card p,
+        .product-card p,
+        .active-product p,
+        .capability-card p,
+        .initiative-card p {
           color: var(--muted);
           font-size: 0.9rem;
-          line-height: 1.68;
+          line-height: 1.62;
         }
 
-        .domain-filter {
+        .research-grid,
+        .capability-grid,
+        .initiative-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .research-card,
+        .capability-card,
+        .initiative-card {
+          min-height: 190px;
+          padding: 25px 22px;
+          transform: translateY(0);
+          animation: cardBreathe 6s ease-in-out infinite;
+          animation-delay: var(--delay, 0ms);
+        }
+
+        .tier-tabs {
           display: flex;
-          gap: 8px;
           flex-wrap: wrap;
-          margin-bottom: 22px;
+          gap: 10px;
+          margin-bottom: 16px;
         }
 
-        .domain-filter button {
-          min-height: 38px;
-          padding: 9px 13px;
+        .tier-tabs button {
+          min-height: 42px;
+          padding: 10px 15px;
           color: var(--soft);
-          background: rgba(17,23,34,0.75);
           border: 1px solid var(--line);
           border-radius: 999px;
+          background: rgba(8,12,20,0.64);
           cursor: pointer;
-          font-size: 0.84rem;
         }
 
-        .domain-filter button.active {
+        .tier-tabs button.is-active {
           color: var(--text);
-          background: rgba(75,123,232,0.24);
-          border-color: rgba(110,168,254,0.5);
+          border-color: var(--line-strong);
+          background: rgba(75,123,232,0.22);
+          box-shadow: 0 0 26px rgba(75,123,232,0.18);
         }
 
-        .product-shell {
+        .product-stage {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) 380px;
+          grid-template-columns: minmax(0, 1fr) 340px;
           gap: 16px;
-          outline: none;
-        }
-
-        .product-carousel-wrap {
-          min-width: 0;
           padding: 16px;
-          background: linear-gradient(145deg, rgba(21,28,41,0.96), rgba(8,10,15,0.96));
-          border: 1px solid rgba(110,168,254,0.18);
-          border-radius: 14px;
+          outline: none;
         }
 
         .product-rail {
           display: grid;
           grid-auto-flow: column;
-          grid-auto-columns: minmax(270px, 32%);
+          grid-auto-columns: minmax(240px, 31%);
           gap: 12px;
           overflow-x: auto;
-          padding: 2px 2px 14px;
+          padding: 2px 2px 16px;
           scroll-snap-type: x mandatory;
-          scrollbar-color: rgba(110,168,254,0.6) rgba(255,255,255,0.06);
+          scrollbar-color: rgba(123,194,255,0.5) rgba(255,255,255,0.05);
         }
 
         .product-card {
-          scroll-snap-align: start;
-          min-height: 265px;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
+          min-height: 238px;
+          padding: 20px 18px;
           text-align: left;
-          gap: 10px;
-          color: var(--text);
-          background: var(--panel);
-          border: 1px solid var(--line);
+          color: var(--soft);
+          border: 1px solid rgba(123,194,255,0.14);
           border-radius: var(--radius);
-          padding: 18px;
+          background: rgba(5,7,12,0.58);
           cursor: pointer;
+          scroll-snap-align: start;
+          transform: translateY(0);
           transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
         }
 
-        .product-card:hover,
-        .product-card.active {
-          border-color: rgba(110,168,254,0.55);
-          background: var(--panel-2);
-          transform: translateY(-2px);
-        }
-
-        .product-card-domain,
-        .active-product-panel > span {
-          color: var(--blue-2);
+        .product-card.is-active,
+        .product-card:hover {
+          border-color: var(--line-strong);
+          background: rgba(14,27,48,0.78);
+          transform: translateY(-3px);
         }
 
         .product-card strong {
-          font-size: 1.24rem;
-          line-height: 1.15;
+          display: block;
+          color: var(--text);
+          font-size: 1.32rem;
+          line-height: 1.12;
+          margin-bottom: 12px;
         }
 
-        .product-card small {
-          color: var(--amber);
-          font-family: var(--mono);
-          font-size: 0.68rem;
+        .active-product {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          min-height: 330px;
+          padding: 26px 24px;
+          border: 1px solid rgba(123,194,255,0.14);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.6);
         }
 
-        .product-card p {
-          color: var(--muted);
-          font-size: 0.9rem;
-          line-height: 1.6;
+        .active-product h3 {
+          color: var(--text);
+          font-size: 2.2rem;
+          line-height: 1.04;
+          margin-bottom: 16px;
         }
 
-        .carousel-controls {
+        .active-product strong {
+          display: inline-flex;
+          color: var(--text);
+          margin-top: 18px;
+          padding: 8px 10px;
+          border: 1px solid rgba(123,194,255,0.24);
+          border-radius: 999px;
+          background: rgba(75,123,232,0.16);
+          font-size: 0.82rem;
+        }
+
+        .product-controls {
+          width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 12px;
-          padding-top: 6px;
+          margin-top: auto;
+          padding-top: 24px;
         }
 
-        .carousel-controls button {
-          width: 44px;
-          height: 42px;
+        .product-controls button {
+          width: 42px;
+          height: 40px;
           color: var(--text);
-          background: rgba(75,123,232,0.2);
-          border: 1px solid rgba(110,168,254,0.35);
-          border-radius: var(--radius);
-          cursor: pointer;
-          font-weight: 700;
-        }
-
-        .carousel-controls span {
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.78rem;
-        }
-
-        .active-product-panel {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          min-height: 420px;
-          padding: 26px 24px;
-          background: var(--panel);
           border: 1px solid var(--line);
-          border-radius: 14px;
-        }
-
-        .active-product-panel h3 {
-          font-size: 2rem;
-          line-height: 1.08;
-          margin: 12px 0 16px;
-        }
-
-        .active-summary {
-          color: var(--soft);
-          font-size: 1rem;
-          line-height: 1.65;
-          margin-bottom: 12px;
-        }
-
-        .active-signal {
-          color: var(--muted);
-          font-size: 0.9rem;
-          line-height: 1.65;
-          margin-bottom: 20px;
-        }
-
-        .product-meta-grid {
-          width: 100%;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-          margin: auto 0 20px;
-        }
-
-        .product-meta-grid div {
-          min-width: 0;
-          padding: 12px 10px;
-          background: var(--bg);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 7px;
-        }
-
-        .product-meta-grid small {
-          display: block;
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.62rem;
-          margin-bottom: 5px;
-        }
-
-        .product-meta-grid strong {
-          display: block;
-          color: var(--soft);
-          font-size: 0.82rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .technology-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .technology-card {
-          min-height: 260px;
-          padding: 28px 24px;
-        }
-
-        .technology-card div {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-top: 22px;
-        }
-
-        .technology-card span {
-          color: var(--soft);
-          border: 1px solid rgba(110,168,254,0.22);
-          background: rgba(75,123,232,0.1);
-          border-radius: 999px;
-          padding: 6px 9px;
-          font-size: 0.75rem;
-        }
-
-        .opensource-grid {
-          align-items: center;
-        }
-
-        .opensource-lanes {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .opensource-lanes article {
-          padding: 22px 20px;
-        }
-
-        .opensource-lanes span {
-          display: block;
-          color: var(--blue-2);
-          font-family: var(--mono);
-          font-size: 0.74rem;
-        }
-
-        .initiatives-grid {
-          display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .initiative-card {
-          min-height: 260px;
-          padding: 24px 20px;
-        }
-
-        .initiative-card > span {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 34px;
-          height: 34px;
-          border-radius: 999px;
-          color: var(--text);
+          border-radius: var(--radius);
           background: rgba(75,123,232,0.18);
-          border: 1px solid rgba(110,168,254,0.28);
+          cursor: pointer;
+        }
+
+        .product-controls small {
+          color: var(--muted);
           font-family: var(--mono);
-          font-size: 0.72rem;
+        }
+
+        .credibility-band {
+          padding: 26px 24px;
+        }
+
+        .credibility-band > span {
           margin-bottom: 22px;
         }
 
+        .credibility-band div {
+          display: grid;
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .credibility-band strong {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 62px;
+          color: rgba(207,226,255,0.58);
+          border: 1px solid rgba(123,194,255,0.1);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.42);
+          filter: blur(0.25px);
+          font-weight: 600;
+        }
+
         .contact-inner {
-          max-width: 720px;
+          max-width: 760px;
           text-align: center;
         }
 
@@ -1911,119 +1561,138 @@ export default function EmiloLabsWebsite() {
           justify-content: center;
         }
 
-        .contact-inner p {
-          max-width: 620px;
-          margin: 0 auto 34px;
+        .contact-inner h2 {
+          margin-left: auto;
+          margin-right: auto;
         }
 
-        .contact-inner p a {
+        .contact-inner p {
+          max-width: 620px;
+          margin: 0 auto 30px;
+        }
+
+        .contact-inner a {
           color: var(--blue-2);
-          text-decoration: none;
         }
 
         .contact-actions {
           justify-content: center;
-          margin-bottom: 46px;
-        }
-
-        .structure-card {
-          text-align: left;
-          padding: 28px 24px;
-        }
-
-        .structure-card > span {
-          display: block;
-          color: var(--blue-2);
-          margin-bottom: 16px;
-        }
-
-        .structure-card pre {
-          margin: 0;
-          overflow: auto;
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.82rem;
-          line-height: 1.85;
         }
 
         .footer {
           padding: 38px 0;
-          background: var(--bg);
-          border-top: 1px solid var(--line);
+          border-top: 1px solid rgba(123,194,255,0.12);
+          background: rgba(5,7,12,0.72);
+          backdrop-filter: blur(12px);
         }
 
         .footer-inner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
           flex-wrap: wrap;
-          gap: 22px;
         }
 
         .footer-inner > div {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
+          gap: 18px;
         }
 
         .footer small {
-          color: #586276;
+          color: var(--muted);
           font-family: var(--mono);
           font-size: 0.72rem;
         }
 
-        @keyframes orbitPulse {
-          0%, 100% { transform: scale(1); opacity: 0.68; }
-          50% { transform: scale(1.05); opacity: 1; }
+        @keyframes logoWake {
+          0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 24px rgba(123,194,255,0.36)); }
+          50% { transform: translateY(-4px); filter: drop-shadow(0 0 38px rgba(123,194,255,0.62)); }
         }
 
-        @keyframes scanMove {
-          0% { transform: translateY(-100%); opacity: 0; }
-          18%, 72% { opacity: 0.55; }
-          100% { transform: translateY(155%); opacity: 0; }
+        @keyframes gridDrift {
+          from { background-position: 0 0; }
+          to { background-position: 72px 72px; }
         }
 
-        @keyframes consoleFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+        @keyframes lightSweep {
+          0%, 100% { background-position: 0 0, 0% 0%; }
+          50% { background-position: 0 0, 100% 100%; }
         }
 
-        @media (max-width: 1180px) {
-          .container,
-          .nav-inner,
-          .mobile-menu {
-            width: min(100% - 40px, 980px);
+        @keyframes panelSweep {
+          0%, 42% { transform: translateX(-120%); }
+          64%, 100% { transform: translateX(120%); }
+        }
+
+        @keyframes riseSignal {
+          0%, 100% { transform: translateY(0); border-color: rgba(123,194,255,0.14); }
+          50% { transform: translateY(-5px); border-color: rgba(123,194,255,0.34); }
+        }
+
+        @keyframes ringTurn {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes cardBreathe {
+          0%, 100% { border-color: rgba(123,194,255,0.14); }
+          50% { border-color: rgba(123,194,255,0.28); }
+        }
+
+        @media (max-width: 1120px) {
+          .container {
+            width: min(100% - 40px, 960px);
           }
 
           .hero-grid,
-          .organization-grid,
-          .opensource-grid {
+          .split-heading {
             grid-template-columns: 1fr;
           }
 
           .hero-copy h1 {
-            font-size: 3.8rem;
+            font-size: 4rem;
           }
 
-          .console-layout {
+          .institution-preview {
+            min-height: 520px;
+          }
+
+          .relationship-map {
             grid-template-columns: 1fr;
           }
 
-          .focus-panel {
-            min-height: auto;
+          .map-line {
+            left: 34px;
+            right: auto;
+            top: 36px;
+            bottom: 36px;
+            width: 1px;
+            height: auto;
+          }
+
+          .map-line i {
+            width: 100% !important;
+            height: 100%;
+          }
+
+          .map-node {
+            min-height: 150px;
+          }
+
+          .map-node::before {
+            margin-bottom: 18px;
           }
 
           .research-grid,
-          .technology-grid {
+          .capability-grid,
+          .initiative-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
-          .initiatives-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+          .credibility-band div {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
           }
         }
 
-        @media (max-width: 920px) {
+        @media (max-width: 900px) {
           .desktop-nav {
             display: none;
           }
@@ -2032,59 +1701,46 @@ export default function EmiloLabsWebsite() {
             display: block;
           }
 
-          .hero-section {
-            padding-top: 118px;
+          .mini-flow {
+            grid-template-columns: 1fr 1fr;
           }
 
-          .hero-copy h1 {
-            font-size: 3.15rem;
+          .mini-step:last-child {
+            grid-column: 1 / -1;
           }
 
-          .hero-lede {
-            font-size: 1.06rem;
-          }
-
-          .product-shell,
-          .section-heading-row {
+          .product-stage {
             grid-template-columns: 1fr;
           }
 
           .product-rail {
-            grid-auto-columns: minmax(260px, 46%);
-          }
-
-          .active-product-panel {
-            min-height: auto;
+            grid-auto-columns: minmax(250px, 46%);
           }
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 680px) {
           .container,
-          .nav-inner,
           .mobile-menu {
             width: calc(100% - 28px);
           }
 
-          .section {
-            padding: 78px 0;
-          }
-
           .hero-section {
             min-height: auto;
-            padding: 108px 0 72px;
+            padding: 112px 0 70px;
           }
 
           .hero-copy h1,
-          .section h2,
-          .opensource-grid h2,
-          .contact-inner h2 {
-            font-size: 2.32rem;
-            line-height: 1.06;
+          .section h2 {
+            font-size: 2.55rem;
+            line-height: 1.05;
+          }
+
+          .hero-copy p {
+            font-size: 1rem;
           }
 
           .hero-actions,
           .contact-actions {
-            align-items: stretch;
             flex-direction: column;
           }
 
@@ -2093,68 +1749,51 @@ export default function EmiloLabsWebsite() {
             width: 100%;
           }
 
-          .hero-stats,
-          .pillar-grid,
+          .section {
+            padding: 78px 0;
+          }
+
+          .institution-preview {
+            min-height: 460px;
+          }
+
+          .mini-flow,
           .research-grid,
-          .technology-grid,
-          .opensource-lanes,
-          .initiatives-grid {
+          .capability-grid,
+          .initiative-grid {
             grid-template-columns: 1fr;
           }
 
-          .institution-console {
-            padding: 12px;
+          .preview-core {
+            height: 210px;
+            bottom: 30px;
           }
 
-          .focus-graph {
-            min-height: auto;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 8px;
-            padding: 14px;
+          .core-ring {
+            width: 210px;
+            height: 210px;
           }
 
-          .focus-lines {
-            display: none;
-          }
-
-          .center-node {
-            position: static !important;
-            transform: none !important;
-            grid-column: 1 / -1;
-            width: 100%;
-            height: auto;
-            min-height: 116px;
-            border-radius: var(--radius);
-          }
-
-          .center-node::after {
-            display: none;
-          }
-
-          .focus-node {
-            position: static !important;
-            transform: none !important;
-            width: 100%;
-            min-height: 64px;
+          .preview-logo {
+            width: 124px;
           }
 
           .product-rail {
-            grid-auto-columns: minmax(245px, 86%);
+            grid-auto-columns: minmax(238px, 86%);
           }
 
-          .product-meta-grid {
-            grid-template-columns: 1fr;
+          .active-product h3 {
+            font-size: 1.9rem;
+          }
+
+          .credibility-band div {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
           .footer-inner,
           .footer-inner > div {
             align-items: flex-start;
             flex-direction: column;
-          }
-
-          .watermark {
-            display: none;
           }
         }
 
@@ -2163,18 +1802,28 @@ export default function EmiloLabsWebsite() {
           *::before,
           *::after {
             animation: none !important;
-            scroll-behavior: auto !important;
             transition: none !important;
+            scroll-behavior: auto !important;
+          }
+
+          .live-network-canvas {
+            opacity: 0.34;
+          }
+
+          .reveal {
+            opacity: 1;
+            transform: none;
           }
         }
       `}</style>
       <Navbar />
       <Hero />
-      <Organization />
+      <Origin />
+      <InstitutionMap />
       <Research />
-      <ProductsCarousel />
-      <Technology />
-      <OpenSource />
+      <Products />
+      <Capabilities />
+      <CredibilityBand />
       <Initiatives />
       <Contact />
       <Footer />

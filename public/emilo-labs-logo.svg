@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="780" viewBox="0 0 1200 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="markFill" x1="300" y1="60" x2="850" y2="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1D4F7C"/>
+      <stop offset="0.52" stop-color="#123E66"/>
+      <stop offset="1" stop-color="#092D50"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="330" y1="40" x2="820" y2="660" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8ACDFF" stop-opacity="0.58"/>
+      <stop offset="0.48" stop-color="#3F86D8" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#061B34" stop-opacity="0.72"/>
+    </linearGradient>
+    <filter id="shadow" x="200" y="25" width="780" height="650" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#031426" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="-6" stdDeviation="10" flood-color="#77C3FF" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="780" fill="none"/>
+  <g filter="url(#shadow)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M652 112C522 100 408 154 349 256C287 363 306 503 394 588C454 646 536 676 624 671V571C559 575 502 556 460 516C409 467 395 390 426 328C459 262 532 228 621 235H653V143C653 132 653 122 652 112Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="17"/>
+    <path d="M423 362H586C603 362 616 375 616 392V441C616 458 603 471 586 471H403C390 471 379 461 379 448V386C379 373 390 362 403 362H423Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="17"/>
+    <path d="M683 227C683 208 698 193 717 193H727C746 193 761 208 761 227V561H873C903 561 933 551 957 533C948 589 917 637 870 666C843 683 812 692 778 692H717C698 692 683 677 683 658V227Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="17"/>
+    <path d="M762 416C817 416 869 392 900 352C911 339 933 348 933 365V446C933 464 920 479 902 483C863 492 813 495 762 492V416Z" fill="url(#markFill)" stroke="url(#edge)" stroke-width="17"/>
+  </g>
+  <text x="600" y="744" text-anchor="middle" font-family="IBM Plex Sans, Arial, sans-serif" font-size="58" font-weight="500" letter-spacing="38" fill="#153F66">EMILO LABS</text>
+</svg>
