@@ -2163,30 +2163,57 @@ export default function EmiloLabsWebsite() {
         }
 
         .contact-email {
+          position: relative;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-height: 54px;
+          min-height: 44px;
           max-width: 100%;
-          padding: 14px 22px;
+          padding: 10px 18px;
           color: var(--text);
           border: 1px solid rgba(123,194,255,0.42);
           border-radius: var(--radius);
           background:
-            linear-gradient(135deg, rgba(75,123,232,0.98), rgba(27,91,188,0.92)),
+            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.18), transparent 30%),
+            linear-gradient(135deg, rgba(75,123,232,0.84), rgba(27,91,188,0.78)),
             rgba(8,12,20,0.58);
-          box-shadow: 0 0 38px rgba(75,123,232,0.28);
-          font-size: clamp(1rem, 3vw, 1.45rem);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            0 0 22px rgba(75,123,232,0.22);
+          font-size: clamp(0.92rem, 2vw, 1.04rem);
           font-weight: 600;
           text-decoration: none;
+          overflow: hidden;
           overflow-wrap: anywhere;
           transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        }
+
+        .contact-email::before {
+          content: "";
+          position: absolute;
+          inset: -40% auto -40% -55%;
+          width: 42%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.42), transparent);
+          transform: skewX(-18deg);
+          animation: contactLight 4.8s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        .contact-email::after {
+          content: "";
+          position: absolute;
+          inset: 1px;
+          border-radius: calc(var(--radius) - 1px);
+          border: 1px solid rgba(255,255,255,0.08);
+          pointer-events: none;
         }
 
         .contact-email:hover {
           transform: translateY(-2px);
           border-color: rgba(123,194,255,0.72);
-          box-shadow: 0 0 48px rgba(75,123,232,0.42);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.22),
+            0 0 34px rgba(75,123,232,0.36);
         }
 
         .footer {
@@ -2263,6 +2290,12 @@ export default function EmiloLabsWebsite() {
         @keyframes panelSweep {
           0%, 42% { transform: translateX(-120%); }
           64%, 100% { transform: translateX(120%); }
+        }
+
+        @keyframes contactLight {
+          0%, 45% { transform: translateX(0) skewX(-18deg); opacity: 0; }
+          55% { opacity: 0.8; }
+          72%, 100% { transform: translateX(420%) skewX(-18deg); opacity: 0; }
         }
 
         @keyframes riseSignal {
