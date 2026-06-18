@@ -4,9 +4,9 @@ import * as THREE from "three";
 const CONTACT_EMAIL = "emilolabs@gmail.com";
 
 const NAV_LINKS = [
+  { label: "Research", href: "#research" },
   { label: "Origin", href: "#origin" },
   { label: "Institution", href: "#institution" },
-  { label: "Research", href: "#research" },
   { label: "Products", href: "#products" },
   { label: "Technology", href: "#technology" },
   { label: "Contact", href: "#contact" },
@@ -49,47 +49,54 @@ const RESEARCH_AREAS = [
   ["Internet Systems", "Coordination infrastructure."],
 ];
 
+const RESEARCH_LOOP = [...RESEARCH_AREAS, ...RESEARCH_AREAS, ...RESEARCH_AREAS];
+
 const PRODUCT_TIERS = [
   {
-    title: "Active Products",
+    title: "Active",
     products: [
-      ["ShadeFast", "Beta", "Anonymous communities."],
-      ["HDIP", "Limited Access", "Digital identity passport."],
-      ["VerifyFlow", "Limited Access", "Verification workflow system."],
-      ["Achievo", "Beta", "Verifiable achievement records."],
-      ["Reach", "Limited Access", "Encrypted communication."],
-    ],
-  },
-  {
-    title: "Research & Infrastructure",
-    products: [
-      ["ZKShade", "Research", "Recovery without exposure."],
-      ["ZKShade Starknet", "Research", "Anonymous recovery."],
-      ["LabGuard", "Limited Access", "Device security."],
-      ["Ransomware DSS", "Research", "Ransomware defense."],
-      ["AI Finance Tracker", "Research", "Finance intelligence."],
+      ["ShadeFast", "Social systems", "Anonymous communities for real world groups."],
+      ["Reach", "Private communication", "Encrypted messaging and anonymous groups."],
+      ["HDIP", "Identity", "Portable identity and credential infrastructure."],
+      ["VerifyFlow", "Verification", "Controlled measurement for identity flows."],
+      ["Achievo", "Credentials", "Verifiable achievement records."],
+      ["LabGuard", "Security", "Device protection and recovery control."],
+      ["LendEarn", "Finance", "Peer lending and referral finance."],
     ],
   },
   {
     title: "Coming Soon",
     products: [
-      ["UTB", "Coming Soon", "AI research system."],
-      ["SCOS Pro", "Coming Soon", "Chief of staff layer."],
-      ["HSG Pro", "Coming Soon", "Deception detection."],
-      ["SPFS Pro", "Coming Soon", "Finance operating system."],
-      ["HYEX", "Coming Soon", "Value exchange."],
-      ["ASL Pro", "Coming Soon", "Security automation."],
+      ["ZKShade", "Privacy recovery", "Identity continuity without exposure."],
+      ["ZKShade Starknet", "Identity recovery", "Anonymous recovery on Starknet."],
+      ["UTB", "Research intelligence", "Automated research and structured insight."],
+      ["HYEX", "Financial exchange", "Safer value exchange and settlement."],
+      ["SCOS Pro", "Agent operations", "Autonomous coordination layer."],
+      ["HSG Pro", "Safety intelligence", "Deception detection for digital environments."],
+      ["SPFS Pro", "Personal finance", "AI native finance operating system."],
+      ["ASL Pro", "Security automation", "Continuous vulnerability defense."],
+      ["Ransomware DSS", "Threat defense", "Ransomware detection and deterrence."],
+      ["AI Finance Tracker", "Finance intelligence", "Spending insight and budget intelligence."],
     ],
   },
 ];
 
+const PRODUCT_TONES = [
+  "75,123,232",
+  "102,227,140",
+  "123,194,255",
+  "169,135,255",
+  "246,180,75",
+  "80,220,208",
+];
+
 const TECHNOLOGY_AREAS = [
-  ["Identity Systems", "Credentials, verification, recovery."],
-  ["Privacy Infrastructure", "Anonymous continuity, private communication."],
-  ["Security Engineering", "Device trust, threat decisions."],
-  ["Intelligent Systems", "Research automation, guarded agents."],
-  ["Financial Technology", "Escrow, lending, settlement."],
-  ["Digital Experiences", "Interfaces for complex systems."],
+  ["Identity Systems", "Credentials, verification, recovery.", "Proof layer"],
+  ["Privacy Infrastructure", "Anonymous continuity, private communication.", "Privacy layer"],
+  ["Security Engineering", "Device trust, threat decisions.", "Defense layer"],
+  ["Intelligent Systems", "Research automation, guarded agents.", "Intelligence layer"],
+  ["Financial Technology", "Escrow, lending, settlement.", "Value layer"],
+  ["Digital Experiences", "Interfaces for complex systems.", "Experience layer"],
 ];
 
 const ECOSYSTEM_MARKS = [
@@ -545,10 +552,6 @@ function Hero() {
           <p>
             Identity, privacy, security, intelligence, finance, and coordination infrastructure.
           </p>
-          <div className="hero-actions">
-            <a className="primary-button" href="#origin">Explore the institution</a>
-            <a className="secondary-button" href="#products">View products</a>
-          </div>
         </div>
 
         <InstitutionPreview />
@@ -606,12 +609,27 @@ function InstitutionPreview() {
 function Origin() {
   return (
     <Reveal id="origin" className="origin-section">
-      <div className="container narrow">
+      <div className="container origin-layout">
         <SectionLabel>ORIGIN</SectionLabel>
-        <h2>Why it exists.</h2>
-        <p>
-          Connected life depends on systems that can verify, protect, recover, transact, and communicate. Emilo Labs builds that connective layer.
-        </p>
+        <div className="origin-block light-panel">
+          <p>
+            Every major shift in how people use technology produces a new class of problems.
+          </p>
+          <p>
+            Networks created the need for security. Digital identity created the need for verification. Financial systems moved online and created the need for trust infrastructure. Communication scaled and created the need for privacy.
+          </p>
+          <p>
+            These problems do not wait for products to appear. They exist because people interact with digital systems, and digital systems are not yet built for that interaction to be safe, private, verifiable, or resilient by default.
+          </p>
+          <div className="origin-signal">
+            <span>EMILO LABS</span>
+            <strong>At the Core of a Connected Future.</strong>
+            <p>A technology institution building infrastructure for how digital systems operate, communicate, transact, and connect.</p>
+          </div>
+          <p className="origin-close">
+            Emilo Labs was built to work on that class of problems. Not one of them. The class.
+          </p>
+        </div>
       </div>
     </Reveal>
   );
@@ -645,9 +663,6 @@ function InstitutionMap() {
     <Reveal id="institution" className="map-section">
       <div className="container" ref={sectionRef}>
         <SectionLabel>INSTITUTION</SectionLabel>
-        <div className="split-heading">
-          <h2>Institution first. Products second.</h2>
-        </div>
 
         <div className="relationship-map light-panel">
           <div className="map-line" aria-hidden="true">
@@ -676,16 +691,13 @@ function InstitutionMap() {
 function Research() {
   return (
     <Reveal id="research" className="research-section">
-      <div className="container">
+      <div className="container research-shell">
         <SectionLabel>RESEARCH</SectionLabel>
-        <div className="split-heading">
-          <h2>Questions with consequences.</h2>
-          <p>Identity. Privacy. Security. Intelligence. Finance. Internet systems.</p>
-        </div>
-
-        <div className="research-grid">
-          {RESEARCH_AREAS.map(([title, text], index) => (
-            <article key={title} className="research-card light-panel" style={{ "--delay": `${index * 70}ms` }}>
+      </div>
+      <div className="research-carousel" aria-label="Research areas">
+        <div className="research-track">
+          {RESEARCH_LOOP.map(([title, text], index) => (
+            <article key={`${title}-${index}`} className="research-card light-panel" style={{ "--delay": `${index * 70}ms` }}>
               <strong>{title}</strong>
               <p>{text}</p>
             </article>
@@ -702,7 +714,7 @@ function Products() {
   const tier = PRODUCT_TIERS[tierIndex];
   const activeProduct = tier.products[productIndex] || tier.products[0];
 
-  const productCards = useMemo(() => tier.products.map(([name, status, summary]) => ({ name, status, summary })), [tier]);
+  const productCards = useMemo(() => tier.products.map(([name, domain, summary]) => ({ name, domain, summary })), [tier]);
 
   const moveProduct = (offset) => {
     const next = (productIndex + offset + productCards.length) % productCards.length;
@@ -724,10 +736,6 @@ function Products() {
     <Reveal id="products" className="products-section">
       <div className="container">
         <SectionLabel>PRODUCTS</SectionLabel>
-        <div className="split-heading">
-          <h2>Products with signal.</h2>
-          <p>Active. Research. Coming soon.</p>
-        </div>
 
         <div className="tier-tabs" aria-label="Product tiers">
           {PRODUCT_TIERS.map((item, index) => (
@@ -754,16 +762,16 @@ function Products() {
                 className={`product-card ${index === productIndex ? "is-active" : ""}`}
                 onClick={() => setProductIndex(index)}
                 aria-pressed={index === productIndex}
-                style={{ "--delay": `${index * 55}ms` }}
+                style={{ "--delay": `${index * 55}ms`, "--tone": PRODUCT_TONES[index % PRODUCT_TONES.length] }}
               >
-                <span>{product.status}</span>
+                <span>{product.domain}</span>
                 <strong>{product.name}</strong>
                 <p>{product.summary}</p>
               </button>
             ))}
           </div>
 
-          <aside className="active-product">
+          <aside className="active-product" style={{ "--tone": PRODUCT_TONES[productIndex % PRODUCT_TONES.length] }}>
             <span>{tier.title}</span>
             <h3>{activeProduct[0]}</h3>
             <p>{activeProduct[2]}</p>
@@ -785,18 +793,22 @@ function Technology() {
     <Reveal id="technology" className="technology-section">
       <div className="container">
         <SectionLabel>TECHNOLOGY</SectionLabel>
-        <div className="split-heading">
-          <h2>Technical foundation.</h2>
-          <p>Identity. Privacy. Security. Intelligence. Finance. Interfaces.</p>
-        </div>
 
-        <div className="technology-grid">
-          {TECHNOLOGY_AREAS.map(([title, text], index) => (
-            <article key={title} className="technology-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
+        <div className="technology-system light-panel">
+          <div className="technology-spine" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="technology-grid">
+            {TECHNOLOGY_AREAS.map(([title, text, signal], index) => (
+              <article key={title} className="technology-card" style={{ "--delay": `${index * 60}ms` }}>
+                <span>{signal}</span>
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </Reveal>
@@ -832,8 +844,10 @@ function Contact() {
   return (
     <Reveal id="contact" className="contact-section">
       <div className="container contact-inner">
-        <SectionLabel>CONTACT</SectionLabel>
-        <a className="contact-email" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        <div className="contact-panel light-panel">
+          <SectionLabel>CONTACT</SectionLabel>
+          <a className="contact-email" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </div>
       </div>
     </Reveal>
   );
@@ -850,8 +864,8 @@ function Initiatives() {
         </div>
 
         <div className="initiative-grid">
-          {INITIATIVES.map(([title, text]) => (
-            <article key={title} className="initiative-card light-panel">
+          {INITIATIVES.map(([title, text], index) => (
+            <article key={title} className="initiative-card light-panel" style={{ "--delay": `${index * 70}ms` }}>
               <strong>{title}</strong>
               <p>{text}</p>
             </article>
@@ -1280,7 +1294,7 @@ export default function EmiloLabsWebsite() {
           color: var(--soft);
           font-size: 1.04rem;
           line-height: 1.62;
-          margin-bottom: 28px;
+          margin-bottom: 0;
           overflow-wrap: break-word;
           text-wrap: balance;
         }
@@ -1537,8 +1551,78 @@ export default function EmiloLabsWebsite() {
         }
 
         .origin-section p {
-          max-width: 760px;
           margin-bottom: 16px;
+        }
+
+        .origin-layout {
+          max-width: 980px;
+        }
+
+        .origin-block {
+          width: 100%;
+          padding: clamp(22px, 4vw, 42px);
+          background:
+            radial-gradient(circle at 18% 0%, rgba(123,194,255,0.14), transparent 34%),
+            linear-gradient(145deg, rgba(15,30,52,0.86), rgba(5,8,14,0.74)),
+            rgba(8,12,20,0.72);
+        }
+
+        .origin-block p {
+          max-width: 100%;
+          font-size: clamp(1rem, 1.7vw, 1.12rem);
+          overflow-wrap: break-word;
+        }
+
+        .origin-signal {
+          position: relative;
+          width: 100%;
+          margin: 28px 0 18px;
+          padding: 20px;
+          border: 1px solid rgba(123,194,255,0.22);
+          border-radius: var(--radius);
+          background:
+            linear-gradient(90deg, rgba(75,123,232,0.16), rgba(5,7,12,0.32)),
+            rgba(5,7,12,0.42);
+          box-shadow: inset 0 0 28px rgba(75,123,232,0.12), 0 0 38px rgba(75,123,232,0.12);
+        }
+
+        .origin-signal::before {
+          content: "";
+          position: absolute;
+          left: 18px;
+          right: 18px;
+          top: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(123,194,255,0.86), transparent);
+          box-shadow: 0 0 22px rgba(123,194,255,0.58);
+        }
+
+        .origin-signal span {
+          display: block;
+          margin-bottom: 10px;
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.72rem;
+          font-weight: 600;
+        }
+
+        .origin-signal strong {
+          display: block;
+          color: var(--text);
+          font-size: clamp(1.45rem, 3vw, 2.25rem);
+          line-height: 1.05;
+          margin-bottom: 12px;
+        }
+
+        .origin-signal p {
+          margin-bottom: 0;
+          color: var(--soft);
+        }
+
+        .origin-close {
+          margin-bottom: 0 !important;
+          color: var(--text) !important;
+          font-weight: 600;
         }
 
         .split-heading {
@@ -1559,6 +1643,7 @@ export default function EmiloLabsWebsite() {
           grid-template-columns: repeat(5, minmax(0, 1fr));
           gap: 10px;
           padding: 16px;
+          margin-top: 10px;
         }
 
         .map-line {
@@ -1641,7 +1726,63 @@ export default function EmiloLabsWebsite() {
           line-height: 1.5;
         }
 
-        .research-grid,
+        .research-section {
+          padding-top: 54px;
+          padding-bottom: 68px;
+        }
+
+        .research-shell {
+          margin-bottom: 14px;
+        }
+
+        .research-carousel {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          width: 100%;
+          overflow: hidden;
+          padding: 10px 0 20px;
+          mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+        }
+
+        .research-carousel::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: min(38vw, 520px);
+          transform: translateX(-50%);
+          background:
+            radial-gradient(circle at 50% 50%, rgba(123,194,255,0.22), transparent 58%),
+            linear-gradient(90deg, transparent, rgba(123,194,255,0.13), transparent);
+          pointer-events: none;
+          mix-blend-mode: screen;
+        }
+
+        .research-carousel::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 8px;
+          bottom: 18px;
+          width: 1px;
+          background: linear-gradient(to bottom, transparent, rgba(123,194,255,0.75), transparent);
+          box-shadow: 0 0 24px rgba(123,194,255,0.72);
+          pointer-events: none;
+        }
+
+        .research-track {
+          display: flex;
+          gap: 12px;
+          width: max-content;
+          animation: researchMarquee 38s linear infinite;
+        }
+
+        .research-card {
+          flex: 0 0 clamp(230px, 24vw, 318px);
+        }
+
         .technology-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1668,7 +1809,6 @@ export default function EmiloLabsWebsite() {
         }
 
         .research-card.light-panel::after,
-        .technology-card.light-panel::after,
         .initiative-card.light-panel::after,
         .product-card::after {
           display: none;
@@ -1713,27 +1853,108 @@ export default function EmiloLabsWebsite() {
 
         .technology-section,
         .initiatives-section {
-          padding-top: 76px;
-          padding-bottom: 76px;
+          padding-top: 66px;
+          padding-bottom: 66px;
         }
 
-        .technology-card,
-        .initiative-card {
+        .technology-system {
+          padding: 16px;
+        }
+
+        .technology-spine {
+          position: relative;
+          height: 70px;
+          margin-bottom: 12px;
+          border: 1px solid rgba(123,194,255,0.12);
+          border-radius: var(--radius);
+          background:
+            linear-gradient(90deg, rgba(123,194,255,0.08), transparent 24%, transparent 76%, rgba(123,194,255,0.08)),
+            rgba(5,7,12,0.44);
+          overflow: hidden;
+        }
+
+        .technology-spine::before {
+          content: "";
+          position: absolute;
+          left: 8%;
+          right: 8%;
+          top: 50%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(123,194,255,0.72), transparent);
+          box-shadow: 0 0 28px rgba(123,194,255,0.54);
+        }
+
+        .technology-spine span {
+          position: absolute;
+          top: 50%;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: var(--blue-2);
+          box-shadow: 0 0 20px rgba(123,194,255,0.78);
+          transform: translate(-50%, -50%);
+          animation: techPulse 5.8s ease-in-out infinite;
+        }
+
+        .technology-spine span:nth-child(1) {
+          left: 24%;
+        }
+
+        .technology-spine span:nth-child(2) {
+          left: 50%;
+          animation-delay: 420ms;
+        }
+
+        .technology-spine span:nth-child(3) {
+          left: 76%;
+          animation-delay: 840ms;
+        }
+
+        .technology-card {
+          border: 1px solid rgba(123,194,255,0.14);
+          border-radius: var(--radius);
           background:
             linear-gradient(180deg, rgba(13,25,43,0.78), rgba(5,8,14,0.7)),
             rgba(8,12,20,0.68);
+        }
+
+        .technology-card span {
+          display: block;
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.65rem;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+
+        .initiative-card {
+          min-height: 122px;
+          background:
+            radial-gradient(circle at 85% 12%, rgba(102,227,140,0.12), transparent 30%),
+            linear-gradient(180deg, rgba(13,25,43,0.78), rgba(5,8,14,0.7)),
+            rgba(8,12,20,0.68);
+        }
+
+        .initiative-card strong::after {
+          content: "";
+          display: block;
+          width: 44px;
+          height: 1px;
+          margin-top: 12px;
+          background: linear-gradient(90deg, rgba(123,194,255,0.9), transparent);
+          box-shadow: 0 0 16px rgba(123,194,255,0.58);
         }
 
         .tier-tabs {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          margin-bottom: 12px;
+          margin: 12px 0;
         }
 
         .tier-tabs button {
           min-height: 34px;
-          padding: 7px 11px;
+          padding: 7px 12px;
           color: var(--soft);
           border: 1px solid var(--line);
           border-radius: var(--radius);
@@ -1781,7 +2002,10 @@ export default function EmiloLabsWebsite() {
           color: var(--soft);
           border: 1px solid rgba(123,194,255,0.14);
           border-radius: var(--radius);
-          background: rgba(5,7,12,0.58);
+          background:
+            radial-gradient(circle at 86% 8%, rgba(var(--tone, 75,123,232),0.18), transparent 34%),
+            linear-gradient(180deg, rgba(10,18,31,0.76), rgba(5,7,12,0.62)),
+            rgba(5,7,12,0.58);
           cursor: pointer;
           scroll-snap-align: start;
           transform: translateY(0);
@@ -1793,6 +2017,9 @@ export default function EmiloLabsWebsite() {
           border-color: var(--line-strong);
           background: rgba(14,27,48,0.78);
           transform: translateY(-4px);
+          box-shadow:
+            inset 0 0 30px rgba(var(--tone, 75,123,232),0.14),
+            0 0 34px rgba(var(--tone, 75,123,232),0.12);
         }
 
         .product-card strong {
@@ -1811,7 +2038,10 @@ export default function EmiloLabsWebsite() {
           padding: 22px 20px;
           border: 1px solid rgba(123,194,255,0.14);
           border-radius: var(--radius);
-          background: rgba(5,7,12,0.6);
+          background:
+            radial-gradient(circle at 78% 0%, rgba(var(--tone, 75,123,232),0.2), transparent 36%),
+            linear-gradient(180deg, rgba(10,18,31,0.82), rgba(5,7,12,0.64)),
+            rgba(5,7,12,0.6);
         }
 
         .active-product h3 {
@@ -1828,7 +2058,7 @@ export default function EmiloLabsWebsite() {
           padding: 8px 10px;
           border: 1px solid rgba(123,194,255,0.24);
           border-radius: 999px;
-          background: rgba(75,123,232,0.16);
+          background: rgba(var(--tone, 75,123,232),0.16);
           font-size: 0.82rem;
         }
 
@@ -1916,6 +2146,13 @@ export default function EmiloLabsWebsite() {
           text-align: center;
         }
 
+        .contact-panel {
+          padding: clamp(22px, 5vw, 46px);
+          background:
+            radial-gradient(circle at 50% 0%, rgba(123,194,255,0.18), transparent 38%),
+            linear-gradient(180deg, rgba(16,29,49,0.78), rgba(5,8,14,0.76));
+        }
+
         .contact-inner .section-label {
           justify-content: center;
         }
@@ -1930,15 +2167,26 @@ export default function EmiloLabsWebsite() {
           align-items: center;
           justify-content: center;
           min-height: 54px;
+          max-width: 100%;
           padding: 14px 22px;
-          color: var(--blue-2);
-          border: 1px solid rgba(123,194,255,0.24);
+          color: var(--text);
+          border: 1px solid rgba(123,194,255,0.42);
           border-radius: var(--radius);
-          background: rgba(8,12,20,0.58);
-          box-shadow: 0 0 34px rgba(75,123,232,0.16);
+          background:
+            linear-gradient(135deg, rgba(75,123,232,0.98), rgba(27,91,188,0.92)),
+            rgba(8,12,20,0.58);
+          box-shadow: 0 0 38px rgba(75,123,232,0.28);
           font-size: clamp(1rem, 3vw, 1.45rem);
           font-weight: 600;
           text-decoration: none;
+          overflow-wrap: anywhere;
+          transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        }
+
+        .contact-email:hover {
+          transform: translateY(-2px);
+          border-color: rgba(123,194,255,0.72);
+          box-shadow: 0 0 48px rgba(75,123,232,0.42);
         }
 
         .footer {
@@ -2007,6 +2255,11 @@ export default function EmiloLabsWebsite() {
           to { transform: translateX(calc(-100% - 18px)); }
         }
 
+        @keyframes researchMarquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(calc(-33.333% - 8px)); }
+        }
+
         @keyframes panelSweep {
           0%, 42% { transform: translateX(-120%); }
           64%, 100% { transform: translateX(120%); }
@@ -2030,6 +2283,11 @@ export default function EmiloLabsWebsite() {
         @keyframes cardBreathe {
           0%, 100% { border-color: rgba(123,194,255,0.14); }
           50% { border-color: rgba(123,194,255,0.28); }
+        }
+
+        @keyframes techPulse {
+          0%, 100% { opacity: 0.42; transform: translate(-50%, -50%) scale(0.74); }
+          50% { opacity: 1; transform: translate(-50%, -50%) scale(1.18); }
         }
 
         @media (max-width: 1120px) {
@@ -2110,7 +2368,6 @@ export default function EmiloLabsWebsite() {
             margin-bottom: 18px;
           }
 
-          .research-grid,
           .technology-grid,
           .initiative-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2196,19 +2453,32 @@ export default function EmiloLabsWebsite() {
             padding: 58px 0;
           }
 
-          .institution-preview {
-            min-height: 330px;
-            padding: 14px;
+          .origin-block {
+            padding: 22px 18px;
           }
 
-          .research-grid,
+          .origin-block p {
+            font-size: 0.95rem;
+            line-height: 1.65;
+          }
+
+          .origin-signal {
+            padding: 18px;
+          }
+
+          .institution-preview {
+            min-height: 304px;
+            padding: 12px;
+          }
+
           .technology-grid,
           .initiative-grid {
             grid-template-columns: 1fr;
           }
 
           .institution-graph {
-            height: 270px;
+            height: 248px;
+            margin-top: 12px;
           }
 
           .institution-links line {
@@ -2223,52 +2493,51 @@ export default function EmiloLabsWebsite() {
           .graph-node {
             left: var(--mobile-x);
             top: var(--mobile-y);
-            width: 104px;
-            min-height: 58px;
-            padding: 9px 10px;
+            width: 84px;
+            min-height: 50px;
+            padding: 8px;
           }
 
           .graph-node span {
-            font-size: 0.54rem;
-            margin-bottom: 5px;
+            font-size: 0.46rem;
+            margin-bottom: 4px;
           }
 
           .graph-node strong {
-            font-size: 0.78rem;
+            font-size: 0.68rem;
           }
 
           .graph-node.is-active,
           .graph-node:hover,
           .graph-node:focus-visible {
-            width: 124px;
-            min-height: 86px;
+            width: 96px;
+            min-height: 58px;
           }
 
           .graph-node p {
-            font-size: 0.66rem;
-            line-height: 1.28;
+            display: none;
           }
 
           .graph-core {
-            width: 112px;
-            height: 112px;
+            width: 96px;
+            height: 96px;
           }
 
           .core-ring {
-            width: 110px;
-            height: 110px;
+            width: 94px;
+            height: 94px;
           }
 
           .core-ring::before {
-            inset: 20px;
+            inset: 18px;
           }
 
           .core-ring::after {
-            inset: 41px;
+            inset: 35px;
           }
 
           .preview-logo {
-            width: 68px;
+            width: 56px;
           }
 
           .map-node {
@@ -2354,9 +2623,9 @@ export default function EmiloLabsWebsite() {
       `}</style>
       <Navbar />
       <Hero />
+      <Research />
       <Origin />
       <InstitutionMap />
-      <Research />
       <Products />
       <Technology />
       <CredibilityBand />
