@@ -1283,8 +1283,8 @@ export default function EmiloLabsWebsite() {
         .hero-copy h1 {
           max-width: 700px;
           margin: 16px 0 22px;
-          font-size: clamp(3.35rem, 5.1vw, 4.55rem);
-          line-height: 1.02;
+          font-size: clamp(2.85rem, 4.55vw, 4.05rem);
+          line-height: 1.04;
           text-wrap: balance;
           overflow-wrap: break-word;
         }
@@ -1537,8 +1537,8 @@ export default function EmiloLabsWebsite() {
 
         .section h2 {
           max-width: 680px;
-          font-size: clamp(2.2rem, 3.7vw, 3rem);
-          line-height: 1.08;
+          font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+          line-height: 1.12;
           margin-bottom: 16px;
         }
 
@@ -2142,12 +2142,18 @@ export default function EmiloLabsWebsite() {
         }
 
         .contact-inner {
-          max-width: 760px;
+          max-width: 540px;
           text-align: center;
         }
 
         .contact-panel {
-          padding: clamp(22px, 5vw, 46px);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          width: auto;
+          max-width: 100%;
+          padding: 14px 16px;
           background:
             radial-gradient(circle at 50% 0%, rgba(123,194,255,0.18), transparent 38%),
             linear-gradient(180deg, rgba(16,29,49,0.78), rgba(5,8,14,0.76));
@@ -2155,6 +2161,7 @@ export default function EmiloLabsWebsite() {
 
         .contact-inner .section-label {
           justify-content: center;
+          margin-bottom: 0;
         }
 
         .contact-inner h2 {
@@ -2167,9 +2174,9 @@ export default function EmiloLabsWebsite() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-height: 44px;
+          min-height: 34px;
           max-width: 100%;
-          padding: 10px 18px;
+          padding: 7px 12px;
           color: var(--text);
           border: 1px solid rgba(123,194,255,0.42);
           border-radius: var(--radius);
@@ -2180,7 +2187,7 @@ export default function EmiloLabsWebsite() {
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
             0 0 22px rgba(75,123,232,0.22);
-          font-size: clamp(0.92rem, 2vw, 1.04rem);
+          font-size: clamp(0.74rem, 1.25vw, 0.84rem);
           font-weight: 600;
           text-decoration: none;
           overflow: hidden;
@@ -2460,8 +2467,15 @@ export default function EmiloLabsWebsite() {
 
           .hero-copy h1,
           .section h2 {
-            font-size: clamp(2rem, 10vw, 2.52rem);
             line-height: 1.08;
+          }
+
+          .hero-copy h1 {
+            font-size: clamp(1.92rem, 8.2vw, 2.34rem);
+          }
+
+          .section h2 {
+            font-size: clamp(1.45rem, 6.4vw, 1.9rem);
           }
 
           .hero-copy p {
@@ -2497,6 +2511,18 @@ export default function EmiloLabsWebsite() {
 
           .origin-signal {
             padding: 18px;
+          }
+
+          .contact-panel {
+            display: inline-grid;
+            gap: 10px;
+            padding: 14px;
+          }
+
+          .contact-email {
+            min-height: 32px;
+            padding: 6px 10px;
+            font-size: 0.72rem;
           }
 
           .institution-preview {
