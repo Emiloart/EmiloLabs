@@ -540,7 +540,6 @@ function Hero() {
     <header id="home" className="hero-section">
       <div className="container hero-grid">
         <div className="hero-copy">
-          <EmiloLogo className="hero-logo" />
           <div className="hero-kicker">EMILO LABS</div>
           <h1>At the Core of a Connected Future.</h1>
           <p>
@@ -559,27 +558,33 @@ function Hero() {
 }
 
 function InstitutionPreview() {
+  const [active, setActive] = useState(0);
+
   return (
     <div className="institution-preview light-panel">
       <div className="panel-topline">
         <span>CONNECTED SYSTEM</span>
       </div>
-      <div className="institution-graph">
+      <div className="institution-graph" style={{ "--active-index": active }}>
         <svg className="institution-links" viewBox="0 0 100 100" aria-hidden="true">
-          <line x1="50" y1="50" x2="50" y2="16" />
-          <line x1="50" y1="50" x2="82" y2="32" />
-          <line x1="50" y1="50" x2="82" y2="70" />
-          <line x1="50" y1="50" x2="18" y2="70" />
-          <line x1="50" y1="50" x2="18" y2="32" />
+          <line className={active === 0 ? "is-active" : ""} x1="50" y1="50" x2="50" y2="16" />
+          <line className={active === 1 ? "is-active" : ""} x1="50" y1="50" x2="82" y2="32" />
+          <line className={active === 2 ? "is-active" : ""} x1="50" y1="50" x2="82" y2="70" />
+          <line className={active === 3 ? "is-active" : ""} x1="50" y1="50" x2="18" y2="70" />
+          <line className={active === 4 ? "is-active" : ""} x1="50" y1="50" x2="18" y2="32" />
         </svg>
         <div className="graph-core">
           <div className="core-ring" />
           <EmiloLogo compact className="preview-logo" />
         </div>
         {INSTITUTION_FLOW.map((item, index) => (
-          <div
+          <button
             key={item.title}
-            className="graph-node"
+            type="button"
+            className={`graph-node ${index === active ? "is-active" : ""}`}
+            onMouseEnter={() => setActive(index)}
+            onFocus={() => setActive(index)}
+            onClick={() => setActive(index)}
             style={{
               "--x": ["50%", "82%", "82%", "18%", "18%"][index],
               "--y": ["16%", "32%", "70%", "70%", "32%"][index],
@@ -590,7 +595,8 @@ function InstitutionPreview() {
           >
             <span>{item.signal}</span>
             <strong>{item.title}</strong>
-          </div>
+            <p>{item.text}</p>
+          </button>
         ))}
       </div>
     </div>
@@ -1341,7 +1347,7 @@ export default function EmiloLabsWebsite() {
         }
 
         .institution-preview {
-          min-height: 480px;
+          min-height: 500px;
           max-width: 760px;
           width: 100%;
           justify-self: end;
@@ -1361,7 +1367,7 @@ export default function EmiloLabsWebsite() {
         .institution-graph {
           position: relative;
           z-index: 2;
-          height: 390px;
+          height: 410px;
           margin-top: 18px;
           overflow: hidden;
         }
@@ -1378,7 +1384,17 @@ export default function EmiloLabsWebsite() {
           stroke: rgba(123,194,255,0.32);
           stroke-width: 0.35;
           filter: drop-shadow(0 0 5px rgba(123,194,255,0.72));
-          animation: linePulse 4.6s ease-in-out infinite;
+          transition: stroke 240ms ease, stroke-width 240ms ease, opacity 240ms ease, filter 240ms ease;
+          animation: linePulse 5.8s ease-in-out infinite;
+        }
+
+        .institution-links line.is-active {
+          stroke: rgba(130,220,255,0.95);
+          stroke-width: 0.62;
+          opacity: 1;
+          filter:
+            drop-shadow(0 0 6px rgba(123,194,255,0.95))
+            drop-shadow(0 0 18px rgba(75,123,232,0.72));
         }
 
         .graph-core {
@@ -1390,10 +1406,12 @@ export default function EmiloLabsWebsite() {
           display: grid;
           place-items: center;
           transform: translate(-50%, -50%);
+          transition: filter 240ms ease, transform 240ms ease;
         }
 
         .graph-node {
           position: absolute;
+          appearance: none;
           left: var(--x);
           top: var(--y);
           width: 144px;
@@ -1404,8 +1422,8 @@ export default function EmiloLabsWebsite() {
           background: rgba(5,7,12,0.62);
           box-shadow: inset 0 0 18px rgba(75,123,232,0.08), 0 0 24px rgba(75,123,232,0.08);
           transform: translate(-50%, -50%);
-          animation: riseSignal 5s ease-in-out infinite;
-          animation-delay: var(--delay);
+          cursor: pointer;
+          transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease, color 220ms ease, width 220ms ease, min-height 220ms ease;
         }
 
         .graph-node span {
@@ -1421,6 +1439,38 @@ export default function EmiloLabsWebsite() {
           color: var(--text);
           font-size: 0.98rem;
           line-height: 1.2;
+        }
+
+        .graph-node p {
+          max-height: 0;
+          overflow: hidden;
+          color: var(--muted);
+          font-size: 0.8rem;
+          line-height: 1.36;
+          opacity: 0;
+          transition: max-height 220ms ease, opacity 220ms ease, margin-top 220ms ease;
+        }
+
+        .graph-node.is-active,
+        .graph-node:hover,
+        .graph-node:focus-visible {
+          width: 190px;
+          min-height: 112px;
+          border-color: rgba(133,218,255,0.72);
+          background:
+            linear-gradient(180deg, rgba(20,40,70,0.78), rgba(5,8,14,0.66)),
+            rgba(5,7,12,0.68);
+          box-shadow:
+            inset 0 0 28px rgba(75,123,232,0.18),
+            0 0 34px rgba(75,123,232,0.24);
+        }
+
+        .graph-node.is-active p,
+        .graph-node:hover p,
+        .graph-node:focus-visible p {
+          max-height: 64px;
+          margin-top: 8px;
+          opacity: 1;
         }
 
         .core-ring {
@@ -1607,11 +1657,58 @@ export default function EmiloLabsWebsite() {
         .research-card,
         .technology-card,
         .initiative-card {
+          position: relative;
+          isolation: isolate;
           min-height: 136px;
           padding: 20px 18px;
           transform: translateY(0);
-          animation: cardBreathe 6s ease-in-out infinite;
+          animation: cardBreathe 7s ease-in-out infinite;
           animation-delay: var(--delay, 0ms);
+          transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+        }
+
+        .research-card.light-panel::after,
+        .technology-card.light-panel::after,
+        .initiative-card.light-panel::after,
+        .product-card::after {
+          display: none;
+        }
+
+        .research-card::before,
+        .technology-card::before,
+        .initiative-card::before,
+        .product-card::before,
+        .map-node::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          opacity: 0;
+          background:
+            radial-gradient(circle at 18% 0%, rgba(123,194,255,0.18), transparent 34%),
+            linear-gradient(120deg, transparent 0 42%, rgba(123,194,255,0.1) 50%, transparent 62%);
+          transition: opacity 220ms ease;
+        }
+
+        .research-card:hover,
+        .technology-card:hover,
+        .initiative-card:hover,
+        .product-card:hover,
+        .map-node:hover {
+          border-color: rgba(123,194,255,0.46);
+          transform: translateY(-4px);
+          box-shadow:
+            inset 0 0 30px rgba(75,123,232,0.1),
+            0 18px 44px rgba(0,0,0,0.24),
+            0 0 30px rgba(75,123,232,0.12);
+        }
+
+        .research-card:hover::before,
+        .technology-card:hover::before,
+        .initiative-card:hover::before,
+        .product-card:hover::before,
+        .map-node:hover::after {
+          opacity: 1;
         }
 
         .technology-section,
@@ -1676,6 +1773,8 @@ export default function EmiloLabsWebsite() {
         }
 
         .product-card {
+          position: relative;
+          isolation: isolate;
           min-height: 182px;
           padding: 18px 16px;
           text-align: left;
@@ -1686,14 +1785,14 @@ export default function EmiloLabsWebsite() {
           cursor: pointer;
           scroll-snap-align: start;
           transform: translateY(0);
-          transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+          transition: border-color 220ms ease, transform 220ms ease, background 220ms ease, box-shadow 220ms ease;
         }
 
         .product-card.is-active,
         .product-card:hover {
           border-color: var(--line-strong);
           background: rgba(14,27,48,0.78);
-          transform: translateY(-3px);
+          transform: translateY(-4px);
         }
 
         .product-card strong {
@@ -2136,6 +2235,18 @@ export default function EmiloLabsWebsite() {
 
           .graph-node strong {
             font-size: 0.78rem;
+          }
+
+          .graph-node.is-active,
+          .graph-node:hover,
+          .graph-node:focus-visible {
+            width: 124px;
+            min-height: 86px;
+          }
+
+          .graph-node p {
+            font-size: 0.66rem;
+            line-height: 1.28;
           }
 
           .graph-core {
