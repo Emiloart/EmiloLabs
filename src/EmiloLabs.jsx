@@ -548,9 +548,9 @@ function Hero() {
       <div className="container hero-grid">
         <div className="hero-copy">
           <div className="hero-kicker">EMILO LABS</div>
-          <h1>At the Core of a Connected Future.</h1>
+          <h2>At the Core of a Connected Future.</h2>
           <p>
-            Identity, privacy, security, intelligence, finance, and coordination infrastructure.
+            A technology institution building infrastructure for how digital systems operate, communicate, transact, and connect
           </p>
         </div>
 
