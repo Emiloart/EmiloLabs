@@ -6,4 +6,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
+docs/~$*.docx
+docs/EmiloLabs_Website_Content_and_Media_Specification.docx
