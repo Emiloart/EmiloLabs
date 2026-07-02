@@ -4,13 +4,75 @@ import * as THREE from "three";
 const CONTACT_EMAIL = "emilolabs@gmail.com";
 
 const NAV_LINKS = [
-  { label: "Research", href: "#research" },
-  { label: "Origin", href: "#origin" },
-  { label: "Institution", href: "#institution" },
-  { label: "Products", href: "#products" },
-  { label: "Technology", href: "#technology" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/about" },
+  { label: "Research", href: "/research" },
+  { label: "Technology", href: "/technology" },
+  { label: "Products", href: "/products" },
+  { label: "Insights", href: "/insights" },
+  { label: "Careers", href: "/careers" },
+  { label: "Press", href: "/press" },
+  { label: "Contact", href: "/contact" },
 ];
+
+const FOOTER_GROUPS = [
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Press", href: "/press" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Work",
+    links: [
+      { label: "Research", href: "/research" },
+      { label: "Technology", href: "/technology" },
+      { label: "Products", href: "/products" },
+      { label: "Insights", href: "/insights" },
+    ],
+  },
+];
+
+const PAGE_META = {
+  "/": {
+    title: "Emilo Labs | At the Core of a Connected Future",
+    description: "Emilo Labs is a technology institution building digital trust, applied AI, security, information infrastructure, products, and future-facing research programs.",
+  },
+  "/about": {
+    title: "About Emilo Labs | Technology Institution",
+    description: "Learn how Emilo Labs operates as a technology institution across research, infrastructure, products, and public impact.",
+  },
+  "/research": {
+    title: "Research | Emilo Labs",
+    description: "Research tracks, questions, and briefs from Emilo Labs across digital trust, applied AI, internet infrastructure, health technology, industrial systems, and frontier systems research.",
+  },
+  "/technology": {
+    title: "Technology | Emilo Labs",
+    description: "Engineering capabilities and technical foundations Emilo Labs is building across software, security, AI, identity, privacy, infrastructure, and coordination systems.",
+  },
+  "/products": {
+    title: "Products | Emilo Labs",
+    description: "Active and upcoming Emilo Labs products across social systems, private communication, identity, security, finance, verification, and research intelligence.",
+  },
+  "/insights": {
+    title: "Insights | Emilo Labs",
+    description: "Articles, blog notes, research briefs, documentaries, announcements, and field reports from Emilo Labs.",
+  },
+  "/careers": {
+    title: "Careers | Emilo Labs",
+    description: "Join the Emilo Labs talent network for future roles, internships, research collaboration, engineering, design, security, and institutional operations.",
+  },
+  "/press": {
+    title: "Press | Emilo Labs",
+    description: "Official Emilo Labs company summary, media contact, boilerplate, and future press resources.",
+  },
+  "/contact": {
+    title: "Contact | Emilo Labs",
+    description: "Contact Emilo Labs for partnerships, careers, press, product inquiries, research collaboration, and general communication.",
+  },
+};
 
 const INSTITUTION_FLOW = [
   {
@@ -126,6 +188,204 @@ const INITIATIVES = [
   ["Future interfaces", "New ways to coordinate."],
 ];
 
+const ORGANIZATION_PILLARS = [
+  {
+    title: "Digital Trust & Security",
+    summary: "Identity, privacy, verification, threat defense, and safer digital decisions.",
+    signal: "Trust systems",
+  },
+  {
+    title: "Applied AI & Intelligent Systems",
+    summary: "Guarded automation, research intelligence, agent operations, and decision support.",
+    signal: "Intelligence",
+  },
+  {
+    title: "Internet & Information Infrastructure",
+    summary: "Communication layers, coordination systems, data flows, and resilient digital services.",
+    signal: "Infrastructure",
+  },
+  {
+    title: "Financial & Coordination Systems",
+    summary: "Value exchange, lending, settlement, and systems that help people coordinate safely.",
+    signal: "Value layer",
+  },
+  {
+    title: "Industrial Technology",
+    summary: "Research into software-controlled operations, automation, monitoring, and applied systems.",
+    signal: "Industry",
+  },
+  {
+    title: "Health & Medical Technology",
+    summary: "Careful exploration of privacy, workflow safety, assistive software, and health data systems.",
+    signal: "Health systems",
+  },
+  {
+    title: "Frontier Systems Research",
+    summary: "Long-range investigations into unfamiliar interfaces, resilient systems, and future technology models.",
+    signal: "Frontier",
+  },
+];
+
+const PRINCIPLES = [
+  ["Build for trust", "Digital systems should be safer, more verifiable, and more private by default."],
+  ["Research before scale", "Important technology should be shaped by clear questions, tests, and constraints."],
+  ["Products as surfaces", "Products are how deeper infrastructure reaches people, teams, and institutions."],
+  ["Avoid empty claims", "Ambition should be visible without presenting future research as finished proof."],
+];
+
+const RESEARCH_TRACKS = [
+  {
+    title: "Portable Identity and Proof",
+    question: "How can people prove who they are, what they own, or what they have achieved without exposing more than necessary?",
+    output: "Briefs, prototypes, credential models, recovery flows.",
+    status: "Active investigation",
+  },
+  {
+    title: "Privacy-Preserving Continuity",
+    question: "How can access, communication, and recovery remain continuous when identity must stay protected?",
+    output: "Private communication models, anonymous continuity patterns, guarded recovery systems.",
+    status: "Active investigation",
+  },
+  {
+    title: "Security Decision Systems",
+    question: "How can digital environments detect risk earlier and help users or organizations respond before failure?",
+    output: "Threat models, device trust patterns, ransomware defense research, deception signals.",
+    status: "Applied research",
+  },
+  {
+    title: "Applied AI and Research Intelligence",
+    question: "How can AI support research, planning, analysis, and operations without removing human accountability?",
+    output: "Agent boundaries, structured research workflows, controlled automation methods.",
+    status: "Applied research",
+  },
+  {
+    title: "Health and Medical Technology Systems",
+    question: "How can privacy, verification, workflow clarity, and decision support improve health technology without overstating clinical claims?",
+    output: "Workflow concepts, data safety research, assistive software patterns.",
+    status: "Exploratory",
+  },
+  {
+    title: "Industrial and Frontier Systems",
+    question: "What future infrastructure is needed for complex systems, industrial automation, unfamiliar interfaces, and resilient coordination?",
+    output: "Research notes, system maps, long-range prototypes.",
+    status: "Exploratory",
+  },
+];
+
+const TECHNOLOGY_CAPABILITIES = [
+  {
+    title: "Software and Internet Systems",
+    summary: "Full-stack product engineering, communication layers, data services, APIs, and operational interfaces.",
+    proof: "Used across the active and upcoming product portfolio.",
+  },
+  {
+    title: "Identity, Privacy, and Verification",
+    summary: "Credential flows, anonymous continuity, recovery logic, verification surfaces, and privacy-aware UX.",
+    proof: "Connected to HDIP, VerifyFlow, Achievo, Reach, and ZKShade research.",
+  },
+  {
+    title: "Security Engineering",
+    summary: "Device protection, threat decision support, security automation, vulnerability defense, and risk modeling.",
+    proof: "Connected to LabGuard, ASL Pro, HSG Pro, and ransomware defense work.",
+  },
+  {
+    title: "Applied AI Systems",
+    summary: "Research automation, structured insight, bounded agents, finance intelligence, and operational assistance.",
+    proof: "Connected to UTB, SCOS Pro, SPFS Pro, and AI Finance Tracker.",
+  },
+  {
+    title: "Financial Technology Infrastructure",
+    summary: "Lending logic, safer value exchange, referral finance, settlement concepts, and financial decision interfaces.",
+    proof: "Connected to LendEarn, HYEX, and finance intelligence products.",
+  },
+  {
+    title: "Experience and Interface Systems",
+    summary: "Interfaces for complex technical systems that need clarity, credibility, and repeated operational use.",
+    proof: "Used across product dashboards, research surfaces, and institutional pages.",
+  },
+];
+
+const INSIGHTS = [
+  {
+    title: "Why digital trust needs institutional infrastructure",
+    category: "Article",
+    summary: "A founder-level essay on identity, privacy, verification, and security as connected infrastructure problems.",
+    date: "Editorial pipeline",
+    time: "7 min read",
+    status: "Planned",
+    featured: true,
+  },
+  {
+    title: "Building products from research questions",
+    category: "Blog Note",
+    summary: "A practical note on how Emilo Labs turns investigation areas into product surfaces without collapsing research into marketing.",
+    date: "Editorial pipeline",
+    time: "4 min read",
+    status: "Planned",
+    featured: false,
+  },
+  {
+    title: "Identity continuity without unnecessary exposure",
+    category: "Research Brief",
+    summary: "A structured brief covering portable proof, recovery, anonymous continuity, and the product systems connected to that work.",
+    date: "Editorial pipeline",
+    time: "6 min read",
+    status: "Planned",
+    featured: true,
+  },
+  {
+    title: "The connected future: systems, safety, and coordination",
+    category: "Documentary",
+    summary: "A future documentary track about infrastructure, internet safety, intelligent systems, and the institution behind the work.",
+    date: "In development",
+    time: "Watch series",
+    status: "Future",
+    featured: false,
+  },
+  {
+    title: "Product ecosystem update",
+    category: "Announcement",
+    summary: "A recurring update format for active products, upcoming systems, partnerships, and institutional milestones.",
+    date: "Editorial pipeline",
+    time: "3 min read",
+    status: "Template",
+    featured: false,
+  },
+  {
+    title: "Field notes from applied security work",
+    category: "Field Report",
+    summary: "Operational lessons from security, device trust, vulnerability defense, and user-facing safety systems.",
+    date: "Editorial pipeline",
+    time: "5 min read",
+    status: "Planned",
+    featured: false,
+  },
+];
+
+const CAREER_PATHS = [
+  ["Research collaborators", "Applied researchers, domain specialists, technical writers, and systems thinkers."],
+  ["Engineering talent", "Frontend, backend, security, AI, infrastructure, and product engineers."],
+  ["Design and product", "Interface designers, product strategists, experience researchers, and operators."],
+  ["Internships and early talent", "People who can learn quickly, document clearly, and help build serious systems."],
+  ["Institutional operations", "Partnerships, communications, finance, legal, and program coordination."],
+];
+
+const PRESS_FACTS = [
+  ["Organization", "Emilo Labs"],
+  ["Type", "Independent technology institution and parent organization"],
+  ["Focus", "Digital trust, applied AI, security, information infrastructure, products, and future-facing research"],
+  ["Official contact", CONTACT_EMAIL],
+];
+
+const CONTACT_CHANNELS = [
+  ["Partnerships", "Institutional collaboration, product partnerships, research relationships, and ecosystem work.", "Partnership inquiry"],
+  ["Careers", "Open applications, internships, future roles, and talent network introductions.", "Talent inquiry"],
+  ["Press", "Media questions, company boilerplate, interview requests, and official statements.", "Press inquiry"],
+  ["Products", "Product questions, access requests, active systems, and upcoming portfolio areas.", "Product inquiry"],
+  ["Research", "Research collaboration, technical writing, field notes, and exploratory programs.", "Research inquiry"],
+  ["General", "Use this for anything that does not fit the other channels.", "General inquiry"],
+];
+
 function useInView(threshold = 0.18) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -154,6 +414,85 @@ function useReducedMotion() {
   }, []);
 
   return reduced;
+}
+
+function normalizePath(pathname) {
+  const path = (pathname || "/").replace(/\/+$/, "") || "/";
+  return PAGE_META[path] ? path : "/";
+}
+
+function useRoute() {
+  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+
+  useEffect(() => {
+    const handlePopState = () => setPath(normalizePath(window.location.pathname));
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const navigate = (href) => {
+    const nextPath = normalizePath(href);
+    if (nextPath !== path) {
+      window.history.pushState({}, "", nextPath);
+      setPath(nextPath);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return [path, navigate];
+}
+
+function usePageMeta(path) {
+  useEffect(() => {
+    const meta = PAGE_META[path] || PAGE_META["/"];
+    document.title = meta.title;
+
+    const updateMeta = (selector, attribute, value) => {
+      const node = document.head.querySelector(selector);
+      if (node) node.setAttribute(attribute, value);
+    };
+
+    updateMeta('meta[name="description"]', "content", meta.description);
+    updateMeta('meta[property="og:title"]', "content", meta.title);
+    updateMeta('meta[property="og:description"]', "content", meta.description);
+    updateMeta('meta[property="og:url"]', "content", `https://emilolabs.com${path === "/" ? "/" : path}`);
+    updateMeta('meta[name="twitter:title"]', "content", meta.title);
+    updateMeta('meta[name="twitter:description"]', "content", meta.description);
+  }, [path]);
+}
+
+function AppLink({ href, currentPath, onNavigate, className = "", children, ...props }) {
+  const external = href.startsWith("mailto:") || href.startsWith("http");
+
+  if (external) {
+    return (
+      <a href={href} className={className} {...props}>
+        {children}
+      </a>
+    );
+  }
+
+  const active = normalizePath(href) === currentPath;
+
+  return (
+    <a
+      href={href}
+      className={`${className} ${active ? "is-active" : ""}`.trim()}
+      aria-current={active ? "page" : undefined}
+      onClick={(event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+        event.preventDefault();
+        onNavigate(href);
+      }}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}
+
+function contactHref(subject) {
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 
 function LiveNetworkScene() {
@@ -495,7 +834,7 @@ function Reveal({ id, className = "", children }) {
   );
 }
 
-function Navbar() {
+function Navbar({ currentPath, onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -509,13 +848,17 @@ function Navbar() {
   return (
     <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
       <div className="nav-inner">
-        <a href="#home" className="brand" aria-label="Emilo Labs home">
+        <AppLink href="/" currentPath={currentPath} onNavigate={onNavigate} className="brand" aria-label="Emilo Labs home">
           <EmiloLogo compact className="brand-mark" />
           <span>EMILO LABS</span>
-        </a>
+        </AppLink>
 
         <div className="desktop-nav">
-          {NAV_LINKS.map(link => <a key={link.label} href={link.href}>{link.label}</a>)}
+          {NAV_LINKS.map(link => (
+            <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={onNavigate}>
+              {link.label}
+            </AppLink>
+          ))}
         </div>
 
         <button
@@ -534,7 +877,17 @@ function Navbar() {
       {menuOpen && (
         <div className="mobile-menu">
           {NAV_LINKS.map(link => (
-            <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
+            <AppLink
+              key={link.label}
+              href={link.href}
+              currentPath={currentPath}
+              onNavigate={(href) => {
+                setMenuOpen(false);
+                onNavigate(href);
+              }}
+            >
+              {link.label}
+            </AppLink>
           ))}
         </div>
       )}
@@ -542,16 +895,24 @@ function Navbar() {
   );
 }
 
-function Hero() {
+function Hero({ currentPath, onNavigate }) {
   return (
     <header id="home" className="hero-section">
       <div className="container hero-grid">
         <div className="hero-copy">
           <div className="hero-kicker">EMILO LABS</div>
-          
+          <h1>At the Core of a Connected Future.</h1>
           <p>
-            A technology institution building infrastructure for how digital systems operate, communicate, transact, and connect
+            A technology institution building digital trust, applied AI, security, information infrastructure, products, and future-facing research programs.
           </p>
+          <div className="hero-actions">
+            <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">
+              Explore the institution
+            </AppLink>
+            <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+              View research tracks
+            </AppLink>
+          </div>
         </div>
 
         <InstitutionPreview />
@@ -840,6 +1201,486 @@ function CredibilityBand() {
   );
 }
 
+function PageHero({ label, title, summary, children }) {
+  return (
+    <header className="page-hero">
+      <div className="container page-hero-inner">
+        <SectionLabel>{label}</SectionLabel>
+        <h1>{title}</h1>
+        <p>{summary}</p>
+        {children}
+      </div>
+    </header>
+  );
+}
+
+function PillarCards({ items = ORGANIZATION_PILLARS, limit }) {
+  const visibleItems = limit ? items.slice(0, limit) : items;
+
+  return (
+    <div className="pillar-grid">
+      {visibleItems.map((item, index) => (
+        <article key={item.title} className="pillar-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
+          <span>{item.signal}</span>
+          <strong>{item.title}</strong>
+          <p>{item.summary}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function HomeOverview({ currentPath, onNavigate }) {
+  return (
+    <Reveal id="overview" className="overview-section">
+      <div className="container">
+        <SectionLabel>INSTITUTIONAL SCOPE</SectionLabel>
+        <div className="split-heading">
+          <h2>A parent organization for research, infrastructure, and products.</h2>
+          <p>
+            Emilo Labs works across connected technology problems: how people prove, communicate,
+            coordinate, transact, stay safe, and use intelligent systems with clearer boundaries.
+          </p>
+        </div>
+
+        <div className="metric-grid">
+          {[
+            ["Research", "Questions before scale"],
+            ["Labs", "Experiments and prototypes"],
+            ["Infrastructure", "Reusable systems"],
+            ["Products", "Practical surfaces"],
+          ].map(([value, label]) => (
+            <article key={value} className="metric-card light-panel">
+              <strong>{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+
+        <div className="home-actions">
+          <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+            About Emilo Labs
+          </AppLink>
+          <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+            Product portfolio
+          </AppLink>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function HomePillars({ currentPath, onNavigate }) {
+  return (
+    <Reveal id="focus" className="pillars-section">
+      <div className="container">
+        <SectionLabel>PUBLIC FOCUS AREAS</SectionLabel>
+        <div className="split-heading">
+          <h2>Broad enough for long-term expansion. Specific enough to stay credible.</h2>
+          <p>
+            The public structure uses institutional pillars, not a raw ambition list. Dedicated pages
+            separate investigation areas from existing engineering capability.
+          </p>
+        </div>
+        <PillarCards limit={4} />
+        <div className="home-actions">
+          <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">
+            Research questions
+          </AppLink>
+          <AppLink href="/technology" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+            Technology capabilities
+          </AppLink>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }) {
+  const items = featuredOnly ? INSIGHTS.filter(item => item.featured) : INSIGHTS.slice(0, 3);
+
+  return (
+    <Reveal id="insights-preview" className="insights-preview-section">
+      <div className="container">
+        <SectionLabel>INSIGHTS</SectionLabel>
+        <div className="split-heading">
+          <h2>Articles, briefs, documentary tracks, and field notes.</h2>
+          <p>
+            A single editorial hub keeps publishing coherent while giving research, product,
+            and institutional updates their own formats.
+          </p>
+        </div>
+        <InsightGrid items={items} />
+        <div className="home-actions">
+          <AppLink href="/insights" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+            Open insights hub
+          </AppLink>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function TalentMediaBand({ currentPath, onNavigate }) {
+  return (
+    <Reveal id="join" className="cta-section">
+      <div className="container">
+        <div className="cta-band light-panel">
+          <div>
+            <SectionLabel>TALENT AND MEDIA</SectionLabel>
+            <h2>Built for serious collaborators, not empty signals.</h2>
+            <p>
+              Careers works as a talent network. Press exists for institutional readiness, company
+              context, and official inquiries even before coverage is published.
+            </p>
+          </div>
+          <div className="cta-actions">
+            <AppLink href="/careers" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">
+              Join the talent network
+            </AppLink>
+            <AppLink href="/press" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">
+              Press and media
+            </AppLink>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function PrincipleGrid() {
+  return (
+    <Reveal id="principles" className="principles-section">
+      <div className="container">
+        <SectionLabel>OPERATING PRINCIPLES</SectionLabel>
+        <div className="initiative-grid">
+          {PRINCIPLES.map(([title, text], index) => (
+            <article key={title} className="initiative-card light-panel" style={{ "--delay": `${index * 70}ms` }}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function ResearchTrackGrid() {
+  return (
+    <Reveal id="research-tracks" className="research-track-section">
+      <div className="container">
+        <SectionLabel>RESEARCH TRACKS</SectionLabel>
+        <div className="track-grid">
+          {RESEARCH_TRACKS.map((track, index) => (
+            <article key={track.title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
+              <span>{track.status}</span>
+              <strong>{track.title}</strong>
+              <p>{track.question}</p>
+              <small>{track.output}</small>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function TechnologyCapabilityGrid() {
+  return (
+    <Reveal id="capabilities" className="capability-section">
+      <div className="container">
+        <SectionLabel>CAPABILITIES</SectionLabel>
+        <div className="capability-grid">
+          {TECHNOLOGY_CAPABILITIES.map((item, index) => (
+            <article key={item.title} className="capability-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
+              <strong>{item.title}</strong>
+              <p>{item.summary}</p>
+              <small>{item.proof}</small>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function ProductOperatingModel() {
+  return (
+    <Reveal id="portfolio-model" className="portfolio-model-section">
+      <div className="container">
+        <SectionLabel>PORTFOLIO MODEL</SectionLabel>
+        <div className="split-panel light-panel">
+          <div>
+            <h2>Products are the practical surface of deeper infrastructure.</h2>
+            <p>
+              The portfolio is organized by active systems and upcoming systems. Active products
+              stay close to usable communication, identity, verification, security, and finance
+              problems. Upcoming products signal the next technical surfaces without pretending
+              future systems are already mature.
+            </p>
+          </div>
+          <div className="mini-list">
+            <span>Active systems</span>
+            <span>Coming soon</span>
+            <span>Research-backed concepts</span>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function InsightGrid({ items = INSIGHTS }) {
+  return (
+    <div className="insight-grid">
+      {items.map((item, index) => (
+        <article key={item.title} className={`insight-card light-panel ${item.featured ? "is-featured" : ""}`} style={{ "--delay": `${index * 60}ms` }}>
+          <div className="insight-meta">
+            <span>{item.category}</span>
+            <small>{item.status}</small>
+          </div>
+          <strong>{item.title}</strong>
+          <p>{item.summary}</p>
+          <div className="insight-foot">
+            <span>{item.date}</span>
+            <span>{item.time}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function CareersGrid() {
+  return (
+    <Reveal id="career-paths" className="career-path-section">
+      <div className="container">
+        <SectionLabel>TALENT NETWORK</SectionLabel>
+        <div className="track-grid">
+          {CAREER_PATHS.map(([title, text], index) => (
+            <article key={title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}>
+              <span>Open interest</span>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function PressResources() {
+  return (
+    <Reveal id="press-resources" className="press-resource-section">
+      <div className="container">
+        <SectionLabel>MEDIA READINESS</SectionLabel>
+        <div className="press-layout">
+          <article className="press-boilerplate light-panel">
+            <h2>Official boilerplate</h2>
+            <p>
+              Emilo Labs is an independent technology institution and parent organization building
+              digital trust, applied AI, security, information infrastructure, product systems, and
+              future-facing research programs.
+            </p>
+            <p>
+              The organization develops products and research tracks across identity, privacy,
+              communication, security, finance, intelligent systems, industrial technology, health
+              technology, and frontier systems research.
+            </p>
+          </article>
+          <div className="fact-list light-panel">
+            {PRESS_FACTS.map(([label, value]) => (
+              <div key={label}>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function ContactChannelGrid() {
+  return (
+    <Reveal id="contact-options" className="contact-options-section">
+      <div className="container">
+        <SectionLabel>CONTACT CHANNELS</SectionLabel>
+        <div className="contact-grid">
+          {CONTACT_CHANNELS.map(([title, text, subject], index) => (
+            <article key={title} className="contact-card light-panel" style={{ "--delay": `${index * 55}ms` }}>
+              <span>{title}</span>
+              <p>{text}</p>
+              <a href={contactHref(subject)}>Email {title.toLowerCase()}</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function HomePage({ currentPath, onNavigate }) {
+  return (
+    <>
+      <Hero currentPath={currentPath} onNavigate={onNavigate} />
+      <HomeOverview currentPath={currentPath} onNavigate={onNavigate} />
+      <HomePillars currentPath={currentPath} onNavigate={onNavigate} />
+      <Products />
+      <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} />
+      <CredibilityBand />
+      <TalentMediaBand currentPath={currentPath} onNavigate={onNavigate} />
+    </>
+  );
+}
+
+function AboutPage() {
+  return (
+    <>
+      <PageHero
+        label="ABOUT EMILO LABS"
+        title="A technology institution built around connected problems."
+        summary="Emilo Labs exists to research, design, and build systems for trust, privacy, security, intelligence, coordination, and future technology infrastructure."
+      />
+      <Origin />
+      <InstitutionMap />
+      <PrincipleGrid />
+    </>
+  );
+}
+
+function ResearchPage({ currentPath, onNavigate }) {
+  return (
+    <>
+      <PageHero
+        label="RESEARCH"
+        title="What Emilo Labs is investigating."
+        summary="Research is the question layer: tracks, briefs, findings, prototypes, and long-range inquiry areas. It is separate from the technology page, which describes existing capability."
+      />
+      <ResearchTrackGrid />
+      <Reveal id="research-pillars" className="pillars-section">
+        <div className="container">
+          <SectionLabel>RESEARCH DOMAINS</SectionLabel>
+          <PillarCards />
+        </div>
+      </Reveal>
+      <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={false} />
+    </>
+  );
+}
+
+function TechnologyPage() {
+  return (
+    <>
+      <PageHero
+        label="TECHNOLOGY"
+        title="What Emilo Labs has built capability in."
+        summary="Technology is the capability layer: engineering systems, tools, infrastructure, product foundations, and competencies that support the organization now."
+      />
+      <TechnologyCapabilityGrid />
+      <Technology />
+      <CredibilityBand />
+    </>
+  );
+}
+
+function ProductsPage() {
+  return (
+    <>
+      <PageHero
+        label="PRODUCTS"
+        title="A portfolio connected by identity, privacy, security, intelligence, and coordination."
+        summary="The product ecosystem is grouped by active and upcoming systems so visitors can understand what exists now and what is being prepared without confusing future work for finished products."
+      />
+      <ProductOperatingModel />
+      <Products />
+    </>
+  );
+}
+
+function InsightsPage() {
+  return (
+    <>
+      <PageHero
+        label="INSIGHTS"
+        title="One editorial hub for serious publishing."
+        summary="Articles, blog notes, research briefs, documentaries, announcements, and field reports live together so the institution can publish without fragmenting its voice."
+      />
+      <Reveal id="insights" className="insights-section">
+        <div className="container">
+          <InsightGrid />
+        </div>
+      </Reveal>
+    </>
+  );
+}
+
+function CareersPage() {
+  return (
+    <>
+      <PageHero
+        label="CAREERS"
+        title="A talent network for people who want to build serious systems."
+        summary="Emilo Labs is not presenting a fake job board. This page is for future roles, internships, open applications, research collaboration, and people who can help shape the institution."
+      >
+        <div className="page-hero-actions">
+          <a href={contactHref("Talent inquiry")} className="primary-button">Send open application</a>
+        </div>
+      </PageHero>
+      <CareersGrid />
+      <Reveal id="careers-note" className="cta-section">
+        <div className="container">
+          <div className="cta-band light-panel">
+            <div>
+              <SectionLabel>HOW TO APPROACH</SectionLabel>
+              <h2>Show the work, the judgment, and the area you want to strengthen.</h2>
+              <p>
+                Strong introductions should include what you can build or research, which Emilo Labs
+                areas you understand, and the kind of responsibility you are ready to take on.
+              </p>
+            </div>
+            <a href={contactHref("Talent inquiry")} className="secondary-button">Contact careers</a>
+          </div>
+        </div>
+      </Reveal>
+    </>
+  );
+}
+
+function PressPage() {
+  return (
+    <>
+      <PageHero
+        label="PRESS"
+        title="Official information for media and institutional inquiries."
+        summary="This page provides a clean contact path, company summary, and future home for press coverage and brand assets."
+      >
+        <div className="page-hero-actions">
+          <a href={contactHref("Press inquiry")} className="primary-button">Contact press</a>
+        </div>
+      </PageHero>
+      <PressResources />
+    </>
+  );
+}
+
+function ContactPage() {
+  return (
+    <>
+      <PageHero
+        label="CONTACT"
+        title="Reach the right part of Emilo Labs."
+        summary="Use structured contact paths for partnerships, careers, press, products, research collaboration, and general communication."
+      />
+      <ContactChannelGrid />
+      <Contact />
+    </>
+  );
+}
+
 function Contact() {
   return (
     <Reveal id="contact" className="contact-section">
@@ -876,16 +1717,25 @@ function Initiatives() {
   );
 }
 
-function Footer() {
+function Footer({ currentPath, onNavigate }) {
   return (
     <footer className="footer">
       <div className="container footer-inner">
-        <a href="#home" className="brand" aria-label="Emilo Labs home">
+        <AppLink href="/" currentPath={currentPath} onNavigate={onNavigate} className="brand" aria-label="Emilo Labs home">
           <EmiloLogo compact className="brand-mark" />
           <span>EMILO LABS</span>
-        </a>
-        <div>
-          {NAV_LINKS.map(link => <a key={link.label} href={link.href}>{link.label}</a>)}
+        </AppLink>
+        <div className="footer-groups">
+          {FOOTER_GROUPS.map(group => (
+            <div key={group.title} className="footer-group">
+              <strong>{group.title}</strong>
+              {group.links.map(link => (
+                <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={onNavigate}>
+                  {link.label}
+                </AppLink>
+              ))}
+            </div>
+          ))}
         </div>
         <small>© {new Date().getFullYear()} Emilo Labs</small>
       </div>
@@ -893,7 +1743,24 @@ function Footer() {
   );
 }
 
+const ROUTE_COMPONENTS = {
+  "/": HomePage,
+  "/about": AboutPage,
+  "/research": ResearchPage,
+  "/technology": TechnologyPage,
+  "/products": ProductsPage,
+  "/insights": InsightsPage,
+  "/careers": CareersPage,
+  "/press": PressPage,
+  "/contact": ContactPage,
+};
+
 export default function EmiloLabsWebsite() {
+  const [currentPath, navigate] = useRoute();
+  const ActivePage = ROUTE_COMPONENTS[currentPath] || HomePage;
+
+  usePageMeta(currentPath);
+
   useEffect(() => {
     const link = document.createElement("link");
     link.href = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
@@ -910,6 +1777,7 @@ export default function EmiloLabsWebsite() {
   return (
     <div className="site-shell">
       <LiveNetworkScene />
+      <AmbientLayer />
       <style>{`
         :root {
           --bg: #05070c;
@@ -1191,13 +2059,26 @@ export default function EmiloLabsWebsite() {
           color: var(--text);
         }
 
+        .desktop-nav a.is-active,
+        .mobile-menu a.is-active,
+        .footer a.is-active {
+          color: var(--text);
+        }
+
         .menu-button {
           display: none;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 4px;
           width: 42px;
           height: 42px;
-          border: 1px solid var(--line);
+          flex: 0 0 42px;
+          margin-left: auto;
+          border: 1px solid rgba(123,194,255,0.36);
           border-radius: var(--radius);
-          background: rgba(12,20,34,0.82);
+          background: rgba(12,20,34,0.94);
+          box-shadow: 0 0 22px rgba(75,123,232,0.16);
           cursor: pointer;
         }
 
@@ -1205,7 +2086,7 @@ export default function EmiloLabsWebsite() {
           display: block;
           width: 18px;
           height: 2px;
-          margin: 4px auto;
+          margin: 0;
           background: var(--text);
           border-radius: 999px;
         }
@@ -1303,6 +2184,7 @@ export default function EmiloLabsWebsite() {
           display: flex;
           flex-wrap: wrap;
           gap: 14px;
+          margin-top: 26px;
         }
 
         .primary-button,
@@ -2223,6 +3105,287 @@ export default function EmiloLabsWebsite() {
             0 0 34px rgba(75,123,232,0.36);
         }
 
+        .page-hero {
+          position: relative;
+          z-index: 2;
+          padding: 142px 0 58px;
+        }
+
+        .page-hero-inner {
+          max-width: 980px;
+        }
+
+        .page-hero h1 {
+          max-width: 860px;
+          color: var(--text);
+          font-size: clamp(2.25rem, 5vw, 4rem);
+          font-weight: 600;
+          line-height: 1.04;
+          letter-spacing: 0;
+          text-wrap: balance;
+          overflow-wrap: break-word;
+        }
+
+        .page-hero p {
+          max-width: 720px;
+          margin-top: 18px;
+          color: var(--soft);
+          font-size: 1.05rem;
+          line-height: 1.72;
+          text-wrap: balance;
+        }
+
+        .page-hero-actions,
+        .home-actions,
+        .cta-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 24px;
+        }
+
+        .overview-section,
+        .pillars-section,
+        .research-track-section,
+        .capability-section,
+        .portfolio-model-section,
+        .insights-section,
+        .insights-preview-section,
+        .career-path-section,
+        .press-resource-section,
+        .contact-options-section,
+        .principles-section,
+        .cta-section {
+          padding-top: 70px;
+          padding-bottom: 70px;
+        }
+
+        .metric-grid,
+        .pillar-grid,
+        .track-grid,
+        .capability-grid,
+        .insight-grid,
+        .contact-grid {
+          display: grid;
+          gap: 12px;
+        }
+
+        .metric-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .pillar-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .track-grid,
+        .capability-grid,
+        .contact-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .insight-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .metric-card,
+        .pillar-card,
+        .track-card,
+        .capability-card,
+        .insight-card,
+        .contact-card {
+          position: relative;
+          min-height: 168px;
+          padding: 20px 18px;
+        }
+
+        .metric-card {
+          min-height: 112px;
+        }
+
+        .metric-card strong {
+          display: block;
+          color: var(--text);
+          font-size: 1.28rem;
+          line-height: 1.15;
+          margin-bottom: 10px;
+        }
+
+        .metric-card span,
+        .pillar-card span,
+        .track-card span,
+        .contact-card span {
+          display: block;
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.66rem;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+
+        .pillar-card strong,
+        .track-card strong,
+        .capability-card strong,
+        .insight-card strong {
+          display: block;
+          color: var(--text);
+          font-size: 1.12rem;
+          line-height: 1.22;
+          margin-bottom: 12px;
+        }
+
+        .pillar-card p,
+        .track-card p,
+        .capability-card p,
+        .insight-card p,
+        .contact-card p,
+        .split-panel p,
+        .cta-band p,
+        .press-boilerplate p {
+          color: var(--soft);
+          font-size: 0.95rem;
+          line-height: 1.62;
+        }
+
+        .track-card small,
+        .capability-card small {
+          display: block;
+          margin-top: 16px;
+          color: var(--muted);
+          font-size: 0.8rem;
+          line-height: 1.45;
+        }
+
+        .split-panel,
+        .cta-band {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(260px, 0.34fr);
+          gap: 28px;
+          align-items: center;
+          padding: clamp(22px, 4vw, 40px);
+        }
+
+        .split-panel h2,
+        .cta-band h2,
+        .press-boilerplate h2 {
+          color: var(--text);
+          font-size: clamp(1.55rem, 2.7vw, 2.25rem);
+          line-height: 1.12;
+          margin-bottom: 14px;
+        }
+
+        .mini-list {
+          display: grid;
+          gap: 10px;
+        }
+
+        .mini-list span {
+          display: block;
+          padding: 12px;
+          color: var(--soft);
+          border: 1px solid rgba(123,194,255,0.18);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.38);
+        }
+
+        .insight-card.is-featured {
+          grid-column: span 2;
+        }
+
+        .insight-meta,
+        .insight-foot {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .insight-meta {
+          margin-bottom: 18px;
+        }
+
+        .insight-meta span,
+        .insight-foot span {
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.66rem;
+          font-weight: 600;
+        }
+
+        .insight-meta small,
+        .insight-foot span:last-child {
+          color: var(--muted);
+        }
+
+        .insight-foot {
+          margin-top: 22px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(123,194,255,0.12);
+        }
+
+        .press-layout {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
+          gap: 12px;
+        }
+
+        .press-boilerplate,
+        .fact-list {
+          padding: clamp(20px, 3vw, 34px);
+        }
+
+        .press-boilerplate p + p {
+          margin-top: 14px;
+        }
+
+        .fact-list {
+          display: grid;
+          gap: 12px;
+        }
+
+        .fact-list div {
+          padding: 12px;
+          border: 1px solid rgba(123,194,255,0.14);
+          border-radius: var(--radius);
+          background: rgba(5,7,12,0.38);
+        }
+
+        .fact-list span {
+          display: block;
+          color: var(--blue-2);
+          font-family: var(--mono);
+          font-size: 0.64rem;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
+        .fact-list strong {
+          display: block;
+          color: var(--text);
+          font-size: 0.95rem;
+          line-height: 1.42;
+          overflow-wrap: anywhere;
+        }
+
+        .contact-card {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .contact-card a {
+          align-self: flex-start;
+          margin-top: auto;
+          color: var(--text);
+          text-decoration: none;
+          font-size: 0.84rem;
+          font-weight: 600;
+          padding: 8px 10px;
+          border: 1px solid rgba(123,194,255,0.28);
+          border-radius: var(--radius);
+          background: rgba(75,123,232,0.16);
+        }
+
         .footer {
           padding: 38px 0;
           border-top: 1px solid rgba(123,194,255,0.12);
@@ -2232,12 +3395,23 @@ export default function EmiloLabsWebsite() {
 
         .footer-inner {
           flex-wrap: wrap;
+          align-items: flex-start;
         }
 
-        .footer-inner > div {
+        .footer-groups {
           display: flex;
           flex-wrap: wrap;
-          gap: 18px;
+          gap: 32px;
+        }
+
+        .footer-group {
+          display: grid;
+          gap: 9px;
+        }
+
+        .footer-group strong {
+          color: var(--text);
+          font-size: 0.78rem;
         }
 
         .footer small {
@@ -2409,8 +3583,24 @@ export default function EmiloLabsWebsite() {
           }
 
           .technology-grid,
-          .initiative-grid {
+          .initiative-grid,
+          .metric-grid,
+          .pillar-grid,
+          .track-grid,
+          .capability-grid,
+          .insight-grid,
+          .contact-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .press-layout,
+          .split-panel,
+          .cta-band {
+            grid-template-columns: 1fr;
+          }
+
+          .insight-card.is-featured {
+            grid-column: span 1;
           }
         }
 
@@ -2420,7 +3610,11 @@ export default function EmiloLabsWebsite() {
           }
 
           .menu-button {
-            display: block;
+            display: inline-flex;
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 40;
           }
 
           .product-stage {
@@ -2431,7 +3625,13 @@ export default function EmiloLabsWebsite() {
             grid-auto-columns: minmax(220px, 44%);
           }
 
-          .initiative-grid {
+          .initiative-grid,
+          .metric-grid,
+          .pillar-grid,
+          .track-grid,
+          .capability-grid,
+          .insight-grid,
+          .contact-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
@@ -2531,7 +3731,13 @@ export default function EmiloLabsWebsite() {
           }
 
           .technology-grid,
-          .initiative-grid {
+          .initiative-grid,
+          .metric-grid,
+          .pillar-grid,
+          .track-grid,
+          .capability-grid,
+          .insight-grid,
+          .contact-grid {
             grid-template-columns: 1fr;
           }
 
@@ -2651,7 +3857,7 @@ export default function EmiloLabsWebsite() {
           }
 
           .footer-inner,
-          .footer-inner > div {
+          .footer-groups {
             align-items: flex-start;
             flex-direction: column;
           }
@@ -2680,17 +3886,11 @@ export default function EmiloLabsWebsite() {
           }
         }
       `}</style>
-      <Navbar />
-      <Hero />
-      <Research />
-      <Origin />
-      <InstitutionMap />
-      <Products />
-      <Technology />
-      <CredibilityBand />
-      <Initiatives />
-      <Contact />
-      <Footer />
+      <Navbar currentPath={currentPath} onNavigate={navigate} />
+      <main>
+        <ActivePage currentPath={currentPath} onNavigate={navigate} />
+      </main>
+      <Footer currentPath={currentPath} onNavigate={navigate} />
     </div>
   );
 }
