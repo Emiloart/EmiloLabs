@@ -4,7 +4,7 @@ Emilo Labs is a technology institution and venture studio building digital trust
 
 This repository contains the source for the Emilo Labs marketing/landing website (single-page React app built with Vite).
 
-Website: https://emilolabs.com/
+Website: https://emilo-labs.vercel.app/
 
 Highlights
 - Lightweight React + Vite single-page site
