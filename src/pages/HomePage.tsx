@@ -108,8 +108,8 @@ function HomePage({ currentPath, onNavigate }) {
             ))}
           </div>
           <div className="ecosystem-strip" aria-label="Technology ecosystem">
-            {[...ECOSYSTEM_MARKS, ...ECOSYSTEM_MARKS].map((mark, index) => (
-              <span key={`${mark.name}-${index}`}>{mark.name}</span>
+            {[...ECOSYSTEM_MARKS, ...ECOSYSTEM_MARKS].map(([name], index) => (
+              <span key={`${name}-${index}`}>{name}</span>
             ))}
           </div>
           <div className="home-actions">
