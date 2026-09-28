@@ -1,3 +1,17 @@
+:root {
+  --bg: #06015e;
+  --panel: #06015e;
+  --text: #f4f7f5;
+  --soft: #b9c5c2;
+  --muted: #b9c5c2;
+  --line: #ffa3ff;
+  --blue-2: #6fded3;
+  --dark-text: #122623;
+  --dark-muted: #35504b;
+  --radius: 8px;
+  --mono: "IBM Plex Mono", monospace;
+}
+
 html,
 body,
 #root {
@@ -6,8 +20,8 @@ body,
 
 body {
   margin: 0;
-  background: #080b12;
-  color: #f0f2f7;
+  background: #06015e;
+  color: #f4f7f5;
   font-family: "IBM Plex Sans", system-ui, sans-serif;
 }
 
@@ -38,7 +52,7 @@ button {
 }
 
 .product-grid .product-card span {
-  color: var(--blue-2);
+  color: #6fded3;
   font-family: var(--mono);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -46,11 +60,11 @@ button {
 
 .product-grid .product-card strong {
   font-size: 1.25rem;
-  color: var(--text);
+  color: #f4f7f5;
 }
 
 .product-grid .product-card p {
-  color: var(--soft);
+  color: #b9c5c2;
   line-height: 1.5;
 }
 
@@ -65,7 +79,7 @@ button {
   align-items: center;
   min-height: 42px;
   padding: 10px 14px;
-  color: var(--soft);
+  color: #b9c5c2;
   font-size: 0.88rem;
 }
 
@@ -74,15 +88,15 @@ button {
   gap: 10px;
   margin-top: 18px;
   overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: none;
 }
 
 .ecosystem-strip span {
   flex: 0 0 auto;
   padding: 9px 13px;
-  border: 1px solid var(--line);
+  border: 1px solid #ffa3ff;
   border-radius: var(--radius);
-  color: var(--muted);
+  color: #b9c5c2;
   font-family: var(--mono);
   font-size: 0.72rem;
   white-space: nowrap;
