@@ -15,24 +15,12 @@ const NAV_LINKS = [
 ];
 
 const FOOTER_GROUPS = [
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    title: "Work",
-    links: [
-      { label: "Research", href: "/research" },
-      { label: "Technology", href: "/technology" },
-      { label: "Products", href: "/products" },
-      { label: "Insights", href: "/insights" },
-    ],
-  },
+  { title: "Company", links: [{ label: "About", href: "/about" }, { label: "Press", href: "/press" }] },
+  { title: "Research", links: [{ label: "Research tracks", href: "/research" }] },
+  { title: "Products", links: [{ label: "Product portfolio", href: "/products" }] },
+  { title: "Insights", links: [{ label: "Insights hub", href: "/insights" }] },
+  { title: "Careers", links: [{ label: "Talent network", href: "/careers" }] },
+  { title: "Contact", links: [{ label: "Contact Emilo Labs", href: "/contact" }] },
 ];
 
 const PAGE_META = {
