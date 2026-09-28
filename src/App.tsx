@@ -39,20 +39,22 @@ export default function EmiloLabsWebsite() {
       <AmbientLayer />
       <style>{`
         :root {
-          --bg: #05070c;
-          --bg-2: #090d15;
-          --panel: rgba(11, 17, 28, 0.72);
-          --panel-strong: rgba(12, 20, 34, 0.88);
-          --text: #f3f7ff;
-          --soft: #bfcbdf;
-          --muted: #7f8ba3;
-          --line: rgba(118, 170, 255, 0.18);
-          --line-strong: rgba(118, 190, 255, 0.42);
-          --blue: #4b7be8;
-          --blue-2: #7bc2ff;
-          --green: #66e38c;
-          --amber: #f6b44b;
-          --violet: #a987ff;
+          --bg: #06015e;
+          --bg-2: #06015e;
+          --panel: #06015e;
+          --panel-strong: #06015e;
+          --text: #f4f7f5;
+          --soft: #b9c5c2;
+          --muted: #b9c5c2;
+          --line: #ffa3ff;
+          --line-strong: #ffa3ff;
+          --blue: #77a174;
+          --blue-2: #6fded3;
+          --green: #77a174;
+          --amber: #ffa3ff;
+          --violet: #ffa3ff;
+          --dark-text: #122623;
+          --dark-muted: #35504b;
           --radius: 8px;
           --sans: "IBM Plex Sans", system-ui, sans-serif;
           --mono: "IBM Plex Mono", monospace;
@@ -67,49 +69,6 @@ export default function EmiloLabsWebsite() {
         html,
         body {
           background: var(--bg);
-          color: var(--text);
-          font-family: var(--sans);
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
-        a,
-        button {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        button {
-          font: inherit;
-        }
-
-        button:focus-visible,
-        a:focus-visible {
-          outline: 2px solid var(--blue-2);
-          outline-offset: 3px;
-        }
-
-        .site-shell {
-          position: relative;
-          min-height: 100vh;
-          overflow-x: hidden;
-          background:
-            linear-gradient(180deg, rgba(5,7,12,0.18), rgba(5,7,12,0.92) 38%, rgba(5,7,12,0.96)),
-            radial-gradient(circle at 50% 0%, rgba(75,123,232,0.16), transparent 38%);
-        }
-
-        .site-shell::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          background:
-            linear-gradient(90deg, rgba(123,194,255,0.035) 1px, transparent 1px),
-            linear-gradient(rgba(123,194,255,0.03) 1px, transparent 1px);
-          background-size: 72px 72px;
-          mask-image: linear-gradient(to bottom, black, transparent 82%);
           animation: gridDrift 22s linear infinite;
         }
 
@@ -120,52 +79,7 @@ export default function EmiloLabsWebsite() {
           z-index: 0;
           pointer-events: none;
           opacity: 0.42;
-          background:
-            repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
-            linear-gradient(120deg, transparent 0 35%, rgba(123,194,255,0.08) 48%, transparent 60%);
-          background-size: 100% 100%, 260% 260%;
-          animation: lightSweep 13s ease-in-out infinite;
-          mix-blend-mode: screen;
-        }
-
-        .live-network-scene,
-        .live-network-canvas {
-          position: fixed;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-        }
-
-        .live-network-scene {
-          z-index: 0;
-        }
-
-        .live-network-canvas {
-          opacity: 0.86;
-          filter: saturate(1.12) contrast(1.08);
-        }
-
-        .ambient-layer {
-          position: fixed;
-          inset: 0;
-          z-index: 1;
-          pointer-events: none;
-          overflow: hidden;
-          opacity: 0.82;
-          mix-blend-mode: screen;
-        }
-
-        .ambient-circuit {
-          position: absolute;
-          inset: 11vh 7vw 9vh;
-          border: 1px solid rgba(123,194,255,0.08);
-          background:
-            linear-gradient(90deg, transparent 0 12%, rgba(123,194,255,0.09) 12% 12.3%, transparent 12.3% 100%),
-            linear-gradient(0deg, transparent 0 18%, rgba(123,194,255,0.07) 18% 18.25%, transparent 18.25% 100%);
-          background-size: 32% 100%, 100% 24%;
-          clip-path: polygon(0 8%, 8% 0, 92% 0, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0 92%);
-          mask-image: linear-gradient(to bottom, transparent, black 15%, black 78%, transparent);
+          background: var(--bg);
           animation: circuitPhase 18s linear infinite;
         }
 
@@ -176,53 +90,8 @@ export default function EmiloLabsWebsite() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: var(--blue-2);
-          box-shadow: 0 0 18px rgba(123,194,255,0.82);
-          animation: circuitNode 6.5s ease-in-out infinite;
-          animation-delay: var(--delay);
-        }
-
-        .ambient-rings {
-          position: absolute;
-          inset: 0;
-          transform: translate3d(0, 0, 0);
-        }
-
-        .ambient-rings span {
-          position: absolute;
-          left: 50%;
-          top: 48%;
-          width: min(68vw, 920px);
-          height: min(38vw, 500px);
-          border: 1px solid rgba(123,194,255,0.08);
-          transform: translate(-50%, -50%) rotate(0deg);
-          box-shadow: inset 0 0 38px rgba(75,123,232,0.06), 0 0 48px rgba(75,123,232,0.04);
-          animation: orbitFrame 26s linear infinite;
-        }
-
-        .ambient-rings span:nth-child(2) {
-          width: min(54vw, 720px);
-          height: min(30vw, 390px);
-          border-color: rgba(102,227,140,0.06);
-          animation-duration: 34s;
-          animation-direction: reverse;
-        }
-
-        .ambient-rings span:nth-child(3) {
-          width: min(82vw, 1080px);
-          height: min(48vw, 620px);
-          border-color: rgba(169,135,255,0.06);
-          animation-duration: 42s;
-        }
-
-        .data-streams span {
-          position: absolute;
-          left: var(--left);
-          top: -34vh;
-          width: 1px;
-          height: 34vh;
-          background: linear-gradient(to bottom, transparent, rgba(123,194,255,0.02), rgba(123,194,255,0.36), transparent);
-          box-shadow: 0 0 18px rgba(123,194,255,0.32);
+          background: var(--bg);
+          box-shadow: 0 0 18px rgba(111,222,211,0.32);
           animation: streamFall 8.5s linear infinite;
           animation-delay: var(--delay);
         }
@@ -259,234 +128,14 @@ export default function EmiloLabsWebsite() {
 
         .nav-scrolled {
           padding: 9px 0;
-          background: rgba(5, 7, 12, 0.84);
-          border-bottom: 1px solid rgba(123,194,255,0.16);
-          backdrop-filter: blur(20px);
-        }
-
-        .nav-inner,
-        .footer-inner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 24px;
-        }
-
-        .nav-inner {
-          width: min(1240px, calc(100% - 48px));
-          margin: 0 auto;
-        }
-
-        .brand {
-          display: inline-flex;
-          align-items: center;
-          gap: 11px;
-          color: var(--text);
-          text-decoration: none;
-        }
-
-        .brand-mark {
-          width: 36px;
-          height: 36px;
-          object-fit: contain;
-          opacity: 0.96;
-          filter: brightness(1.38) saturate(1.2) drop-shadow(0 0 16px rgba(123,194,255,0.45));
-        }
-
-        .brand span {
-          font-weight: 600;
-          font-size: 0.9rem;
-          letter-spacing: 0;
-        }
-
-        .desktop-nav {
-          display: flex;
-          align-items: center;
-          gap: 22px;
-        }
-
-        .desktop-nav a,
-        .footer a {
-          color: var(--muted);
-          font-size: 0.86rem;
-          text-decoration: none;
-          transition: color 160ms ease;
-        }
-
-        .desktop-nav a:hover,
-        .footer a:hover {
-          color: var(--text);
-        }
-
-        .desktop-nav a.is-active,
-        .mobile-menu a.is-active,
-        .footer a.is-active {
-          color: var(--text);
-        }
-
-        .menu-button {
-          display: none;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          gap: 4px;
-          width: 42px;
-          height: 42px;
-          flex: 0 0 42px;
-          margin-left: auto;
-          border: 1px solid rgba(123,194,255,0.36);
-          border-radius: var(--radius);
-          background: rgba(12,20,34,0.94);
-          box-shadow: 0 0 22px rgba(75,123,232,0.16);
-          cursor: pointer;
-        }
-
-        .menu-button span {
-          display: block;
-          width: 18px;
-          height: 2px;
-          margin: 0;
-          background: var(--text);
-          border-radius: 999px;
-        }
-
-        .mobile-menu {
-          width: min(1240px, calc(100% - 48px));
-          margin: 12px auto 0;
-          display: grid;
-          gap: 4px;
-          padding: 14px;
-          border: 1px solid var(--line);
-          border-radius: var(--radius);
-          background: rgba(5,7,12,0.94);
-          backdrop-filter: blur(18px);
-        }
-
-        .mobile-menu a {
-          color: var(--soft);
-          padding: 12px;
-          text-decoration: none;
-          border-radius: 6px;
-        }
-
-        .hero-section {
-          min-height: 100svh;
-          display: flex;
-          align-items: center;
-          padding: 116px 0 82px;
-        }
-
-        .hero-grid {
-          display: grid;
-          grid-template-columns: minmax(420px, 0.92fr) minmax(480px, 1fr);
-          align-items: center;
-          gap: 44px;
-        }
-
-        .hero-logo {
-          width: min(220px, 54vw);
-          height: auto;
-          margin-bottom: 22px;
-          opacity: 0.98;
-          filter: brightness(1.42) saturate(1.22) drop-shadow(0 0 28px rgba(123,194,255,0.42));
-          animation: logoWake 6s ease-in-out infinite;
-        }
-
-        .hero-kicker,
-        .section-label,
-        .panel-topline,
-        .credibility-band > span {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          color: var(--blue-2);
-          font-family: var(--mono);
-          font-size: 0.72rem;
-          font-weight: 600;
-        }
-
-        .section-label {
-          margin-bottom: 14px;
-        }
-
-        .hero-kicker::before {
-          display: none;
-        }
-
-        .hero-copy h1,
-        .section h2 {
-          color: var(--text);
-          font-weight: 600;
-          letter-spacing: 0;
-        }
-
-        .hero-copy h1 {
-          max-width: 700px;
-          margin: 16px 0 22px;
-          font-size: clamp(2.85rem, 4.55vw, 4.05rem);
-          line-height: 1.04;
-          text-wrap: balance;
-          overflow-wrap: break-word;
-        }
-
-        .hero-copy p {
-          max-width: 560px;
-          color: var(--soft);
-          font-size: 1.04rem;
-          line-height: 1.62;
-          margin-bottom: 0;
-          overflow-wrap: break-word;
-          text-wrap: balance;
-        }
-
-        .hero-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 14px;
-          margin-top: 26px;
-        }
-
-        .primary-button,
-        .secondary-button {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 46px;
-          padding: 12px 20px;
-          border-radius: var(--radius);
-          font-weight: 600;
-          text-decoration: none;
-          transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-        }
-
-        .primary-button {
-          color: var(--text);
-          background: linear-gradient(135deg, rgba(75,123,232,0.96), rgba(38,108,216,0.88));
-          border: 1px solid rgba(123,194,255,0.38);
-          box-shadow: 0 0 32px rgba(75,123,232,0.32);
+          background: var(--bg);
+          border: 1px solid rgba(111,222,211,0.38);
+          box-shadow: 0 0 32px rgba(119,161,116,0.32);
         }
 
         .secondary-button {
           color: var(--soft);
-          background: rgba(12,20,34,0.58);
-          border: 1px solid var(--line);
-        }
-
-        .primary-button:hover,
-        .secondary-button:hover {
-          transform: translateY(-1px);
-          border-color: var(--line-strong);
-          box-shadow: 0 0 38px rgba(75,123,232,0.28);
-        }
-
-        .light-panel {
-          position: relative;
-          overflow: hidden;
-          border: 1px solid var(--line);
-          border-radius: var(--radius);
-          background:
-            linear-gradient(180deg, rgba(16,29,49,0.74), rgba(7,11,19,0.72)),
-            rgba(8,12,20,0.72);
+          background: var(--bg);
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 80px rgba(0,0,0,0.24);
           backdrop-filter: blur(18px);
         }
@@ -495,7 +144,7 @@ export default function EmiloLabsWebsite() {
           content: "";
           position: absolute;
           inset: 0;
-          background: linear-gradient(110deg, transparent 0 38%, rgba(123,194,255,0.13) 48%, transparent 60%);
+          background: var(--bg);
           transform: translateX(-120%);
           animation: panelSweep 8s ease-in-out infinite;
           pointer-events: none;
@@ -536,9 +185,9 @@ export default function EmiloLabsWebsite() {
         }
 
         .institution-links line {
-          stroke: rgba(123,194,255,0.32);
+          stroke: rgba(111,222,211,0.32);
           stroke-width: 0.35;
-          filter: drop-shadow(0 0 5px rgba(123,194,255,0.72));
+          filter: drop-shadow(0 0 5px rgba(111,222,211,0.72));
           transition: stroke 240ms ease, stroke-width 240ms ease, opacity 240ms ease, filter 240ms ease;
           animation: linePulse 5.8s ease-in-out infinite;
         }
@@ -548,8 +197,8 @@ export default function EmiloLabsWebsite() {
           stroke-width: 0.62;
           opacity: 1;
           filter:
-            drop-shadow(0 0 6px rgba(123,194,255,0.95))
-            drop-shadow(0 0 18px rgba(75,123,232,0.72));
+            drop-shadow(0 0 6px rgba(111,222,211,0.95))
+            drop-shadow(0 0 18px rgba(119,161,116,0.72));
         }
 
         .graph-core {
@@ -572,52 +221,12 @@ export default function EmiloLabsWebsite() {
           width: 144px;
           min-height: 82px;
           padding: 13px 14px;
-          border: 1px solid rgba(123,194,255,0.16);
+          border: 1px solid rgba(111,222,211,0.16);
           border-radius: var(--radius);
-          background: rgba(5,7,12,0.62);
-          box-shadow: inset 0 0 18px rgba(75,123,232,0.08), 0 0 24px rgba(75,123,232,0.08);
-          transform: translate(-50%, -50%);
-          cursor: pointer;
-          transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease, color 220ms ease, width 220ms ease, min-height 220ms ease;
-        }
-
-        .graph-node span {
-          display: block;
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.62rem;
-          margin-bottom: 8px;
-        }
-
-        .graph-node strong {
-          display: block;
-          color: var(--text);
-          font-size: 0.98rem;
-          line-height: 1.2;
-        }
-
-        .graph-node p {
-          max-height: 0;
-          overflow: hidden;
-          color: var(--muted);
-          font-size: 0.8rem;
-          line-height: 1.36;
-          opacity: 0;
-          transition: max-height 220ms ease, opacity 220ms ease, margin-top 220ms ease;
-        }
-
-        .graph-node.is-active,
-        .graph-node:hover,
-        .graph-node:focus-visible {
-          width: 190px;
-          min-height: 112px;
-          border-color: rgba(133,218,255,0.72);
-          background:
-            linear-gradient(180deg, rgba(20,40,70,0.78), rgba(5,8,14,0.66)),
-            rgba(5,7,12,0.68);
+          background: var(--bg);
           box-shadow:
-            inset 0 0 28px rgba(75,123,232,0.18),
-            0 0 34px rgba(75,123,232,0.24);
+            inset 0 0 28px rgba(119,161,116,0.18),
+            0 0 34px rgba(119,161,116,0.24);
         }
 
         .graph-node.is-active p,
@@ -632,11 +241,11 @@ export default function EmiloLabsWebsite() {
           position: absolute;
           width: 186px;
           height: 186px;
-          border: 1px solid rgba(123,194,255,0.24);
+          border: 1px solid rgba(111,222,211,0.24);
           border-radius: 50%;
           box-shadow:
-            0 0 70px rgba(75,123,232,0.24),
-            inset 0 0 42px rgba(75,123,232,0.12);
+            0 0 70px rgba(119,161,116,0.24),
+            inset 0 0 42px rgba(119,161,116,0.12);
           animation: ringTurn 18s linear infinite;
         }
 
@@ -645,19 +254,19 @@ export default function EmiloLabsWebsite() {
           content: "";
           position: absolute;
           inset: 35px;
-          border: 1px solid rgba(102,227,140,0.16);
+          border: 1px solid rgba(119,161,116,0.16);
           border-radius: 50%;
         }
 
         .core-ring::after {
           inset: 68px;
-          border-color: rgba(169,135,255,0.18);
+          border-color: rgba(255,163,255,0.18);
         }
 
         .preview-logo {
           width: 112px;
           opacity: 0.95;
-          filter: brightness(1.42) saturate(1.2) drop-shadow(0 0 36px rgba(123,194,255,0.5));
+          filter: brightness(1.42) saturate(1.2) drop-shadow(0 0 36px rgba(111,222,211,0.5));
           z-index: 2;
         }
 
@@ -702,10 +311,7 @@ export default function EmiloLabsWebsite() {
         .origin-block {
           width: 100%;
           padding: clamp(22px, 4vw, 42px);
-          background:
-            radial-gradient(circle at 18% 0%, rgba(123,194,255,0.14), transparent 34%),
-            linear-gradient(145deg, rgba(15,30,52,0.86), rgba(5,8,14,0.74)),
-            rgba(8,12,20,0.72);
+          background: var(--bg);
         }
 
         .origin-block p {
@@ -719,12 +325,10 @@ export default function EmiloLabsWebsite() {
           width: 100%;
           margin: 28px 0 18px;
           padding: 20px;
-          border: 1px solid rgba(123,194,255,0.22);
+          border: 1px solid rgba(111,222,211,0.22);
           border-radius: var(--radius);
-          background:
-            linear-gradient(90deg, rgba(75,123,232,0.16), rgba(5,7,12,0.32)),
-            rgba(5,7,12,0.42);
-          box-shadow: inset 0 0 28px rgba(75,123,232,0.12), 0 0 38px rgba(75,123,232,0.12);
+          background: var(--bg);
+          box-shadow: inset 0 0 28px rgba(119,161,116,0.12), 0 0 38px rgba(119,161,116,0.12);
         }
 
         .origin-signal::before {
@@ -734,8 +338,8 @@ export default function EmiloLabsWebsite() {
           right: 18px;
           top: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(123,194,255,0.86), transparent);
-          box-shadow: 0 0 22px rgba(123,194,255,0.58);
+          background: var(--bg);
+          box-shadow: 0 0 22px rgba(111,222,211,0.58);
         }
 
         .origin-signal span {
@@ -793,97 +397,7 @@ export default function EmiloLabsWebsite() {
           right: 8%;
           top: 74px;
           height: 1px;
-          background: rgba(123,194,255,0.14);
-        }
-
-        .map-line i {
-          display: block;
-          height: 100%;
-          background: var(--blue-2);
-          box-shadow: 0 0 20px rgba(123,194,255,0.7);
-          transition: width 360ms ease;
-        }
-
-        .map-node {
-          position: relative;
-          min-height: 176px;
-          padding: 18px 16px;
-          text-align: left;
-          color: var(--soft);
-          border: 1px solid rgba(123,194,255,0.14);
-          border-radius: var(--radius);
-          background: rgba(5,7,12,0.5);
-          cursor: pointer;
-          transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
-        }
-
-        .map-node::before {
-          content: "";
-          display: block;
-          width: 12px;
-          height: 12px;
-          margin-bottom: 32px;
-          border-radius: 50%;
-          background: rgba(123,194,255,0.45);
-          box-shadow: 0 0 18px rgba(123,194,255,0.45);
-        }
-
-        .map-node.is-active {
-          border-color: rgba(123,194,255,0.58);
-          background: rgba(14,27,48,0.74);
-          transform: translateY(-3px);
-        }
-
-        .map-node span,
-        .product-card span,
-        .active-product span {
-          display: block;
-          color: var(--blue-2);
-          font-family: var(--mono);
-          font-size: 0.66rem;
-          font-weight: 600;
-          margin-bottom: 10px;
-        }
-
-        .map-node strong,
-        .research-card strong,
-        .technology-card strong,
-        .initiative-card strong {
-          display: block;
-          color: var(--text);
-          font-size: 1.1rem;
-          line-height: 1.2;
-          margin-bottom: 10px;
-        }
-
-        .map-node p,
-        .research-card p,
-        .product-card p,
-        .active-product p,
-        .technology-card p,
-        .initiative-card p {
-          color: var(--muted);
-          font-size: 0.88rem;
-          line-height: 1.5;
-        }
-
-        .research-section {
-          padding-top: 54px;
-          padding-bottom: 68px;
-        }
-
-        .research-shell {
-          margin-bottom: 14px;
-        }
-
-        .research-carousel {
-          position: relative;
-          z-index: 2;
-          display: flex;
-          width: 100%;
-          overflow: hidden;
-          padding: 10px 0 20px;
-          mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+          background: var(--bg);
         }
 
         .research-carousel::before {
@@ -894,9 +408,7 @@ export default function EmiloLabsWebsite() {
           bottom: 0;
           width: min(38vw, 520px);
           transform: translateX(-50%);
-          background:
-            radial-gradient(circle at 50% 50%, rgba(123,194,255,0.22), transparent 58%),
-            linear-gradient(90deg, transparent, rgba(123,194,255,0.13), transparent);
+          background: var(--bg);
           pointer-events: none;
           mix-blend-mode: screen;
         }
@@ -908,8 +420,8 @@ export default function EmiloLabsWebsite() {
           top: 8px;
           bottom: 18px;
           width: 1px;
-          background: linear-gradient(to bottom, transparent, rgba(123,194,255,0.75), transparent);
-          box-shadow: 0 0 24px rgba(123,194,255,0.72);
+          background: var(--bg);
+          box-shadow: 0 0 24px rgba(111,222,211,0.72);
           pointer-events: none;
         }
 
@@ -965,9 +477,7 @@ export default function EmiloLabsWebsite() {
           inset: 0;
           z-index: -1;
           opacity: 0;
-          background:
-            radial-gradient(circle at 18% 0%, rgba(123,194,255,0.18), transparent 34%),
-            linear-gradient(120deg, transparent 0 42%, rgba(123,194,255,0.1) 50%, transparent 62%);
+          background: var(--bg);
           transition: opacity 220ms ease;
         }
 
@@ -976,12 +486,12 @@ export default function EmiloLabsWebsite() {
         .initiative-card:hover,
         .product-card:hover,
         .map-node:hover {
-          border-color: rgba(123,194,255,0.46);
+          border-color: rgba(111,222,211,0.46);
           transform: translateY(-4px);
           box-shadow:
-            inset 0 0 30px rgba(75,123,232,0.1),
+            inset 0 0 30px rgba(119,161,116,0.1),
             0 18px 44px rgba(0,0,0,0.24),
-            0 0 30px rgba(75,123,232,0.12);
+            0 0 30px rgba(119,161,116,0.12);
         }
 
         .research-card:hover::before,
@@ -1006,11 +516,9 @@ export default function EmiloLabsWebsite() {
           position: relative;
           height: 70px;
           margin-bottom: 12px;
-          border: 1px solid rgba(123,194,255,0.12);
+          border: 1px solid rgba(111,222,211,0.12);
           border-radius: var(--radius);
-          background:
-            linear-gradient(90deg, rgba(123,194,255,0.08), transparent 24%, transparent 76%, rgba(123,194,255,0.08)),
-            rgba(5,7,12,0.44);
+          background: var(--bg);
           overflow: hidden;
         }
 
@@ -1021,8 +529,8 @@ export default function EmiloLabsWebsite() {
           right: 8%;
           top: 50%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(123,194,255,0.72), transparent);
-          box-shadow: 0 0 28px rgba(123,194,255,0.54);
+          background: var(--bg);
+          box-shadow: 0 0 28px rgba(111,222,211,0.54);
         }
 
         .technology-spine span {
@@ -1031,32 +539,7 @@ export default function EmiloLabsWebsite() {
           width: 10px;
           height: 10px;
           border-radius: 50%;
-          background: var(--blue-2);
-          box-shadow: 0 0 20px rgba(123,194,255,0.78);
-          transform: translate(-50%, -50%);
-          animation: techPulse 5.8s ease-in-out infinite;
-        }
-
-        .technology-spine span:nth-child(1) {
-          left: 24%;
-        }
-
-        .technology-spine span:nth-child(2) {
-          left: 50%;
-          animation-delay: 420ms;
-        }
-
-        .technology-spine span:nth-child(3) {
-          left: 76%;
-          animation-delay: 840ms;
-        }
-
-        .technology-card {
-          border: 1px solid rgba(123,194,255,0.14);
-          border-radius: var(--radius);
-          background:
-            linear-gradient(180deg, rgba(13,25,43,0.78), rgba(5,8,14,0.7)),
-            rgba(8,12,20,0.68);
+          background: var(--bg);
         }
 
         .technology-card span {
@@ -1070,10 +553,7 @@ export default function EmiloLabsWebsite() {
 
         .initiative-card {
           min-height: 122px;
-          background:
-            radial-gradient(circle at 85% 12%, rgba(102,227,140,0.12), transparent 30%),
-            linear-gradient(180deg, rgba(13,25,43,0.78), rgba(5,8,14,0.7)),
-            rgba(8,12,20,0.68);
+          background: var(--bg);
         }
 
         .initiative-card strong::after {
@@ -1082,8 +562,8 @@ export default function EmiloLabsWebsite() {
           width: 44px;
           height: 1px;
           margin-top: 12px;
-          background: linear-gradient(90deg, rgba(123,194,255,0.9), transparent);
-          box-shadow: 0 0 16px rgba(123,194,255,0.58);
+          background: var(--bg);
+          box-shadow: 0 0 16px rgba(111,222,211,0.58);
         }
 
         .tier-tabs {
@@ -1099,54 +579,7 @@ export default function EmiloLabsWebsite() {
           color: var(--soft);
           border: 1px solid var(--line);
           border-radius: var(--radius);
-          background: rgba(8,12,20,0.64);
-          cursor: pointer;
-          font-size: 0.82rem;
-        }
-
-        .tier-tabs button.is-active {
-          color: var(--text);
-          border-color: var(--line-strong);
-          background: rgba(75,123,232,0.22);
-          box-shadow: 0 0 26px rgba(75,123,232,0.18);
-        }
-
-        .product-stage {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 316px;
-          gap: 12px;
-          padding: 12px;
-          outline: none;
-        }
-
-        .product-rail {
-          display: grid;
-          grid-auto-flow: column;
-          grid-auto-columns: minmax(218px, 30%);
-          gap: 10px;
-          overflow-x: auto;
-          padding: 2px;
-          scroll-snap-type: x mandatory;
-          scrollbar-width: none;
-        }
-
-        .product-rail::-webkit-scrollbar {
-          display: none;
-        }
-
-        .product-card {
-          position: relative;
-          isolation: isolate;
-          min-height: 182px;
-          padding: 18px 16px;
-          text-align: left;
-          color: var(--soft);
-          border: 1px solid rgba(123,194,255,0.14);
-          border-radius: var(--radius);
-          background:
-            radial-gradient(circle at 86% 8%, rgba(var(--tone, 75,123,232),0.18), transparent 34%),
-            linear-gradient(180deg, rgba(10,18,31,0.76), rgba(5,7,12,0.62)),
-            rgba(5,7,12,0.58);
+          background: var(--bg);
           cursor: pointer;
           scroll-snap-align: start;
           transform: translateY(0);
@@ -1156,33 +589,7 @@ export default function EmiloLabsWebsite() {
         .product-card.is-active,
         .product-card:hover {
           border-color: var(--line-strong);
-          background: rgba(14,27,48,0.78);
-          transform: translateY(-4px);
-          box-shadow:
-            inset 0 0 30px rgba(var(--tone, 75,123,232),0.14),
-            0 0 34px rgba(var(--tone, 75,123,232),0.12);
-        }
-
-        .product-card strong {
-          display: block;
-          color: var(--text);
-          font-size: 1.18rem;
-          line-height: 1.12;
-          margin-bottom: 12px;
-        }
-
-        .active-product {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          min-height: 260px;
-          padding: 22px 20px;
-          border: 1px solid rgba(123,194,255,0.14);
-          border-radius: var(--radius);
-          background:
-            radial-gradient(circle at 78% 0%, rgba(var(--tone, 75,123,232),0.2), transparent 36%),
-            linear-gradient(180deg, rgba(10,18,31,0.82), rgba(5,7,12,0.64)),
-            rgba(5,7,12,0.6);
+          background: var(--bg);
         }
 
         .active-product h3 {
@@ -1197,45 +604,9 @@ export default function EmiloLabsWebsite() {
           color: var(--text);
           margin-top: 18px;
           padding: 8px 10px;
-          border: 1px solid rgba(123,194,255,0.24);
+          border: 1px solid rgba(111,222,211,0.24);
           border-radius: 999px;
-          background: rgba(var(--tone, 75,123,232),0.16);
-          font-size: 0.82rem;
-        }
-
-        .product-controls {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          margin-top: auto;
-          padding-top: 18px;
-        }
-
-        .product-controls button {
-          width: 42px;
-          height: 40px;
-          color: var(--text);
-          border: 1px solid var(--line);
-          border-radius: var(--radius);
-          background: rgba(75,123,232,0.18);
-          cursor: pointer;
-        }
-
-        .product-controls small {
-          color: var(--muted);
-          font-family: var(--mono);
-        }
-
-        .ecosystem-marquee {
-          position: relative;
-          display: flex;
-          gap: 18px;
-          width: 100%;
-          overflow: hidden;
-          padding: 10px 0;
-          mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+          background: var(--bg);
         }
 
         .ecosystem-track {
@@ -1259,12 +630,10 @@ export default function EmiloLabsWebsite() {
           place-items: center;
           width: 58px;
           height: 58px;
-          border: 1px solid rgba(123,194,255,0.14);
+          border: 1px solid rgba(111,222,211,0.14);
           border-radius: 50%;
-          background:
-            linear-gradient(145deg, rgba(123,194,255,0.1), rgba(5,7,12,0.2)),
-            rgba(5,7,12,0.54);
-          box-shadow: inset 0 0 22px rgba(75,123,232,0.1), 0 0 22px rgba(75,123,232,0.08);
+          background: var(--bg);
+          box-shadow: inset 0 0 22px rgba(119,161,116,0.1), 0 0 22px rgba(119,161,116,0.08);
         }
 
         .ecosystem-logo img {
@@ -1273,7 +642,7 @@ export default function EmiloLabsWebsite() {
           height: 28px;
           object-fit: contain;
           opacity: 0.76;
-          filter: drop-shadow(0 0 12px rgba(123,194,255,0.28));
+          filter: drop-shadow(0 0 12px rgba(111,222,211,0.28));
         }
 
         .ecosystem-logo strong {
@@ -1295,9 +664,7 @@ export default function EmiloLabsWebsite() {
           width: auto;
           max-width: 100%;
           padding: 14px 16px;
-          background:
-            radial-gradient(circle at 50% 0%, rgba(123,194,255,0.18), transparent 38%),
-            linear-gradient(180deg, rgba(16,29,49,0.78), rgba(5,8,14,0.76));
+          background: var(--bg);
         }
 
         .contact-inner .section-label {
@@ -1319,15 +686,12 @@ export default function EmiloLabsWebsite() {
           max-width: 100%;
           padding: 7px 12px;
           color: var(--text);
-          border: 1px solid rgba(123,194,255,0.42);
+          border: 1px solid rgba(111,222,211,0.42);
           border-radius: var(--radius);
-          background:
-            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.18), transparent 30%),
-            linear-gradient(135deg, rgba(75,123,232,0.84), rgba(27,91,188,0.78)),
-            rgba(8,12,20,0.58);
+          background: var(--bg);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
-            0 0 22px rgba(75,123,232,0.22);
+            0 0 22px rgba(119,161,116,0.22);
           font-size: clamp(0.74rem, 1.25vw, 0.84rem);
           font-weight: 600;
           text-decoration: none;
@@ -1341,7 +705,7 @@ export default function EmiloLabsWebsite() {
           position: absolute;
           inset: -40% auto -40% -55%;
           width: 42%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.42), transparent);
+          background: var(--bg);
           transform: skewX(-18deg);
           animation: contactLight 4.8s ease-in-out infinite;
           pointer-events: none;
@@ -1358,10 +722,10 @@ export default function EmiloLabsWebsite() {
 
         .contact-email:hover {
           transform: translateY(-2px);
-          border-color: rgba(123,194,255,0.72);
+          border-color: rgba(111,222,211,0.72);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.22),
-            0 0 34px rgba(75,123,232,0.36);
+            0 0 34px rgba(119,161,116,0.36);
         }
 
         .page-hero {
@@ -1542,614 +906,9 @@ export default function EmiloLabsWebsite() {
           display: block;
           padding: 12px;
           color: var(--soft);
-          border: 1px solid rgba(123,194,255,0.18);
+          border: 1px solid rgba(111,222,211,0.18);
           border-radius: var(--radius);
-          background: rgba(5,7,12,0.38);
-        }
-
-        .insight-card.is-featured {
-          grid-column: span 2;
-        }
-
-        .insight-meta,
-        .insight-foot {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-        }
-
-        .insight-meta {
-          margin-bottom: 18px;
-        }
-
-        .insight-meta span,
-        .insight-foot span {
-          color: var(--blue-2);
-          font-family: var(--mono);
-          font-size: 0.66rem;
-          font-weight: 600;
-        }
-
-        .insight-meta small,
-        .insight-foot span:last-child {
-          color: var(--muted);
-        }
-
-        .insight-foot {
-          margin-top: 22px;
-          padding-top: 14px;
-          border-top: 1px solid rgba(123,194,255,0.12);
-        }
-
-        .press-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
-          gap: 12px;
-        }
-
-        .press-boilerplate,
-        .fact-list {
-          padding: clamp(20px, 3vw, 34px);
-        }
-
-        .press-boilerplate p + p {
-          margin-top: 14px;
-        }
-
-        .fact-list {
-          display: grid;
-          gap: 12px;
-        }
-
-        .fact-list div {
-          padding: 12px;
-          border: 1px solid rgba(123,194,255,0.14);
-          border-radius: var(--radius);
-          background: rgba(5,7,12,0.38);
-        }
-
-        .fact-list span {
-          display: block;
-          color: var(--blue-2);
-          font-family: var(--mono);
-          font-size: 0.64rem;
-          font-weight: 600;
-          margin-bottom: 8px;
-        }
-
-        .fact-list strong {
-          display: block;
-          color: var(--text);
-          font-size: 0.95rem;
-          line-height: 1.42;
-          overflow-wrap: anywhere;
-        }
-
-        .contact-card {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .contact-card a {
-          align-self: flex-start;
-          margin-top: auto;
-          color: var(--text);
-          text-decoration: none;
-          font-size: 0.84rem;
-          font-weight: 600;
-          padding: 8px 10px;
-          border: 1px solid rgba(123,194,255,0.28);
-          border-radius: var(--radius);
-          background: rgba(75,123,232,0.16);
-        }
-
-        .footer {
-          padding: 38px 0;
-          border-top: 1px solid rgba(123,194,255,0.12);
-          background: rgba(5,7,12,0.72);
-          backdrop-filter: blur(12px);
-        }
-
-        .footer-inner {
-          flex-wrap: wrap;
-          align-items: flex-start;
-        }
-
-        .footer-groups {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 32px;
-        }
-
-        .footer-group {
-          display: grid;
-          gap: 9px;
-        }
-
-        .footer-group strong {
-          color: var(--text);
-          font-size: 0.78rem;
-        }
-
-        .footer small {
-          color: var(--muted);
-          font-family: var(--mono);
-          font-size: 0.72rem;
-        }
-
-        @keyframes logoWake {
-          0%, 100% { transform: translateY(0); filter: brightness(1.42) saturate(1.22) drop-shadow(0 0 24px rgba(123,194,255,0.36)); }
-          50% { transform: translateY(-4px); filter: brightness(1.55) saturate(1.28) drop-shadow(0 0 38px rgba(123,194,255,0.62)); }
-        }
-
-        @keyframes gridDrift {
-          from { background-position: 0 0; }
-          to { background-position: 72px 72px; }
-        }
-
-        @keyframes lightSweep {
-          0%, 100% { background-position: 0 0, 0% 0%; }
-          50% { background-position: 0 0, 100% 100%; }
-        }
-
-        @keyframes circuitPhase {
-          from { background-position: 0 0, 0 0; }
-          to { background-position: 32% 0, 0 24%; }
-        }
-
-        @keyframes circuitNode {
-          0%, 100% { transform: translate3d(0, 0, 0) scale(0.72); opacity: 0.2; }
-          44% { transform: translate3d(28px, -18px, 0) scale(1); opacity: 0.9; }
-          68% { transform: translate3d(64px, 12px, 0) scale(0.82); opacity: 0.48; }
-        }
-
-        @keyframes orbitFrame {
-          from { transform: translate(-50%, -50%) rotate(0deg) skewX(-8deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg) skewX(-8deg); }
-        }
-
-        @keyframes streamFall {
-          from { transform: translateY(0); opacity: 0; }
-          12% { opacity: 0.68; }
-          74% { opacity: 0.28; }
-          to { transform: translateY(142vh); opacity: 0; }
-        }
-
-        @keyframes ecosystemMarquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(calc(-100% - 18px)); }
-        }
-
-        @keyframes researchMarquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(calc(-33.333% - 8px)); }
-        }
-
-        @keyframes panelSweep {
-          0%, 42% { transform: translateX(-120%); }
-          64%, 100% { transform: translateX(120%); }
-        }
-
-        @keyframes contactLight {
-          0%, 45% { transform: translateX(0) skewX(-18deg); opacity: 0; }
-          55% { opacity: 0.8; }
-          72%, 100% { transform: translateX(420%) skewX(-18deg); opacity: 0; }
-        }
-
-        @keyframes riseSignal {
-          0%, 100% { border-color: rgba(123,194,255,0.14); box-shadow: inset 0 0 18px rgba(75,123,232,0.08), 0 0 18px rgba(75,123,232,0.05); }
-          50% { border-color: rgba(123,194,255,0.34); box-shadow: inset 0 0 22px rgba(75,123,232,0.14), 0 0 26px rgba(75,123,232,0.16); }
-        }
-
-        @keyframes linePulse {
-          0%, 100% { opacity: 0.38; }
-          50% { opacity: 0.9; }
-        }
-
-        @keyframes ringTurn {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        @keyframes cardBreathe {
-          0%, 100% { border-color: rgba(123,194,255,0.14); }
-          50% { border-color: rgba(123,194,255,0.28); }
-        }
-
-        @keyframes techPulse {
-          0%, 100% { opacity: 0.42; transform: translate(-50%, -50%) scale(0.74); }
-          50% { opacity: 1; transform: translate(-50%, -50%) scale(1.18); }
-        }
-
-        @media (max-width: 1120px) {
-          .container {
-            width: min(100% - 40px, 960px);
-          }
-
-          .hero-grid,
-          .split-heading {
-            grid-template-columns: 1fr;
-          }
-
-          .hero-copy h1 {
-            font-size: clamp(3rem, 7vw, 4rem);
-          }
-
-          .institution-preview {
-            min-height: 430px;
-            justify-self: stretch;
-            max-width: none;
-          }
-
-          .institution-graph {
-            height: 340px;
-          }
-
-          .graph-node {
-            width: 132px;
-            min-height: 76px;
-            padding: 12px;
-          }
-
-          .graph-core {
-            width: 158px;
-            height: 158px;
-          }
-
-          .core-ring {
-            width: 156px;
-            height: 156px;
-          }
-
-          .core-ring::before {
-            inset: 28px;
-          }
-
-          .core-ring::after {
-            inset: 58px;
-          }
-
-          .preview-logo {
-            width: 96px;
-          }
-
-          .relationship-map {
-            grid-template-columns: 1fr;
-          }
-
-          .map-line {
-            left: 34px;
-            right: auto;
-            top: 36px;
-            bottom: 36px;
-            width: 1px;
-            height: auto;
-          }
-
-          .map-line i {
-            width: 100% !important;
-            height: 100%;
-          }
-
-          .map-node {
-            min-height: 150px;
-          }
-
-          .map-node::before {
-            margin-bottom: 18px;
-          }
-
-          .technology-grid,
-          .initiative-grid,
-          .metric-grid,
-          .pillar-grid,
-          .track-grid,
-          .capability-grid,
-          .insight-grid,
-          .contact-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-
-          .press-layout,
-          .split-panel,
-          .cta-band {
-            grid-template-columns: 1fr;
-          }
-
-          .insight-card.is-featured {
-            grid-column: span 1;
-          }
-        }
-
-        @media (max-width: 900px) {
-          .desktop-nav {
-            display: none;
-          }
-
-          .menu-button {
-            display: inline-flex;
-            position: fixed;
-            top: 14px;
-            right: 14px;
-            z-index: 40;
-          }
-
-          .product-stage {
-            grid-template-columns: 1fr;
-          }
-
-          .product-rail {
-            grid-auto-columns: minmax(220px, 44%);
-          }
-
-          .initiative-grid,
-          .metric-grid,
-          .pillar-grid,
-          .track-grid,
-          .capability-grid,
-          .insight-grid,
-          .contact-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-        }
-
-        @media (max-width: 680px) {
-          .container,
-          .mobile-menu {
-            width: calc(100% - 28px);
-          }
-
-          .ambient-layer {
-            opacity: 0.46;
-          }
-
-          .ambient-circuit {
-            inset: 8vh 4vw 12vh;
-            background-size: 48% 100%, 100% 22%;
-          }
-
-          .ambient-rings span {
-            width: 110vw;
-            height: 64vw;
-          }
-
-          .data-streams span:nth-child(even) {
-            display: none;
-          }
-
-          .hero-section {
-            min-height: auto;
-            padding: 96px 0 42px;
-          }
-
-          .hero-copy h1,
-          .section h2 {
-            line-height: 1.08;
-          }
-
-          .hero-copy h1 {
-            font-size: clamp(1.92rem, 8.2vw, 2.34rem);
-          }
-
-          .section h2 {
-            font-size: clamp(1.45rem, 6.4vw, 1.9rem);
-          }
-
-          .hero-copy p {
-            font-size: 1rem;
-          }
-
-          .hero-logo {
-            width: min(178px, 52vw);
-            margin-bottom: 18px;
-          }
-
-          .hero-actions {
-            flex-direction: column;
-          }
-
-          .primary-button,
-          .secondary-button {
-            width: 100%;
-          }
-
-          .section {
-            padding: 58px 0;
-          }
-
-          .origin-block {
-            padding: 22px 18px;
-          }
-
-          .origin-block p {
-            font-size: 0.95rem;
-            line-height: 1.65;
-          }
-
-          .origin-signal {
-            padding: 18px;
-          }
-
-          .contact-panel {
-            display: inline-grid;
-            gap: 10px;
-            padding: 14px;
-          }
-
-          .contact-email {
-            min-height: 32px;
-            padding: 6px 10px;
-            font-size: 0.72rem;
-          }
-
-          .institution-preview {
-            min-height: 304px;
-            padding: 12px;
-          }
-
-          .technology-grid,
-          .initiative-grid,
-          .metric-grid,
-          .pillar-grid,
-          .track-grid,
-          .capability-grid,
-          .insight-grid,
-          .contact-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .institution-graph {
-            height: 248px;
-            margin-top: 12px;
-          }
-
-          .institution-links line {
-            stroke-width: 0.45;
-          }
-
-          .institution-links {
-            transform: scaleX(0.78);
-            transform-origin: center;
-          }
-
-          .graph-node {
-            left: var(--mobile-x);
-            top: var(--mobile-y);
-            width: 84px;
-            min-height: 50px;
-            padding: 8px;
-          }
-
-          .graph-node span {
-            font-size: 0.46rem;
-            margin-bottom: 4px;
-          }
-
-          .graph-node strong {
-            font-size: 0.68rem;
-          }
-
-          .graph-node.is-active,
-          .graph-node:hover,
-          .graph-node:focus-visible {
-            width: 96px;
-            min-height: 58px;
-          }
-
-          .graph-node p {
-            display: none;
-          }
-
-          .graph-core {
-            width: 96px;
-            height: 96px;
-          }
-
-          .core-ring {
-            width: 94px;
-            height: 94px;
-          }
-
-          .core-ring::before {
-            inset: 18px;
-          }
-
-          .core-ring::after {
-            inset: 35px;
-          }
-
-          .preview-logo {
-            width: 56px;
-          }
-
-          .map-node {
-            min-height: 108px;
-            padding: 16px;
-          }
-
-          .map-node::before {
-            margin-bottom: 14px;
-          }
-
-          .research-card,
-          .technology-card,
-          .initiative-card {
-            min-height: auto;
-            padding: 17px 16px;
-          }
-
-          .tier-tabs button {
-            min-height: 32px;
-            padding: 6px 9px;
-            font-size: 0.78rem;
-          }
-
-          .product-rail {
-            grid-auto-columns: minmax(214px, 84%);
-          }
-
-          .product-card {
-            min-height: 164px;
-          }
-
-          .active-product {
-            min-height: 230px;
-          }
-
-          .active-product h3 {
-            font-size: 1.68rem;
-          }
-
-          .ecosystem-track {
-            animation-duration: 28s;
-          }
-
-          .ecosystem-logo {
-            min-width: 108px;
-          }
-
-          .ecosystem-logo span {
-            width: 50px;
-            height: 50px;
-          }
-
-          .footer-inner,
-          .footer-groups {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-            scroll-behavior: auto !important;
-          }
-
-          .live-network-canvas {
-            opacity: 0.34;
-          }
-
-          .ambient-layer {
-            opacity: 0.22;
-          }
-
-          .reveal {
-            opacity: 1;
-            transform: none;
-          }
-        }
-
-        /* Institutional visual restraint: remove decorative sci-fi overlays. */
-        .site-shell {
-          background:
-            radial-gradient(ellipse at 72% 8%, rgba(118, 130, 150, 0.055), transparent 42%),
-            linear-gradient(180deg, #090b10 0%, #080a0e 48%, #090b10 100%);
+          background: var(--bg);
         }
 
         .site-shell::before,
@@ -2183,3 +942,140 @@ export default function EmiloLabsWebsite() {
     </div>
   );
 }
+
+        /* Emilo Labs colour system */
+        .site-shell {
+          background: #06015e !important;
+          color: #f4f7f5;
+        }
+
+        .site-shell::before,
+        .site-shell::after {
+          display: none !important;
+          content: none !important;
+        }
+
+        .live-network-canvas {
+          opacity: 0.08 !important;
+          filter: none !important;
+        }
+
+        .nav-scrolled {
+          background: #06015e !important;
+          border-bottom-color: #ffa3ff !important;
+          backdrop-filter: none;
+        }
+
+        .desktop-nav a.is-active,
+        .mobile-menu a.is-active,
+        .footer a.is-active,
+        .hero-kicker,
+        .section-label,
+        .panel-topline span:first-child,
+        .metric-card span,
+        .pillar-card span,
+        .track-card span,
+        .contact-card span,
+        .insight-meta span,
+        .insight-foot span {
+          color: #ffa3ff !important;
+        }
+
+        .primary-button {
+          color: #122623 !important;
+          background: #77a174 !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+        }
+
+        .secondary-button {
+          color: #f4f7f5 !important;
+          background: #06015e !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover {
+          background: #6fded3 !important;
+          color: #122623 !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+        }
+
+        .light-panel,
+        .origin-block,
+        .split-panel,
+        .cta-band,
+        .press-boilerplate,
+        .fact-list {
+          background: #6fded3 !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+          backdrop-filter: none !important;
+        }
+
+        .light-panel h1,
+        .light-panel h2,
+        .light-panel h3,
+        .light-panel strong,
+        .origin-block h2,
+        .origin-block h3,
+        .origin-block strong,
+        .split-panel h2,
+        .split-panel h3,
+        .split-panel strong,
+        .cta-band h2,
+        .cta-band h3,
+        .cta-band strong,
+        .press-boilerplate h2,
+        .press-boilerplate h3,
+        .press-boilerplate strong,
+        .fact-list strong {
+          color: #122623 !important;
+        }
+
+        .light-panel p,
+        .origin-block p,
+        .split-panel p,
+        .cta-band p,
+        .press-boilerplate p,
+        .fact-list p,
+        .light-panel .muted,
+        .origin-block .muted {
+          color: #35504b !important;
+        }
+
+        .graph-node,
+        .mini-list span,
+        .fact-list div {
+          background: #06015e !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+        }
+
+        .graph-node span,
+        .graph-node strong,
+        .graph-node p {
+          color: #f4f7f5 !important;
+        }
+
+        .technology-chip,
+        .ecosystem-strip span,
+        .contact-card a {
+          background: #6fded3 !important;
+          color: #122623 !important;
+          border-color: #ffa3ff !important;
+          box-shadow: none !important;
+        }
+
+        .footer {
+          background: #06015e !important;
+          border-top-color: #ffa3ff !important;
+          backdrop-filter: none !important;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+          outline-color: #ffa3ff !important;
+        }
