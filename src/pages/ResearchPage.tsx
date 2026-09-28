@@ -1,3 +1,34 @@
-import { CONTACT_EMAIL, NAV_LINKS, FOOTER_GROUPS, PAGE_META, INSTITUTION_FLOW, RESEARCH_AREAS, RESEARCH_LOOP, PRODUCT_TIERS, PRODUCT_TONES, TECHNOLOGY_AREAS, ECOSYSTEM_MARKS, ECOSYSTEM_LOOP, INITIATIVES, ORGANIZATION_PILLARS, PRINCIPLES, RESEARCH_TRACKS, TECHNOLOGY_CAPABILITIES, INSIGHTS, CAREER_PATHS, PRESS_FACTS, CONTACT_CHANNELS, useInView, useReducedMotion, normalizePath, useRoute, usePageMeta, AppLink, contactHref, LiveNetworkScene, AmbientLayer, EmiloLogo, SectionLabel, Reveal, Navbar, Hero, InstitutionPreview, Origin, InstitutionMap, Research, Products, Technology, CredibilityBand, PageHero, PillarCards, HomeOverview, HomePillars, InsightsPreview, TalentMediaBand, PrincipleGrid, ResearchTrackGrid, TechnologyCapabilityGrid, ProductOperatingModel, InsightGrid, CareersGrid, PressResources, ContactChannelGrid, Contact, Initiatives, Footer } from "../site-shared";
+import { PageHero, ResearchTrackGrid, Reveal, SectionLabel, PillarCards, InsightsPreview } from "../site-shared";
 
-function ResearchPage({ currentPath, onNavigate }
+function ResearchPage({ currentPath, onNavigate }) {
+  return (
+    <>
+      <PageHero
+        label="RESEARCH"
+        title="Questions worth solving before systems are scaled."
+        summary="Research at Emilo Labs spans identity, privacy, security, intelligent systems, financial systems, and internet infrastructure. The page separates active inquiry from product and engineering work."
+      />
+      <ResearchTrackGrid />
+      <Reveal id="research-domains" className="pillars-section">
+        <div className="container">
+          <SectionLabel>RESEARCH DOMAINS</SectionLabel>
+          <div className="split-heading">
+            <h2>Six connected areas of investigation.</h2>
+            <p>Each domain addresses a distinct systems problem while remaining connected to the wider infrastructure layer.</p>
+          </div>
+          <PillarCards items={[
+            { title: "Identity", summary: "Reusable proof and portable credentials.", signal: "Trust" },
+            { title: "Privacy", summary: "Continuity and communication without unnecessary exposure.", signal: "Privacy" },
+            { title: "Security", summary: "Threat-aware systems designed around failure and recovery.", signal: "Defense" },
+            { title: "Intelligent Systems", summary: "Bounded AI assistance, structured reasoning, and automation.", signal: "Intelligence" },
+            { title: "Financial Systems", summary: "Safer value exchange, lending, settlement, and financial coordination.", signal: "Value" },
+            { title: "Internet Systems", summary: "Infrastructure for communication, coordination, and safer digital participation.", signal: "Network" },
+          ]} />
+        </div>
+      </Reveal>
+      <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={false} />
+    </>
+  );
+}
+
+export default ResearchPage;
