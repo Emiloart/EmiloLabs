@@ -1,15 +1,15 @@
-import { CONTACT_EMAIL, NAV_LINKS, FOOTER_GROUPS, PAGE_META, INSTITUTION_FLOW, RESEARCH_AREAS, RESEARCH_LOOP, PRODUCT_TIERS, PRODUCT_TONES, TECHNOLOGY_AREAS, ECOSYSTEM_MARKS, ECOSYSTEM_LOOP, INITIATIVES, ORGANIZATION_PILLARS, PRINCIPLES, RESEARCH_TRACKS, TECHNOLOGY_CAPABILITIES, INSIGHTS, CAREER_PATHS, PRESS_FACTS, CONTACT_CHANNELS, useInView, useReducedMotion, normalizePath, useRoute, usePageMeta, AppLink, contactHref, LiveNetworkScene, AmbientLayer, EmiloLogo, SectionLabel, Reveal, Navbar, Hero, InstitutionPreview, Origin, InstitutionMap, Research, Products, Technology, CredibilityBand, PageHero, PillarCards, HomeOverview, HomePillars, InsightsPreview, TalentMediaBand, PrincipleGrid, ResearchTrackGrid, TechnologyCapabilityGrid, ProductOperatingModel, InsightGrid, CareersGrid, PressResources, ContactChannelGrid, Contact, Initiatives, Footer } from "../site-shared";
+import { PageHero, CareersGrid, Reveal, SectionLabel, contactHref } from "../site-shared";
 
 function CareersPage() {
   return (
     <>
       <PageHero
         label="CAREERS"
-        title="A talent network for people who want to build serious systems."
-        summary="Emilo Labs is not presenting a fake job board. This page is for future roles, internships, open applications, research collaboration, and people who can help shape the institution."
+        title="Build systems that deserve to exist."
+        summary="Emilo Labs uses this page as a long-term talent network for engineering, research, security, design, and other work required to build the institution."
       >
         <div className="page-hero-actions">
-          <a href={contactHref("Talent inquiry")} className="primary-button">Send open application</a>
+          <a href={contactHref("Talent inquiry")} className="primary-button">Introduce yourself</a>
         </div>
       </PageHero>
       <CareersGrid />
@@ -17,12 +17,9 @@ function CareersPage() {
         <div className="container">
           <div className="cta-band light-panel">
             <div>
-              <SectionLabel>HOW TO APPROACH</SectionLabel>
-              <h2>Show the work, the judgment, and the area you want to strengthen.</h2>
-              <p>
-                Strong introductions should include what you can build or research, which Emilo Labs
-                areas you understand, and the kind of responsibility you are ready to take on.
-              </p>
+              <SectionLabel>OPEN APPLICATIONS</SectionLabel>
+              <h2>Show the work, the judgment, and the systems you want to help build.</h2>
+              <p>Send a concise introduction covering your technical or research strengths, relevant work, and the area where you want to contribute.</p>
             </div>
             <a href={contactHref("Talent inquiry")} className="secondary-button">Contact careers</a>
           </div>
@@ -31,3 +28,5 @@ function CareersPage() {
     </>
   );
 }
+
+export default CareersPage;
