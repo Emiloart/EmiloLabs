@@ -3876,6 +3876,36 @@ export default function EmiloLabsWebsite() {
             transform: none;
           }
         }
+
+        /* Institutional visual restraint: remove decorative sci-fi overlays. */
+        .site-shell {
+          background:
+            radial-gradient(ellipse at 72% 8%, rgba(118, 130, 150, 0.055), transparent 42%),
+            linear-gradient(180deg, #090b10 0%, #080a0e 48%, #090b10 100%);
+        }
+
+        .site-shell::before,
+        .site-shell::after {
+          content: none;
+          display: none;
+          animation: none;
+        }
+
+        .ambient-layer {
+          display: none;
+        }
+
+        .live-network-canvas {
+          opacity: 0.11;
+          filter: grayscale(0.72) saturate(0.32) contrast(0.94);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .live-network-canvas {
+            opacity: 0.07;
+          }
+        }
+
       `}</style>
       <Navbar currentPath={currentPath} onNavigate={navigate} />
       <main>
