@@ -141,12 +141,15 @@ const PRODUCT_TONES = [
 ];
 
 const TECHNOLOGY_AREAS = [
-  ["Identity Systems", "Credentials, verification, recovery.", "Proof layer"],
-  ["Privacy Infrastructure", "Anonymous continuity, private communication.", "Privacy layer"],
-  ["Security Engineering", "Device trust, threat decisions.", "Defense layer"],
-  ["Intelligent Systems", "Research automation, guarded agents.", "Intelligence layer"],
-  ["Financial Technology", "Escrow, lending, settlement.", "Value layer"],
-  ["Digital Experiences", "Interfaces for complex systems.", "Experience layer"],
+  ["Software & Internet Systems", "Applications, APIs, data services, and communication infrastructure.", "Systems layer"],
+  ["Identity & Privacy", "Credentials, selective disclosure, anonymous continuity, and recovery.", "Trust layer"],
+  ["Security Engineering", "Threat modeling, application security, and risk-aware system design.", "Defense layer"],
+  ["Applied AI", "Research assistance, structured analysis, and bounded automation.", "Intelligence layer"],
+  ["Financial Technology", "Lending workflows, value exchange, and settlement concepts.", "Value layer"],
+  ["Infrastructure & Data", "Service architecture, data pipelines, and distributed components.", "Foundation layer"],
+  ["Industrial Technology", "Exploratory work in automation, monitoring, and software-defined operations.", "Industry research"],
+  ["Health Technology", "Exploration of privacy-aware data systems and safer digital workflows.", "Exploratory domain"],
+  ["Frontier Systems", "Long-range inquiry into new interfaces and resilient system models.", "Frontier research"],
 ];
 
 const ECOSYSTEM_MARKS = [
