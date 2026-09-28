@@ -53,10 +53,10 @@ function HomePage({ currentPath, onNavigate }) {
             </p>
           </div>
           <div className="pillar-grid">
-            {RESEARCH_AREAS.slice(0, 6).map(area => (
-              <article key={area.title} className="pillar-card light-panel">
-                <strong>{area.title}</strong>
-                <p>{area.description}</p>
+            {RESEARCH_AREAS.slice(0, 6).map(([title, description]) => (
+              <article key={title} className="pillar-card light-panel">
+                <strong>{title}</strong>
+                <p>{description}</p>
               </article>
             ))}
           </div>
@@ -79,7 +79,8 @@ function HomePage({ currentPath, onNavigate }) {
             {PRODUCT_TIERS.map(tier => (
               <article key={tier.title} className="product-card light-panel">
                 <span>{tier.title}</span>
-                <strong>{tier.description}</strong>
+                <strong>{tier.products.length} systems</strong>
+                <p>{tier.products.slice(0, 3).map(product => product[0]).join(" · ")}</p>
               </article>
             ))}
           </div>
@@ -102,8 +103,8 @@ function HomePage({ currentPath, onNavigate }) {
             </p>
           </div>
           <div className="technology-list">
-            {TECHNOLOGY_AREAS.slice(0, 6).map(area => (
-              <span key={area.title} className="technology-chip light-panel">{area.title}</span>
+            {TECHNOLOGY_AREAS.slice(0, 6).map(([title]) => (
+              <span key={title} className="technology-chip light-panel">{title}</span>
             ))}
           </div>
           <div className="ecosystem-strip" aria-label="Technology ecosystem">
