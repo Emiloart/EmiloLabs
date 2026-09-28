@@ -109,8 +109,6 @@ export const PRODUCT_TIERS = [
   },
 ];
 
-export const PRODUCT_TONES = ["75,123,232", "102,227,140", "123,194,255", "169,135,255", "246,180,75", "80,220,208"];
-
 export const TECHNOLOGY_AREAS = [
   ["Software & Internet Systems", "Applications, APIs, data services, and communication infrastructure.", "Systems layer"],
   ["Identity & Privacy", "Credentials, selective disclosure, anonymous continuity, and recovery.", "Trust layer"],
@@ -291,7 +289,7 @@ export function LiveNetworkScene() {
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const material = new THREE.PointsMaterial({
-      color: 0x79b7ff,
+      color: 0x6fded3,
       size: mobile ? 0.07 : 0.055,
       transparent: true,
       opacity: reduced ? 0.28 : 0.58,
