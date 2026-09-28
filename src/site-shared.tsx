@@ -496,8 +496,8 @@ export function ProductOperatingModel() {
   return <Reveal id="portfolio-model" className="portfolio-model-section"><div className="container"><SectionLabel>PORTFOLIO MODEL</SectionLabel><div className="split-panel light-panel"><div><h2>Products are the practical surface of deeper infrastructure.</h2><p>Active systems are separated from upcoming systems so the portfolio communicates what exists now without presenting future work as finished.</p></div><div className="mini-list"><span>Active</span><span>Coming Soon</span><span>Research-backed</span></div></div></div></Reveal>;
 }
 
-export function InsightGrid() {
-  return <div className="insight-grid">{INSIGHTS.map(([title, category, summary, date, time, status, featured], index) => <article key={title} className={`insight-card light-panel ${featured ? "is-featured" : ""}`}><div className="insight-meta"><span>{category}</span><small>{status}</small></div><strong>{title}</strong><p>{summary}</p><div className="insight-foot"><span>{date}</span><span>{time}</span></div></article>)}</div>;
+export function InsightGrid({ items = INSIGHTS }: any) {
+  return <div className="insight-grid">{items.map(([title, category, summary, date, time, status, featured], index) => <article key={title} className={`insight-card light-panel ${featured ? "is-featured" : ""}`}><div className="insight-meta"><span>{category}</span><small>{status}</small></div><strong>{title}</strong><p>{summary}</p><div className="insight-foot"><span>{date}</span><span>{time}</span></div></article>)}</div>;
 }
 
 export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: any) {
