@@ -1,4 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+
+const staggerStyle = (index: number, interval = 60): CSSProperties =>
+  ({ "--delay": `${index * interval}ms` } as CSSProperties);
 import * as THREE from "three";
 
 export const CONTACT_EMAIL = "emilolabs@gmail.com";
@@ -446,7 +449,7 @@ export function InstitutionMap() {
 }
 
 export function ResearchTrackGrid() {
-  return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
+  return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
 }
 
 export function PillarCards({ items = RESEARCH_AREAS, limit }: any) {
@@ -516,7 +519,7 @@ export function Contact() {
 }
 
 export function PrincipleGrid() {
-  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={{ "--delay": `${index * 70}ms` }}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={staggerStyle(index, 70)}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function Footer({ currentPath, onNavigate }: any) {
