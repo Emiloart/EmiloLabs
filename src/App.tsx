@@ -933,15 +933,6 @@ export default function EmiloLabsWebsite() {
           }
         }
 
-      `}</style>
-      <Navbar currentPath={currentPath} onNavigate={navigate} />
-      <main>
-        <ActivePage currentPath={currentPath} onNavigate={navigate} />
-      </main>
-      <Footer currentPath={currentPath} onNavigate={navigate} />
-    </div>
-  );
-}
 
         /* Emilo Labs colour system */
         .site-shell {
@@ -1079,3 +1070,13 @@ export default function EmiloLabsWebsite() {
         a:focus-visible {
           outline-color: #ffa3ff !important;
         }
+
+      `}</style>
+      <Navbar currentPath={currentPath} onNavigate={navigate} />
+      <main>
+        <ActivePage currentPath={currentPath} onNavigate={navigate} />
+      </main>
+      <Footer currentPath={currentPath} onNavigate={navigate} />
+    </div>
+  );
+}
