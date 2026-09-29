@@ -454,7 +454,7 @@ export function ResearchTrackGrid() {
 
 export function PillarCards({ items = RESEARCH_AREAS, limit }: any) {
   const visible = limit ? items.slice(0, limit) : items;
-  return <div className="pillar-grid">{visible.map((item: any, index: number) => { const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal]; return <article key={title} className="pillar-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>{signal}</span><strong>{title}</strong><p>{description}</p></article>; })}</div>;
+  return <div className="pillar-grid">{visible.map((item: any, index: number) => { const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal]; return <article key={title} className="pillar-card light-panel" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{description}</p></article>; })}</div>;
 }
 
 export function Products() {
@@ -481,7 +481,7 @@ export function Products() {
 }
 
 export function Technology() {
-  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-spine" aria-hidden="true"><span /><span /><span /></div><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={{ "--delay": `${index * 60}ms` }}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
+  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-spine" aria-hidden="true"><span /><span /><span /></div><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
 }
 
 export function CredibilityBand() {
@@ -507,7 +507,7 @@ export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }
 }
 
 export function CareersGrid() {
-  return <Reveal id="career-paths" className="career-path-section"><div className="container"><SectionLabel>TALENT NETWORK</SectionLabel><div className="track-grid">{CAREER_PATHS.map(([title, text], index) => <article key={title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>Open interest</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="career-paths" className="career-path-section"><div className="container"><SectionLabel>TALENT NETWORK</SectionLabel><div className="track-grid">{CAREER_PATHS.map(([title, text], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>Open interest</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function PressResources() {
