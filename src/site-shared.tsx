@@ -1,4 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+
+const staggerStyle = (index: number, interval = 60): CSSProperties =>
+  ({ "--delay": `${index * interval}ms` } as CSSProperties);
 import * as THREE from "three";
 
 export const CONTACT_EMAIL = "emilolabs@gmail.com";
@@ -376,8 +379,8 @@ export function Hero({ currentPath, onNavigate }: any) {
       <div className="container hero-grid">
         <div className="hero-copy">
           <div className="hero-kicker">EMILO LABS</div>
-          <h1>At the Core of a Connected Future.</h1>
-          <p>Identity, privacy, security, intelligence, finance, and coordination infrastructure.</p>
+          <h1>Humanity first. Technology second.</h1>
+          <p>Building connected systems with privacy, security, and human needs at the center.</p>
           <div className="hero-actions">
             <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore the institution</AppLink>
             <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">View research</AppLink>
@@ -446,12 +449,12 @@ export function InstitutionMap() {
 }
 
 export function ResearchTrackGrid() {
-  return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
+  return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
 }
 
 export function PillarCards({ items = RESEARCH_AREAS, limit }: any) {
   const visible = limit ? items.slice(0, limit) : items;
-  return <div className="pillar-grid">{visible.map((item: any, index: number) => { const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal]; return <article key={title} className="pillar-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>{signal}</span><strong>{title}</strong><p>{description}</p></article>; })}</div>;
+  return <div className="pillar-grid">{visible.map((item: any, index: number) => { const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal]; return <article key={title} className="pillar-card light-panel" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{description}</p></article>; })}</div>;
 }
 
 export function Products() {
@@ -478,7 +481,7 @@ export function Products() {
 }
 
 export function Technology() {
-  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-spine" aria-hidden="true"><span /><span /><span /></div><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={{ "--delay": `${index * 60}ms` }}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
+  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-spine" aria-hidden="true"><span /><span /><span /></div><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
 }
 
 export function CredibilityBand() {
@@ -504,7 +507,7 @@ export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }
 }
 
 export function CareersGrid() {
-  return <Reveal id="career-paths" className="career-path-section"><div className="container"><SectionLabel>TALENT NETWORK</SectionLabel><div className="track-grid">{CAREER_PATHS.map(([title, text], index) => <article key={title} className="track-card light-panel" style={{ "--delay": `${index * 60}ms` }}><span>Open interest</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="career-paths" className="career-path-section"><div className="container"><SectionLabel>TALENT NETWORK</SectionLabel><div className="track-grid">{CAREER_PATHS.map(([title, text], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>Open interest</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function PressResources() {
@@ -516,7 +519,7 @@ export function Contact() {
 }
 
 export function PrincipleGrid() {
-  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={{ "--delay": `${index * 70}ms` }}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={staggerStyle(index, 70)}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function Footer({ currentPath, onNavigate }: any) {
