@@ -54,32 +54,19 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Shell and background blend
-   Navy header/hero, a single clean fade, then plain white for every
-   section below. One stop, no visible color band in between.
+   Shell — white field with deliberate dark interaction surfaces
 ---------------------------------------------------------------------- */
 .site-shell {
   position: relative;
   min-height: 100vh;
   overflow: clip;
-  background: linear-gradient(to bottom, var(--navy) 0%, var(--navy) 520px, var(--field) 760px, var(--field) 100%);
+  background: var(--field);
   color: var(--ink);
 }
 
-.live-network-scene {
-  position: absolute;
-  inset: 0;
-  height: 760px;
-  z-index: 0;
-  pointer-events: none;
-  mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
-}
-
+.live-network-scene,
 .live-network-canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
+  display: none;
 }
 
 .container {
@@ -90,22 +77,23 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Navigation — stays on the navy band at the top of every page
+   Navigation — the permanent dark header
 ---------------------------------------------------------------------- */
 .nav {
   position: fixed;
   inset: 0 0 auto;
   z-index: 100;
   padding: 14px 0;
-  background: transparent;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255, 163, 255, 0.22);
   transition: padding 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 
 .nav.nav-scrolled {
   padding: 9px 0;
-  background: rgba(6, 1, 94, 0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--accent-border);
+  background: rgba(6, 1, 94, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--accent-border);
 }
 
 .nav-inner {
@@ -199,12 +187,39 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Hero — on the navy band
+   Hero — a contained dark interaction surface inside the white field
 ---------------------------------------------------------------------- */
 .hero-section {
   position: relative;
   z-index: 1;
-  padding: 132px 0 72px;
+  padding: 112px 0 56px;
+}
+
+.hero-frame {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 58px);
+  background: var(--navy);
+  border: 1px solid rgba(255, 163, 255, 0.5);
+  border-radius: 24px;
+  box-shadow: 0 22px 60px rgba(6, 1, 94, 0.12);
+}
+
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgba(111, 222, 211, 0.08) 50%, transparent 50.1%),
+    linear-gradient(0deg, transparent 0 49.9%, rgba(255, 163, 255, 0.06) 50%, transparent 50.1%);
+  background-size: 96px 96px;
+  mask-image: linear-gradient(to bottom right, rgba(0,0,0,.5), transparent 70%);
+}
+
+.hero-frame > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-grid {
@@ -255,11 +270,11 @@ button {
   margin-top: 26px;
 }
 
-/* Dark panel used for the hero institution graph, which sits on the navy band */
+/* Interactive institution panel inside the contained hero surface */
 .dark-panel {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--accent-border);
-  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 163, 255, 0.42);
+  border-radius: 14px;
 }
 
 .institution-preview {
@@ -372,7 +387,7 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Sections — plain white field below the hero
+   Sections — uninterrupted white field
 ---------------------------------------------------------------------- */
 .section {
   position: relative;
@@ -428,8 +443,9 @@ button {
    fill, not the paper color, so cards read as cards against white. */
 .light-panel {
   background: var(--field-deep);
-  border: 1px solid var(--accent-border);
-  border-radius: var(--radius);
+  border: 1px solid rgba(255, 163, 255, 0.55);
+  border-radius: 14px;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .metric-grid,
@@ -461,6 +477,17 @@ button {
   min-width: 0;
   padding: 22px;
   overflow-wrap: anywhere;
+}
+
+.metric-card:hover,
+.pillar-card:hover,
+.track-card:hover,
+.insight-card:hover,
+.contact-card:hover,
+.initiative-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-button);
+  box-shadow: 0 12px 30px rgba(18, 38, 35, 0.07);
 }
 
 .metric-card strong,
@@ -1121,15 +1148,24 @@ button {
   font-size: 0.78rem;
 }
 
-/* Page hero used on every non-home page: still on the navy band */
+/* Page hero — same contained dark language as the home hero */
 .page-hero {
   position: relative;
   z-index: 1;
-  padding: 148px 0 56px;
+  padding: 112px 0 56px;
 }
 
 .page-hero-inner {
-  max-width: 760px;
+  max-width: none;
+  padding: clamp(32px, 5vw, 64px);
+  background: var(--navy);
+  border: 1px solid rgba(255, 163, 255, 0.5);
+  border-radius: 24px;
+  box-shadow: 0 22px 60px rgba(6, 1, 94, 0.10);
+}
+
+.page-hero .section-label {
+  color: var(--mint);
 }
 
 .page-hero h1 {
@@ -1258,7 +1294,8 @@ button {
   .nav { padding: 10px 0; }
   .desktop-nav { display: none; }
   .menu-button { display: inline-flex; }
-  .hero-section { padding: 104px 0 48px; }
+  .hero-section { padding: 92px 0 40px; }
+  .hero-frame { padding: 22px; border-radius: 18px; }
   .hero-grid { gap: 28px; }
   .hero-copy h1 { font-size: clamp(2.25rem, 10vw, 3.4rem); }
   .institution-preview { min-height: 0; padding: 12px; }
@@ -1268,7 +1305,8 @@ button {
   .core-ring { width: 128px; height: 128px; }
   .preview-logo { width: 76px; }
   .section { padding: 54px 0; }
-  .page-hero { padding: 118px 0 40px; }
+  .page-hero { padding: 92px 0 40px; }
+  .page-hero-inner { padding: 28px 22px; border-radius: 18px; }
   .split-heading { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .metric-grid,
   .pillar-grid,
