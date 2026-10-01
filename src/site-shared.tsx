@@ -147,14 +147,6 @@ export const ECOSYSTEM_MARKS = [
   ["Vercel", "/ecosystem/vercel.svg"],
 ];
 
-const RESEARCH_TRACKS = [
-  ["Portable Identity and Proof", "How can people prove what matters without exposing more than necessary?", "Briefs, prototypes, credential models, recovery flows.", "Active investigation"],
-  ["Privacy-Preserving Continuity", "How can access, communication, and recovery remain continuous when identity must stay protected?", "Private communication and anonymous continuity patterns.", "Active investigation"],
-  ["Security Decision Systems", "How can digital environments detect risk earlier and support response before failure?", "Threat models, device trust, and ransomware defense research.", "Applied research"],
-  ["Applied AI and Research Intelligence", "How can AI support research and operations without removing human accountability?", "Agent boundaries, structured research workflows, controlled automation.", "Applied research"],
-  ["Health and Medical Technology Systems", "How can privacy and workflow safety improve health technology without overstating clinical claims?", "Workflow concepts, data safety research, assistive software patterns.", "Exploratory"],
-  ["Industrial and Frontier Systems", "What infrastructure is needed for complex systems, automation, unfamiliar interfaces, and resilient coordination?", "Research notes, system maps, long-range prototypes.", "Exploratory"],
-];
 
 type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];
 
