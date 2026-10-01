@@ -527,7 +527,39 @@ export function InstitutionMap() {
 }
 
 export function ResearchTrackGrid() {
-  return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
+  const research = INSIGHTS.filter(item =>
+    item[1] === "Research Essay" ||
+    item[1] === "Research Paper" ||
+    item[1] === "Privacy & Identity"
+  );
+  return (
+    <Reveal id="research-tracks" className="research-track-section">
+      <div className="container">
+        <SectionLabel>PUBLISHED RESEARCH</SectionLabel>
+        <div className="split-heading">
+          <h2>Research already in the world.</h2>
+          <p>Published work from Emilo Labs' research surface, linked directly to the original essays and papers.</p>
+        </div>
+        <div className="track-grid">
+          {research.map(([title, category, summary, date, time, status, featured, url], index) => (
+            <a
+              key={title}
+              className="track-card light-panel"
+              style={staggerStyle(index)}
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>{category}</span>
+              <strong>{title}</strong>
+              <p>{summary}</p>
+              <small>{date} · {time} · Read on Medium ↗</small>
+            </a>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
 }
 
 type PillarItem = string[] | { title: string; summary: string; signal: string };
