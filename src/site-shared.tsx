@@ -165,15 +165,49 @@ const RESEARCH_TRACKS = [
   ["Industrial and Frontier Systems", "What infrastructure is needed for complex systems, automation, unfamiliar interfaces, and resilient coordination?", "Research notes, system maps, long-range prototypes.", "Exploratory"],
 ];
 
-type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean];
+type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string];
 
 const INSIGHTS: InsightRow[] = [
-  ["Why digital trust needs institutional infrastructure", "Article", "Identity, privacy, verification, and security as connected infrastructure problems.", "Editorial pipeline", "7 min read", "Planned", true],
-  ["Building products from research questions", "Blog Note", "How investigation areas become product surfaces without collapsing research into marketing.", "Editorial pipeline", "4 min read", "Planned", false],
-  ["Identity continuity without unnecessary exposure", "Research Brief", "Portable proof, recovery, anonymous continuity, and connected product systems.", "Editorial pipeline", "6 min read", "Planned", true],
-  ["The connected future: systems, safety, and coordination", "Documentary", "A future documentary track about infrastructure, internet safety, intelligent systems, and the institution.", "In development", "Watch series", "Future", false],
-  ["Product ecosystem update", "Announcement", "A recurring format for active products, upcoming systems, partnerships, and institutional milestones.", "Editorial pipeline", "3 min read", "Template", false],
-  ["Field notes from applied security work", "Field Report", "Operational lessons from security, device trust, vulnerability defense, and user-facing safety systems.", "Editorial pipeline", "5 min read", "Planned", false],
+  [
+    "The Myth of Useless Data",
+    "Research Essay",
+    "How capability-dependent value changes what data means, why organizations retain it, and how latent value becomes infrastructure.",
+    "Jul 1, 2026",
+    "20 min read",
+    "Published",
+    true,
+    "https://emiloart.medium.com/the-myth-of-useless-data-ec41adde9072",
+  ],
+  [
+    "Identity Proofing as a Trust System",
+    "Research Paper",
+    "A systems model for identity proofing, confidence, failure propagation, verification uncertainty, and next-generation identity infrastructure.",
+    "Jun 29, 2026",
+    "31 min read",
+    "Published",
+    true,
+    "https://emiloart.medium.com/identity-proofing-as-a-trust-system-failure-modes-confidence-and-the-future-of-digital-identity-c25f655fef5f",
+  ],
+  [
+    "Cognitive Consent",
+    "Privacy & AI Governance",
+    "How interface design, behavioral optimization, and AI-era data collection challenge the assumptions behind procedural consent.",
+    "Jun 27, 2026",
+    "12 min read",
+    "Published",
+    true,
+    "https://emiloart.medium.com/cognitive-consent-f46ae290e06d",
+  ],
+  [
+    "The Internet Doesn't Have a Privacy Problem. It Has a Verification Problem.",
+    "Privacy & Identity",
+    "Why digital systems collect identities when they often need only a verified attribute, and what selective disclosure changes.",
+    "Jun 23, 2026",
+    "4 min read",
+    "Published",
+    true,
+    "https://emiloart.medium.com/the-internet-doesnt-have-a-privacy-problem-it-has-a-verification-problem-ceb08b22c04a",
+  ],
 ];
 
 const CAREER_PATHS = [
@@ -557,20 +591,26 @@ export function ProductOperatingModel() {
 export function InsightGrid({ items = INSIGHTS }: { items?: InsightRow[] }) {
   return (
     <div className="insight-grid">
-      {items.map(([title, category, summary, date, time, status, featured]) => (
-        <article key={title} className={`insight-card light-panel ${featured ? "is-featured" : ""}`}>
+      {items.map(([title, category, summary, date, time, status, featured, url]) => (
+        <a
+          key={title}
+          className={`insight-card light-panel ${featured ? "is-featured" : ""}`}
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+        >
           <div className="insight-meta"><span>{category}</span><small>{status}</small></div>
           <strong>{title}</strong>
           <p>{summary}</p>
-          <div className="insight-foot"><span>{date}</span><span>{time}</span></div>
-        </article>
+          <div className="insight-foot"><span>{date}</span><span>{time}</span><span>Read on Medium ↗</span></div>
+        </a>
       ))}
     </div>
   );
 }
 
 export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: PageProps & { featuredOnly?: boolean }) {
-  const items = featuredOnly ? INSIGHTS.filter(item => item[6]) : INSIGHTS.slice(0, 3);
+  const items = featuredOnly ? INSIGHTS.filter(item => item[6]).slice(0, 3) : INSIGHTS;
   return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>INSIGHTS</SectionLabel><div className="split-heading"><h2>One editorial hub for the institution's thinking and work.</h2><p>Research, product, and institutional publishing share one coherent surface.</p></div><InsightGrid items={items} /><div className="home-actions"><AppLink href="/insights" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open insights</AppLink></div></div></Reveal>;
 }
 
