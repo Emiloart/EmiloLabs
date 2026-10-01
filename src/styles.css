@@ -1063,9 +1063,84 @@ button {
    Insights / Press / Contact / Portfolio model
 ---------------------------------------------------------------------- */
 .insight-card {
-  padding: 22px;
+  padding: 0;
   display: grid;
+  gap: 0;
+  overflow: hidden;
+}
+
+.insight-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255, 163, 255, 0.42);
+}
+
+.insight-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 420ms ease;
+}
+
+.insight-card:hover .insight-cover img {
+  transform: scale(1.025);
+}
+
+.insight-cover-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
   gap: 10px;
+  padding: 22px;
+  background:
+    linear-gradient(135deg, rgba(6, 1, 94, 0.98), rgba(6, 1, 94, 0.76)),
+    repeating-linear-gradient(90deg, transparent 0 32px, rgba(111, 222, 211, 0.08) 33px 34px);
+}
+
+.insight-cover-fallback span {
+  color: var(--mint);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+}
+
+.insight-cover-fallback strong {
+  max-width: 460px;
+  color: var(--on-navy);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.12;
+}
+
+.insight-card > .insight-meta,
+.insight-card > strong,
+.insight-card > p,
+.insight-card > .insight-foot {
+  margin-left: 22px;
+  margin-right: 22px;
+}
+
+.insight-card > .insight-meta {
+  margin-top: 18px;
+}
+
+.insight-card > strong {
+  margin-top: 10px;
+}
+
+.insight-card > p {
+  margin-top: 0;
+}
+
+.insight-card > .insight-foot {
+  margin-bottom: 22px;
+}
+
+.research-cover {
+  margin: -1px -1px 0;
 }
 
 .insight-meta {
