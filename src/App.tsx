@@ -1,5 +1,5 @@
 import { useEffect, type ComponentType } from "react";
-import { Footer, LiveNetworkScene, Navbar, usePageMeta, useRoute, type PageProps } from "./site-shared";
+import { Footer, Navbar, usePageMeta, useRoute, type PageProps } from "./site-shared";
 import { HomePage, AboutPage, ResearchPage, TechnologyPage, ProductsPage, InsightsPage, CareersPage, PressPage, ContactPage } from "./pages";
 
 const ROUTES: Record<string, ComponentType<PageProps>> = {
@@ -33,7 +33,6 @@ export default function EmiloLabsWebsite() {
 
   return (
     <div className="site-shell">
-      <LiveNetworkScene />
       <Navbar currentPath={currentPath} onNavigate={navigate} />
       <main>
         <ActivePage currentPath={currentPath} onNavigate={navigate} />
