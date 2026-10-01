@@ -9,9 +9,10 @@ import {
   Hero,
   Reveal,
   SectionLabel,
+  type PageProps,
 } from "../site-shared";
 
-function HomePage({ currentPath, onNavigate }) {
+function HomePage({ currentPath, onNavigate }: PageProps) {
   return (
     <>
       <Hero currentPath={currentPath} onNavigate={onNavigate} />
@@ -108,8 +109,8 @@ function HomePage({ currentPath, onNavigate }) {
             ))}
           </div>
           <div className="ecosystem-strip" aria-label="Technology ecosystem">
-            {[...ECOSYSTEM_MARKS, ...ECOSYSTEM_MARKS].map(([name], index) => (
-              <span key={`${name}-${index}`}>{name}</span>
+            {ECOSYSTEM_MARKS.map(([name]) => (
+              <span key={name}>{name}</span>
             ))}
           </div>
           <div className="home-actions">

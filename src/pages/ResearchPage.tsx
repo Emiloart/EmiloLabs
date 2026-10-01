@@ -1,6 +1,6 @@
-import { PageHero, ResearchTrackGrid, Reveal, SectionLabel, PillarCards, InsightsPreview } from "../site-shared";
+import { PageHero, ResearchTrackGrid, Reveal, SectionLabel, PillarCards, InsightsPreview, type PageProps } from "../site-shared";
 
-function ResearchPage({ currentPath, onNavigate }) {
+function ResearchPage({ currentPath, onNavigate }: PageProps) {
   return (
     <>
       <PageHero
