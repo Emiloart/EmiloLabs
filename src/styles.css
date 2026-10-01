@@ -205,18 +205,6 @@ button {
   box-shadow: 0 22px 60px rgba(6, 1, 94, 0.12);
 }
 
-.hero-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, transparent 0 49.9%, rgba(111, 222, 211, 0.08) 50%, transparent 50.1%),
-    linear-gradient(0deg, transparent 0 49.9%, rgba(255, 163, 255, 0.06) 50%, transparent 50.1%);
-  background-size: 96px 96px;
-  mask-image: linear-gradient(to bottom right, rgba(0,0,0,.5), transparent 70%);
-}
-
 .hero-frame > * {
   position: relative;
   z-index: 1;
