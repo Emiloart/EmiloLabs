@@ -156,7 +156,7 @@ const RESEARCH_TRACKS = [
   ["Industrial and Frontier Systems", "What infrastructure is needed for complex systems, automation, unfamiliar interfaces, and resilient coordination?", "Research notes, system maps, long-range prototypes.", "Exploratory"],
 ];
 
-type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string];
+type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];
 
 const INSIGHTS: InsightRow[] = [
   [
@@ -168,6 +168,7 @@ const INSIGHTS: InsightRow[] = [
     "Published",
     true,
     "https://emiloart.medium.com/the-myth-of-useless-data-ec41adde9072",
+    "https://miro.medium.com/v2/resize%3Afit%3A1358/format%3Awebp/1%2A11N__IroAmaRTw0te25trA.png",
   ],
   [
     "Identity Proofing as a Trust System",
@@ -178,6 +179,7 @@ const INSIGHTS: InsightRow[] = [
     "Published",
     true,
     "https://emiloart.medium.com/identity-proofing-as-a-trust-system-failure-modes-confidence-and-the-future-of-digital-identity-c25f655fef5f",
+    "https://miro.medium.com/v2/resize%3Afit%3A1358/format%3Awebp/1%2AHbAmpT7BG_DE5mqxdvu3iw.png",
   ],
   [
     "Cognitive Consent",
@@ -188,6 +190,7 @@ const INSIGHTS: InsightRow[] = [
     "Published",
     true,
     "https://emiloart.medium.com/cognitive-consent-f46ae290e06d",
+    null,
   ],
   [
     "The Internet Doesn't Have a Privacy Problem. It Has a Verification Problem.",
@@ -198,6 +201,7 @@ const INSIGHTS: InsightRow[] = [
     "Published",
     true,
     "https://emiloart.medium.com/the-internet-doesnt-have-a-privacy-problem-it-has-a-verification-problem-ceb08b22c04a",
+    "https://miro.medium.com/v2/resize%3Afit%3A1358/format%3Awebp/1%2A6A4A-AeJoZGcNjGrosRZDg.png",
   ],
 ];
 
@@ -545,7 +549,7 @@ export function ResearchTrackGrid() {
           <p>Published work from Emilo Labs' research surface, linked directly to the original essays and papers.</p>
         </div>
         <div className="track-grid">
-          {research.map(([title, category, summary, date, time, status, featured, url], index) => (
+          {research.map(([title, category, summary, date, time, status, featured, url, cover], index) => (
             <a
               key={title}
               className="track-card light-panel"
@@ -554,6 +558,9 @@ export function ResearchTrackGrid() {
               target="_blank"
               rel="noreferrer"
             >
+              <div className="insight-cover research-cover">
+                {cover ? <img src={cover} alt="" loading="lazy" /> : <div className="insight-cover-fallback"><span>EMILO LABS</span><strong>{title}</strong></div>}
+              </div>
               <span>{category}</span>
               <strong>{title}</strong>
               <p>{summary}</p>
@@ -627,7 +634,7 @@ export function ProductOperatingModel() {
 export function InsightGrid({ items = INSIGHTS }: { items?: InsightRow[] }) {
   return (
     <div className="insight-grid">
-      {items.map(([title, category, summary, date, time, status, featured, url]) => (
+      {items.map(([title, category, summary, date, time, status, featured, url, cover]) => (
         <a
           key={title}
           className={`insight-card light-panel ${featured ? "is-featured" : ""}`}
@@ -635,6 +642,13 @@ export function InsightGrid({ items = INSIGHTS }: { items?: InsightRow[] }) {
           target="_blank"
           rel="noreferrer"
         >
+          <div className="insight-cover">
+            {cover ? (
+              <img src={cover} alt="" loading="lazy" />
+            ) : (
+              <div className="insight-cover-fallback"><span>EMILO LABS</span><strong>{title}</strong></div>
+            )}
+          </div>
           <div className="insight-meta"><span>{category}</span><small>{status}</small></div>
           <strong>{title}</strong>
           <p>{summary}</p>
