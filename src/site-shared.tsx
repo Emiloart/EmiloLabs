@@ -1,8 +1,13 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
+import * as THREE from "three";
+
+export type PageProps = {
+  currentPath: string;
+  onNavigate: (href: string) => void;
+};
 
 const staggerStyle = (index: number, interval = 60): CSSProperties =>
   ({ "--delay": `${index * interval}ms` } as CSSProperties);
-import * as THREE from "three";
 
 export const CONTACT_EMAIL = "emilolabs@gmail.com";
 
@@ -28,8 +33,8 @@ export const FOOTER_GROUPS = [
 
 export const PAGE_META = {
   "/": {
-    title: "Emilo Labs | At the Core of a Connected Future",
-    description: "Emilo Labs is a technology institution building systems across identity, privacy, security, intelligence, finance, communication, and digital infrastructure.",
+    title: "Emilo Labs | Humanity first. Technology second.",
+    description: "Emilo Labs is a technology institution building digital trust, applied AI, security, information infrastructure, products, and future-facing research programs.",
   },
   "/about": {
     title: "About | Emilo Labs",
@@ -71,6 +76,15 @@ export const INSTITUTION_FLOW = [
   { title: "Infrastructure", text: "Builds reusable systems and protocols.", signal: "Foundation" },
   { title: "Products", text: "Delivers systems to people and organizations.", signal: "Surface" },
   { title: "Public Impact", text: "Improves safety, trust, and coordination online.", signal: "Outcome" },
+];
+
+// Node positions (percent of the graph box). Used for both the SVG links and the node buttons.
+const FLOW_POSITIONS = [
+  { x: 50, y: 15 },
+  { x: 80, y: 36 },
+  { x: 80, y: 72 },
+  { x: 20, y: 72 },
+  { x: 20, y: 36 },
 ];
 
 export const RESEARCH_AREAS = [
@@ -151,7 +165,9 @@ const RESEARCH_TRACKS = [
   ["Industrial and Frontier Systems", "What infrastructure is needed for complex systems, automation, unfamiliar interfaces, and resilient coordination?", "Research notes, system maps, long-range prototypes.", "Exploratory"],
 ];
 
-const INSIGHTS = [
+type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean];
+
+const INSIGHTS: InsightRow[] = [
   ["Why digital trust needs institutional infrastructure", "Article", "Identity, privacy, verification, and security as connected infrastructure problems.", "Editorial pipeline", "7 min read", "Planned", true],
   ["Building products from research questions", "Blog Note", "How investigation areas become product surfaces without collapsing research into marketing.", "Editorial pipeline", "4 min read", "Planned", false],
   ["Identity continuity without unnecessary exposure", "Research Brief", "Portable proof, recovery, anonymous continuity, and connected product systems.", "Editorial pipeline", "6 min read", "Planned", true],
@@ -175,12 +191,16 @@ const PRINCIPLES = [
   ["Avoid empty claims", "Ambition should be visible without presenting future research as finished proof."],
 ];
 
-export function useInView(threshold = 0.16) {
-  const ref = useRef<any>(null);
+export function useInView(threshold = 0.1) {
+  const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting && setInView(true), { threshold });
-    if (ref.current) observer.observe(ref.current);
+    const node = ref.current;
+    if (!node) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setInView(true);
+    }, { threshold });
+    observer.observe(node);
     return () => observer.disconnect();
   }, [threshold]);
   return [ref, inView] as const;
@@ -192,8 +212,8 @@ export function useReducedMotion() {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setReduced(query.matches);
     update();
-    query.addEventListener?.("change", update);
-    return () => query.removeEventListener?.("change", update);
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
   }, []);
   return reduced;
 }
@@ -236,12 +256,19 @@ export function usePageMeta(path: string) {
   }, [path]);
 }
 
-export function AppLink({ href, currentPath, onNavigate, className = "", children, ...props }: any) {
+type AppLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+  href: string;
+  currentPath?: string;
+  onNavigate?: (href: string) => void;
+};
+
+export function AppLink({ href, currentPath, onNavigate, className = "", children, ...props }: AppLinkProps) {
   const external = href.startsWith("mailto:") || href.startsWith("http");
-  if (external) return <a href={href} className={className} {...props}>{children}</a>;
+  if (external || !onNavigate) return <a href={href} className={className} {...props}>{children}</a>;
   const active = normalizePath(href) === currentPath;
   return (
     <a
+      {...props}
       href={href}
       className={`${className} ${active ? "is-active" : ""}`.trim()}
       aria-current={active ? "page" : undefined}
@@ -250,7 +277,6 @@ export function AppLink({ href, currentPath, onNavigate, className = "", childre
         event.preventDefault();
         onNavigate(href);
       }}
-      {...props}
     >
       {children}
     </a>
@@ -331,34 +357,30 @@ export function LiveNetworkScene() {
   return <div ref={mountRef} className="live-network-scene" aria-hidden="true" />;
 }
 
-export function AmbientLayer() {
-  return <div className="ambient-layer" aria-hidden="true"><div className="ambient-circuit" /><div className="ambient-rings"><span /><span /><span /></div></div>;
-}
-
-export function EmiloLogo({ className = "", compact = false }: any) {
+export function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
   return <img className={className} src={compact ? "/emilo-labs-mark.svg" : "/emilo-labs-logo.svg"} alt={compact ? "" : "Emilo Labs"} draggable="false" />;
 }
 
-export function SectionLabel({ children }: any) {
+export function SectionLabel({ children }: { children: ReactNode }) {
   return <div className="section-label"><strong>{children}</strong></div>;
 }
 
-export function Reveal({ id, className = "", children }: any) {
+export function Reveal({ id, className = "", children }: { id?: string; className?: string; children: ReactNode }) {
   const [ref, inView] = useInView();
   return <section id={id} ref={ref} className={`section reveal ${inView ? "is-visible" : ""} ${className}`}>{children}</section>;
 }
 
-export function Navbar({ currentPath, onNavigate }: any) {
+export function Navbar({ currentPath, onNavigate }: PageProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
+    <nav className={`nav ${scrolled || menuOpen ? "nav-scrolled" : ""}`}>
       <div className="nav-inner">
         <AppLink href="/" currentPath={currentPath} onNavigate={onNavigate} className="brand" aria-label="Emilo Labs home">
           <EmiloLogo compact className="brand-mark" /><span>EMILO LABS</span>
@@ -373,7 +395,7 @@ export function Navbar({ currentPath, onNavigate }: any) {
   );
 }
 
-export function Hero({ currentPath, onNavigate }: any) {
+export function Hero({ currentPath, onNavigate }: PageProps) {
   return (
     <header id="home" className="hero-section">
       <div className="container hero-grid">
@@ -395,15 +417,33 @@ export function Hero({ currentPath, onNavigate }: any) {
 export function InstitutionPreview() {
   const [active, setActive] = useState(0);
   return (
-    <div className="institution-preview light-panel">
+    <div className="institution-preview dark-panel">
       <div className="panel-topline"><span>CONNECTED SYSTEM</span></div>
       <div className="institution-graph">
-        <svg className="institution-links" viewBox="0 0 100 100" aria-hidden="true">
-          {INSTITUTION_FLOW.map((_, index) => <line key={index} x1="50" y1="50" x2={["50","82","82","18","18"][index]} y2={["16","32","70","70","32"][index]} className={active === index ? "is-active" : ""} />)}
+        <svg className="institution-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {INSTITUTION_FLOW.map((item, index) => (
+            <line
+              key={item.title}
+              x1="50"
+              y1="50"
+              x2={FLOW_POSITIONS[index].x}
+              y2={FLOW_POSITIONS[index].y}
+              vectorEffect="non-scaling-stroke"
+              className={active === index ? "is-active" : ""}
+            />
+          ))}
         </svg>
         <div className="graph-core"><div className="core-ring" /><EmiloLogo compact className="preview-logo" /></div>
         {INSTITUTION_FLOW.map((item, index) => (
-          <button key={item.title} type="button" className={`graph-node ${index === active ? "is-active" : ""}`} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} onClick={() => setActive(index)}>
+          <button
+            key={item.title}
+            type="button"
+            className={`graph-node ${index === active ? "is-active" : ""}`}
+            style={{ left: `${FLOW_POSITIONS[index].x}%`, top: `${FLOW_POSITIONS[index].y}%` }}
+            onMouseEnter={() => setActive(index)}
+            onFocus={() => setActive(index)}
+            onClick={() => setActive(index)}
+          >
             <span>{item.signal}</span><strong>{item.title}</strong><p>{item.text}</p>
           </button>
         ))}
@@ -452,9 +492,22 @@ export function ResearchTrackGrid() {
   return <Reveal id="research-tracks" className="research-track-section"><div className="container"><SectionLabel>RESEARCH TRACKS</SectionLabel><div className="track-grid">{RESEARCH_TRACKS.map(([title, question, output, status], index) => <article key={title} className="track-card light-panel" style={staggerStyle(index)}><span>{status}</span><strong>{title}</strong><p>{question}</p><small>{output}</small></article>)}</div></div></Reveal>;
 }
 
-export function PillarCards({ items = RESEARCH_AREAS, limit }: any) {
+type PillarItem = string[] | { title: string; summary: string; signal: string };
+
+export function PillarCards({ items = RESEARCH_AREAS, limit }: { items?: PillarItem[]; limit?: number }) {
   const visible = limit ? items.slice(0, limit) : items;
-  return <div className="pillar-grid">{visible.map((item: any, index: number) => { const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal]; return <article key={title} className="pillar-card light-panel" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{description}</p></article>; })}</div>;
+  return (
+    <div className="pillar-grid">
+      {visible.map((item, index) => {
+        const [title, description, signal] = Array.isArray(item) ? item : [item.title, item.summary, item.signal];
+        return (
+          <article key={title} className="pillar-card light-panel" style={staggerStyle(index)}>
+            <span>{signal}</span><strong>{title}</strong><p>{description}</p>
+          </article>
+        );
+      })}
+    </div>
+  );
 }
 
 export function Products() {
@@ -481,7 +534,7 @@ export function Products() {
 }
 
 export function Technology() {
-  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-spine" aria-hidden="true"><span /><span /><span /></div><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
+  return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
 }
 
 export function CredibilityBand() {
@@ -489,7 +542,7 @@ export function CredibilityBand() {
   return <Reveal id="ecosystems" className="credibility-section"><div className="ecosystem-marquee" aria-label="Technology ecosystem"><div className="ecosystem-track">{loop.map(([name, logo], index) => <div className="ecosystem-logo" key={`${name}-${index}`}><span><img src={logo} alt="" loading="lazy" /></span><strong>{name}</strong></div>)}</div></div></Reveal>;
 }
 
-export function PageHero({ label, title, summary, children }: any) {
+export function PageHero({ label, title, summary, children }: { label: string; title: string; summary: string; children?: ReactNode }) {
   return <header className="page-hero"><div className="container page-hero-inner"><SectionLabel>{label}</SectionLabel><h1>{title}</h1><p>{summary}</p>{children}</div></header>;
 }
 
@@ -497,13 +550,24 @@ export function ProductOperatingModel() {
   return <Reveal id="portfolio-model" className="portfolio-model-section"><div className="container"><SectionLabel>PORTFOLIO MODEL</SectionLabel><div className="split-panel light-panel"><div><h2>Products are the practical surface of deeper infrastructure.</h2><p>Active systems are separated from upcoming systems so the portfolio communicates what exists now without presenting future work as finished.</p></div><div className="mini-list"><span>Active</span><span>Coming Soon</span><span>Research-backed</span></div></div></div></Reveal>;
 }
 
-export function InsightGrid({ items = INSIGHTS }: any) {
-  return <div className="insight-grid">{items.map(([title, category, summary, date, time, status, featured], index) => <article key={title} className={`insight-card light-panel ${featured ? "is-featured" : ""}`}><div className="insight-meta"><span>{category}</span><small>{status}</small></div><strong>{title}</strong><p>{summary}</p><div className="insight-foot"><span>{date}</span><span>{time}</span></div></article>)}</div>;
+export function InsightGrid({ items = INSIGHTS }: { items?: InsightRow[] }) {
+  return (
+    <div className="insight-grid">
+      {items.map(([title, category, summary, date, time, status, featured]) => (
+        <article key={title} className={`insight-card light-panel ${featured ? "is-featured" : ""}`}>
+          <div className="insight-meta"><span>{category}</span><small>{status}</small></div>
+          <strong>{title}</strong>
+          <p>{summary}</p>
+          <div className="insight-foot"><span>{date}</span><span>{time}</span></div>
+        </article>
+      ))}
+    </div>
+  );
 }
 
-export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: any) {
+export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: PageProps & { featuredOnly?: boolean }) {
   const items = featuredOnly ? INSIGHTS.filter(item => item[6]) : INSIGHTS.slice(0, 3);
-  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>INSIGHTS</SectionLabel><div className="split-heading"><h2>One editorial hub for the institution's thinking and work.</h2><p>Research, product, and institutional publishing share one coherent surface.</p></div><InsightGrid items={items as any} /><div className="home-actions"><AppLink href="/insights" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open insights</AppLink></div></div></Reveal>;
+  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>INSIGHTS</SectionLabel><div className="split-heading"><h2>One editorial hub for the institution's thinking and work.</h2><p>Research, product, and institutional publishing share one coherent surface.</p></div><InsightGrid items={items} /><div className="home-actions"><AppLink href="/insights" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open insights</AppLink></div></div></Reveal>;
 }
 
 export function CareersGrid() {
@@ -522,6 +586,6 @@ export function PrincipleGrid() {
   return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={staggerStyle(index, 70)}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
-export function Footer({ currentPath, onNavigate }: any) {
+export function Footer({ currentPath, onNavigate }: PageProps) {
   return <footer className="footer"><div className="container footer-inner"><AppLink href="/" currentPath={currentPath} onNavigate={onNavigate} className="brand" aria-label="Emilo Labs home"><EmiloLogo compact className="brand-mark" /><span>EMILO LABS</span></AppLink><div className="footer-groups">{FOOTER_GROUPS.map(group => <div key={group.title} className="footer-group"><strong>{group.title}</strong>{group.links.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={onNavigate}>{link.label}</AppLink>)}</div>)}</div><small>© {new Date().getFullYear()} Emilo Labs</small></div></footer>;
 }
