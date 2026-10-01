@@ -1,8 +1,8 @@
 :root {
   --navy: #06015e;
   --navy-soft: #140a6e;
-  --field: #eaf9f6;
-  --field-deep: #d7f3ed;
+  --field: #ffffff;
+  --field-deep: #f3f4f1;
   --paper: #ffffff;
   --ink: #122623;
   --ink-muted: #3f5853;
@@ -55,35 +55,25 @@ button {
 
 /* ----------------------------------------------------------------------
    Shell and background blend
-   The shell is navy at the top for the header/hero, then blends into the
-   light field for every section below. .site-shell carries the gradient
-   so every page gets the same transition regardless of its own markup.
+   Navy header/hero, a single clean fade, then plain white for every
+   section below. One stop, no visible color band in between.
 ---------------------------------------------------------------------- */
 .site-shell {
   position: relative;
   min-height: 100vh;
   overflow: clip;
-  background:
-    linear-gradient(
-      to bottom,
-      var(--navy) 0%,
-      var(--navy) 420px,
-      var(--navy-soft) 620px,
-      var(--field-deep) 900px,
-      var(--field) 1080px,
-      var(--field) 100%
-    );
+  background: linear-gradient(to bottom, var(--navy) 0%, var(--navy) 520px, var(--field) 760px, var(--field) 100%);
   color: var(--ink);
 }
 
 .live-network-scene {
   position: absolute;
   inset: 0;
-  height: 1080px;
+  height: 760px;
   z-index: 0;
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
 }
 
 .live-network-canvas {
@@ -382,7 +372,7 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Sections — on the light field below the blend
+   Sections — plain white field below the hero
 ---------------------------------------------------------------------- */
 .section {
   position: relative;
@@ -434,9 +424,10 @@ button {
   line-height: 1.7;
 }
 
-/* Light card used across every content grid on the light field */
+/* Card used across every content grid on the white field. A light grey
+   fill, not the paper color, so cards read as cards against white. */
 .light-panel {
-  background: var(--paper);
+  background: var(--field-deep);
   border: 1px solid var(--accent-border);
   border-radius: var(--radius);
 }
@@ -511,8 +502,8 @@ button {
 
 /* ----------------------------------------------------------------------
    Buttons
-   Primary stays readable on both navy and light field. Secondary flips
-   its ink color depending on which band it's drawn on.
+   Primary stays readable on both navy and the white field. Secondary
+   flips its ink color depending on which band it's drawn on.
 ---------------------------------------------------------------------- */
 .primary-button,
 .secondary-button {
@@ -561,7 +552,7 @@ button {
   gap: 6px;
   margin-bottom: 20px;
   padding: 4px;
-  background: var(--paper);
+  background: var(--field-deep);
   border: 1px solid var(--accent-border);
   border-radius: 999px;
 }
@@ -815,7 +806,7 @@ button {
   height: 48px;
   align-items: center;
   justify-content: center;
-  background: var(--paper);
+  background: var(--field-deep);
   border: 1px solid var(--accent-border);
   border-radius: 10px;
 }
@@ -844,7 +835,7 @@ button {
   padding: 9px 13px;
   border: 1px solid var(--accent-border);
   border-radius: var(--radius);
-  background: var(--paper);
+  background: var(--field-deep);
   color: var(--ink-muted);
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -885,7 +876,8 @@ button {
   padding: 20px;
   display: grid;
   gap: 6px;
-  background: var(--field-deep);
+  background: var(--paper);
+  border: 1px solid var(--field-deep);
   border-radius: 8px;
 }
 
