@@ -541,7 +541,7 @@ export function ResearchTrackGrid() {
           <p>Published work from Emilo Labs' research surface, linked directly to the original essays and papers.</p>
         </div>
         <div className="track-grid">
-          {research.map(([title, category, summary, date, time, status, featured, url, cover], index) => (
+          {research.map(([title, category, summary, date, time, , , url, cover], index) => (
             <a
               key={title}
               className="track-card light-panel"
