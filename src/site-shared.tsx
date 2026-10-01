@@ -78,15 +78,6 @@ export const INSTITUTION_FLOW = [
   { title: "Public Impact", text: "Improves safety, trust, and coordination online.", signal: "Outcome" },
 ];
 
-// Node positions (percent of the graph box). Used for both the SVG links and the node buttons.
-const FLOW_POSITIONS = [
-  { x: 50, y: 15 },
-  { x: 80, y: 36 },
-  { x: 80, y: 72 },
-  { x: 20, y: 72 },
-  { x: 20, y: 36 },
-];
-
 export const RESEARCH_AREAS = [
   ["Identity", "Reusable proof and portable credentials."],
   ["Privacy", "Continuity and communication without unnecessary exposure."],
@@ -454,37 +445,50 @@ export function Hero({ currentPath, onNavigate }: PageProps) {
 
 export function InstitutionPreview() {
   const [active, setActive] = useState(0);
+  const selected = INSTITUTION_FLOW[active];
+
   return (
     <div className="institution-preview dark-panel">
-      <div className="panel-topline"><span>CONNECTED SYSTEM</span></div>
-      <div className="institution-graph">
-        <svg className="institution-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <div className="panel-topline">
+        <span>EMILO LABS / SYSTEM MODEL</span>
+        <span>01—05</span>
+      </div>
+
+      <div className="system-model">
+        <div className="system-model-intro">
+          <EmiloLogo compact className="system-model-mark" />
+          <div>
+            <strong>One institution. One operating model.</strong>
+            <p>Research moves into infrastructure, infrastructure becomes products, and products create measurable public impact.</p>
+          </div>
+        </div>
+
+        <div className="system-stack" role="list" aria-label="Emilo Labs operating model">
           {INSTITUTION_FLOW.map((item, index) => (
-            <line
+            <button
               key={item.title}
-              x1="50"
-              y1="50"
-              x2={FLOW_POSITIONS[index].x}
-              y2={FLOW_POSITIONS[index].y}
-              vectorEffect="non-scaling-stroke"
-              className={active === index ? "is-active" : ""}
-            />
+              type="button"
+              className={`system-layer ${index === active ? "is-active" : ""}`}
+              onMouseEnter={() => setActive(index)}
+              onFocus={() => setActive(index)}
+              onClick={() => setActive(index)}
+            >
+              <span className="system-index">{String(index + 1).padStart(2, "0")}</span>
+              <span className="system-layer-copy">
+                <strong>{item.title}</strong>
+                <small>{item.text}</small>
+              </span>
+              <span className="system-signal">{item.signal}</span>
+              <span className="system-arrow" aria-hidden="true">↗</span>
+            </button>
           ))}
-        </svg>
-        <div className="graph-core"><div className="core-ring" /><EmiloLogo compact className="preview-logo" /></div>
-        {INSTITUTION_FLOW.map((item, index) => (
-          <button
-            key={item.title}
-            type="button"
-            className={`graph-node ${index === active ? "is-active" : ""}`}
-            style={{ left: `${FLOW_POSITIONS[index].x}%`, top: `${FLOW_POSITIONS[index].y}%` }}
-            onMouseEnter={() => setActive(index)}
-            onFocus={() => setActive(index)}
-            onClick={() => setActive(index)}
-          >
-            <span>{item.signal}</span><strong>{item.title}</strong><p>{item.text}</p>
-          </button>
-        ))}
+        </div>
+
+        <div className="system-readout">
+          <span>ACTIVE LAYER</span>
+          <strong>{selected.title}</strong>
+          <p>{selected.text}</p>
+        </div>
       </div>
     </div>
   );
