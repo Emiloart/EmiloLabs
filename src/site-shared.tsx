@@ -398,17 +398,21 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
 export function Hero({ currentPath, onNavigate }: PageProps) {
   return (
     <header id="home" className="hero-section">
-      <div className="container hero-grid">
-        <div className="hero-copy">
-          <div className="hero-kicker">EMILO LABS</div>
-          <h1>Humanity first. Technology second.</h1>
-          <p>Building connected systems with privacy, security, and human needs at the center.</p>
-          <div className="hero-actions">
-            <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore the institution</AppLink>
-            <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">View research</AppLink>
+      <div className="container">
+        <div className="hero-frame">
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <div className="hero-kicker">EMILO LABS</div>
+              <h1>Humanity first. Technology second.</h1>
+              <p>Building connected systems with privacy, security, and human needs at the center.</p>
+              <div className="hero-actions">
+                <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore the institution</AppLink>
+                <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">View research</AppLink>
+              </div>
+            </div>
+            <InstitutionPreview />
           </div>
         </div>
-        <InstitutionPreview />
       </div>
     </header>
   );
