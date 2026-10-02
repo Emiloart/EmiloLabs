@@ -286,9 +286,6 @@ export function contactHref(subject: string) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 
-export function LiveNetworkScene() {
-  return null;
-}
 export function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
   return <img className={className} src={compact ? "/emilo-labs-mark.svg" : "/emilo-labs-logo.svg"} alt={compact ? "" : "Emilo Labs"} draggable="false" />;
 }
@@ -324,29 +321,6 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
       </div>
       {menuOpen && <div className="mobile-menu">{NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={href => { setMenuOpen(false); onNavigate(href); }}>{link.label}</AppLink>)}</div>}
     </nav>
-  );
-}
-
-export function Hero({ currentPath, onNavigate }: PageProps) {
-  return (
-    <header id="home" className="hero-section">
-      <div className="container">
-        <div className="hero-frame">
-          <div className="hero-grid">
-            <div className="hero-copy">
-              <div className="hero-kicker">EMILO LABS</div>
-              <h1>Humanity first. Technology second.</h1>
-              <p>Building connected systems with privacy, security, and human needs at the center.</p>
-              <div className="hero-actions">
-                <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore the institution</AppLink>
-                <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">View research</AppLink>
-              </div>
-            </div>
-            <InstitutionPreview />
-          </div>
-        </div>
-      </div>
-    </header>
   );
 }
 
@@ -534,3 +508,4 @@ export function PrincipleGrid() {
 
 export function Footer({ currentPath, onNavigate }: PageProps) {
   return <footer className="footer"><div className="container footer-inner"><AppLink href="/" currentPath={currentPath} onNavigate={onNavigate} className="brand" aria-label="Emilo Labs home"><EmiloLogo compact className="brand-mark" /><span>EMILO LABS</span></AppLink><div className="footer-groups">{FOOTER_GROUPS.map(group => <div key={group.title} className="footer-group"><strong>{group.title}</strong>{group.links.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={onNavigate}>{link.label}</AppLink>)}</div>)}</div><small>© {new Date().getFullYear()} Emilo Labs</small></div></footer>;
+}
