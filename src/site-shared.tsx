@@ -12,23 +12,17 @@ const staggerStyle = (index: number, interval = 60): CSSProperties =>
 export const CONTACT_EMAIL = "emilolabs@gmail.com";
 
 export const NAV_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Research", href: "/research" },
-  { label: "Technology", href: "/technology" },
   { label: "Products", href: "/products" },
-  { label: "Insights", href: "/insights" },
-  { label: "Careers", href: "/careers" },
-  { label: "Press", href: "/press" },
-  { label: "Contact", href: "/contact" },
+  { label: "Research", href: "/research" },
+  { label: "Labs", href: "/labs" },
+  { label: "About", href: "/about" },
 ];
 
 export const FOOTER_GROUPS = [
-  { title: "Company", links: [{ label: "About", href: "/about" }, { label: "Press", href: "/press" }] },
-  { title: "Research", links: [{ label: "Research tracks", href: "/research" }] },
+  { title: "Institution", links: [{ label: "About", href: "/about" }, { label: "Contact", href: "/about" }] },
   { title: "Products", links: [{ label: "Product portfolio", href: "/products" }] },
-  { title: "Insights", links: [{ label: "Insights hub", href: "/insights" }] },
-  { title: "Careers", links: [{ label: "Talent network", href: "/careers" }] },
-  { title: "Contact", links: [{ label: "Contact Emilo Labs", href: "/contact" }] },
+  { title: "Research", links: [{ label: "Research archive", href: "/research" }] },
+  { title: "Labs", links: [{ label: "Experiments", href: "/labs" }] },
 ];
 
 export const PAGE_META = {
@@ -44,29 +38,13 @@ export const PAGE_META = {
     title: "Research | Emilo Labs",
     description: "Research domains and investigation tracks across identity, privacy, security, intelligent systems, finance, and internet infrastructure.",
   },
-  "/technology": {
-    title: "Technology | Emilo Labs",
-    description: "Engineering foundations spanning software systems, identity, privacy, security, intelligent systems, finance, data, and exploratory technology.",
-  },
   "/products": {
     title: "Products | Emilo Labs",
     description: "Active and upcoming Emilo Labs systems across communication, identity, verification, security, finance, and intelligent systems.",
   },
-  "/insights": {
-    title: "Insights | Emilo Labs",
-    description: "The Emilo Labs publishing hub for articles, research briefs, field notes, documentaries, and institutional updates.",
-  },
-  "/careers": {
-    title: "Careers | Emilo Labs",
-    description: "The Emilo Labs talent network for engineering, research, security, design, and institutional work.",
-  },
-  "/press": {
-    title: "Press | Emilo Labs",
-    description: "Official company context and media information for Emilo Labs.",
-  },
-  "/contact": {
-    title: "Contact | Emilo Labs",
-    description: "Contact Emilo Labs for partnerships, research, products, careers, media, and general inquiries.",
+  "/labs": {
+    title: "Labs | Emilo Labs",
+    description: "Experiments, prototypes, and systems under active investigation at Emilo Labs.",
   },
 };
 
@@ -150,7 +128,7 @@ export const ECOSYSTEM_MARKS = [
 
 type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];
 
-const INSIGHTS: InsightRow[] = [
+export const INSIGHTS: InsightRow[] = [
   [
     "The Myth of Useless Data",
     "Research Essay",
@@ -241,7 +219,9 @@ export function useReducedMotion() {
 
 export function normalizePath(pathname: string) {
   const path = (pathname || "/").replace(/\/+$/, "") || "/";
-  return PAGE_META[path as keyof typeof PAGE_META] ? path : "/";
+  if (PAGE_META[path as keyof typeof PAGE_META]) return path;
+  if (/^\/(products|research)\/[^/]+$/.test(path)) return path;
+  return "/";
 }
 
 export function useRoute() {
@@ -264,7 +244,7 @@ export function useRoute() {
 
 export function usePageMeta(path: string) {
   useEffect(() => {
-    const meta = PAGE_META[path as keyof typeof PAGE_META] || PAGE_META["/"];
+    const meta = PAGE_META[path as keyof typeof PAGE_META] || (path.startsWith("/products/") ? { title: "Product | Emilo Labs", description: "A product in the Emilo Labs portfolio." } : path.startsWith("/research/") ? { title: "Research | Emilo Labs", description: "Published research from Emilo Labs." } : PAGE_META["/"]);
     document.title = meta.title;
     const update = (selector: string, attribute: string, value: string) => {
       document.head.querySelector(selector)?.setAttribute(attribute, value);
@@ -653,7 +633,7 @@ export function InsightGrid({ items = INSIGHTS }: { items?: InsightRow[] }) {
 
 export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: PageProps & { featuredOnly?: boolean }) {
   const items = featuredOnly ? INSIGHTS.filter(item => item[6]).slice(0, 3) : INSIGHTS;
-  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>INSIGHTS</SectionLabel><div className="split-heading"><h2>One editorial hub for the institution's thinking and work.</h2><p>Research, product, and institutional publishing share one coherent surface.</p></div><InsightGrid items={items} /><div className="home-actions"><AppLink href="/insights" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open insights</AppLink></div></div></Reveal>;
+  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>RESEARCH</SectionLabel><div className="split-heading"><h2>Published work.</h2><p>Research publications from the institution, linked to their original sources.</p></div><InsightGrid items={items} /><div className="home-actions"><AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open research</AppLink></div></div></Reveal>;
 }
 
 export function CareersGrid() {
