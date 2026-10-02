@@ -64,6 +64,36 @@ export const RESEARCH_AREAS = [
   ["Internet Systems", "Infrastructure for communication, coordination, and safer participation."],
 ];
 
+export const TECHNOLOGY_AREAS = [
+  ["Software & Internet Systems", "Applications, APIs, data services, and communication infrastructure.", "Systems layer"],
+  ["Identity & Privacy", "Credentials, selective disclosure, anonymous continuity, and recovery.", "Trust layer"],
+  ["Security Engineering", "Threat modeling, application security, and risk-aware system design.", "Defense layer"],
+  ["Applied AI", "Research assistance, structured analysis, and bounded automation.", "Intelligence layer"],
+  ["Financial Technology", "Lending workflows, value exchange, and settlement concepts.", "Value layer"],
+  ["Infrastructure & Data", "Service architecture, data pipelines, and distributed components.", "Foundation layer"],
+  ["Industrial Technology", "Exploratory work in automation, monitoring, and software-defined operations.", "Industry research"],
+  ["Health Technology", "Exploration of privacy-aware data systems and safer digital workflows.", "Exploratory domain"],
+  ["Frontier Systems", "Long-range inquiry into new interfaces and resilient system models.", "Frontier research"],
+];
+
+export const ECOSYSTEM_MARKS = [
+  ["Starknet", "/ecosystem/starknet.svg"],
+  ["Aleo", "/ecosystem/aleo.svg"],
+  ["IOTA", "/ecosystem/iota.svg"],
+  ["Ethereum", "/ecosystem/ethereum.svg"],
+  ["Supabase", "/ecosystem/supabase.svg"],
+  ["WireGuard", "/ecosystem/wireguard.svg"],
+  ["Rust", "/ecosystem/rust.svg"],
+  ["Go", "/ecosystem/go.svg"],
+  ["React", "/ecosystem/react.svg"],
+  ["Three.js", "/ecosystem/threejs.svg"],
+  ["Vite", "/ecosystem/vite.svg"],
+  ["Node.js", "/ecosystem/nodejs.svg"],
+  ["PostgreSQL", "/ecosystem/postgresql.svg"],
+  ["Cloudflare", "/ecosystem/cloudflare.svg"],
+  ["Vercel", "/ecosystem/vercel.svg"],
+];
+
 export const PRODUCT_TIERS = [
   {
     title: "Active",
