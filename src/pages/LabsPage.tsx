@@ -1,4 +1,4 @@
-import { PageHero, SectionLabel, AppLink, type PageProps } from "../site-shared";
+import { PageHero, SectionLabel, type PageProps } from "../site-shared";
 
 const LABS = [
   ["Celetixo", "Engineering-state coordination and optimistic concurrency for AI coding agents.", "Experimental"],
