@@ -15,7 +15,7 @@ function ProductsPage({ currentPath, onNavigate }: PageProps) {
               <p>{tier.products.length} systems in this lifecycle.</p>
             </div>
             <div className="track-grid">
-              {tier.products.map(([name, domain, summary]) => (
+              {tier.products.map(([name, , summary]) => (
                 <AppLink key={name} href={"/products/" + slugify(name)} currentPath={currentPath} onNavigate={onNavigate} className="track-card light-panel">
                   <span>{tier.title}</span>
                   <strong>{name}</strong>
