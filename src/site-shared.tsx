@@ -48,14 +48,6 @@ export const PAGE_META = {
   },
 };
 
-export const INSTITUTION_FLOW = [
-  { title: "Research", text: "Defines the questions worth solving.", signal: "Direction" },
-  { title: "Labs", text: "Tests ideas through experiments.", signal: "Exploration" },
-  { title: "Infrastructure", text: "Builds reusable systems and protocols.", signal: "Foundation" },
-  { title: "Products", text: "Delivers systems to people and organizations.", signal: "Surface" },
-  { title: "Public Impact", text: "Improves safety, trust, and coordination online.", signal: "Outcome" },
-];
-
 export const RESEARCH_AREAS = [
   ["Identity", "Reusable proof and portable credentials."],
   ["Privacy", "Continuity and communication without unnecessary exposure."],
@@ -383,57 +375,6 @@ export function Hero({ currentPath, onNavigate }: PageProps) {
         </div>
       </div>
     </header>
-  );
-}
-
-export function InstitutionPreview() {
-  const [active, setActive] = useState(0);
-  const selected = INSTITUTION_FLOW[active];
-
-  return (
-    <div className="institution-preview dark-panel">
-      <div className="panel-topline">
-        <span>EMILO LABS / SYSTEM MODEL</span>
-        <span>01—05</span>
-      </div>
-
-      <div className="system-model">
-        <div className="system-model-intro">
-          <EmiloLogo compact className="system-model-mark" />
-          <div>
-            <strong>One institution. One operating model.</strong>
-            <p>Research moves into infrastructure, infrastructure becomes products, and products create measurable public impact.</p>
-          </div>
-        </div>
-
-        <div className="system-stack" role="list" aria-label="Emilo Labs operating model">
-          {INSTITUTION_FLOW.map((item, index) => (
-            <button
-              key={item.title}
-              type="button"
-              className={`system-layer ${index === active ? "is-active" : ""}`}
-              onMouseEnter={() => setActive(index)}
-              onFocus={() => setActive(index)}
-              onClick={() => setActive(index)}
-            >
-              <span className="system-index">{String(index + 1).padStart(2, "0")}</span>
-              <span className="system-layer-copy">
-                <strong>{item.title}</strong>
-                <small>{item.text}</small>
-              </span>
-              <span className="system-signal">{item.signal}</span>
-              <span className="system-arrow" aria-hidden="true">↗</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="system-readout">
-          <span>ACTIVE LAYER</span>
-          <strong>{selected.title}</strong>
-          <p>{selected.text}</p>
-        </div>
-      </div>
-    </div>
   );
 }
 
