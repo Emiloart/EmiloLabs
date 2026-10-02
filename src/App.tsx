@@ -1,23 +1,25 @@
 import { useEffect, type ComponentType } from "react";
 import { Footer, Navbar, usePageMeta, useRoute, type PageProps } from "./site-shared";
-import { HomePage, AboutPage, ResearchPage, TechnologyPage, ProductsPage, InsightsPage, CareersPage, PressPage, ContactPage } from "./pages";
+import { HomePage, AboutPage, ResearchPage, ProductsPage, LabsPage, ProductDetailPage, ResearchDetailPage } from "./pages";
 
 const ROUTES: Record<string, ComponentType<PageProps>> = {
   "/": HomePage,
   "/about": AboutPage,
   "/research": ResearchPage,
-  "/technology": TechnologyPage,
   "/products": ProductsPage,
-  "/insights": InsightsPage,
-  "/careers": CareersPage,
-  "/press": PressPage,
-  "/contact": ContactPage,
+  "/labs": LabsPage,
 };
+
+function resolveRoute(path: string): ComponentType<PageProps> {
+  if (ROUTES[path]) return ROUTES[path];
+  if (path.startsWith("/products/")) return ProductDetailPage;
+  if (path.startsWith("/research/")) return ResearchDetailPage;
+  return HomePage;
+}
 
 export default function EmiloLabsWebsite() {
   const [currentPath, navigate] = useRoute();
-  const ActivePage = ROUTES[currentPath] || HomePage;
-
+  const ActivePage = resolveRoute(currentPath);
   usePageMeta(currentPath);
 
   useEffect(() => {
@@ -25,18 +27,13 @@ export default function EmiloLabsWebsite() {
     link.href = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
-
-    return () => {
-      document.head.removeChild(link);
-    };
+    return () => document.head.removeChild(link);
   }, []);
 
   return (
     <div className="site-shell">
       <Navbar currentPath={currentPath} onNavigate={navigate} />
-      <main>
-        <ActivePage currentPath={currentPath} onNavigate={navigate} />
-      </main>
+      <main><ActivePage currentPath={currentPath} onNavigate={navigate} /></main>
       <Footer currentPath={currentPath} onNavigate={navigate} />
     </div>
   );
