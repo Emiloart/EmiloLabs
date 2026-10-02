@@ -47,7 +47,7 @@ export const PAGE_META = {
   },
 };
 
-export const INSTITUTION_FLOW = [
+const INSTITUTION_FLOW = [
   { title: "Research", text: "Defines the questions worth solving.", signal: "Direction" },
   { title: "Labs", text: "Tests ideas through experiments.", signal: "Exploration" },
   { title: "Infrastructure", text: "Builds reusable systems and protocols.", signal: "Foundation" },
@@ -64,7 +64,7 @@ export const RESEARCH_AREAS = [
   ["Internet Systems", "Infrastructure for communication, coordination, and safer participation."],
 ];
 
-export const TECHNOLOGY_AREAS = [
+const TECHNOLOGY_AREAS = [
   ["Software & Internet Systems", "Applications, APIs, data services, and communication infrastructure.", "Systems layer"],
   ["Identity & Privacy", "Credentials, selective disclosure, anonymous continuity, and recovery.", "Trust layer"],
   ["Security Engineering", "Threat modeling, application security, and risk-aware system design.", "Defense layer"],
@@ -76,7 +76,7 @@ export const TECHNOLOGY_AREAS = [
   ["Frontier Systems", "Long-range inquiry into new interfaces and resilient system models.", "Frontier research"],
 ];
 
-export const ECOSYSTEM_MARKS = [
+const ECOSYSTEM_MARKS = [
   ["Starknet", "/ecosystem/starknet.svg"],
   ["Aleo", "/ecosystem/aleo.svg"],
   ["IOTA", "/ecosystem/iota.svg"],
