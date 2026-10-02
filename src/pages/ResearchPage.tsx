@@ -1,34 +1,31 @@
-import { PageHero, ResearchTrackGrid, Reveal, SectionLabel, PillarCards, InsightsPreview, type PageProps } from "../site-shared";
+import { PageHero, ResearchTrackGrid, InsightsPreview, RESEARCH_AREAS, SectionLabel, AppLink, type PageProps } from "../site-shared";
 
 function ResearchPage({ currentPath, onNavigate }: PageProps) {
   return (
     <>
       <PageHero
         label="RESEARCH"
-        title="Questions worth solving before systems are scaled."
-        summary="Research at Emilo Labs spans identity, privacy, security, intelligent systems, financial systems, and internet infrastructure. The page separates active inquiry from product and engineering work."
+        title="Published work and active investigations."
+        summary="Emilo Labs publishes research and maintains ongoing investigations across identity, privacy, security, intelligent systems, finance, and internet infrastructure."
       />
       <ResearchTrackGrid />
-      <Reveal id="research-domains" className="pillars-section">
+      <section className="section">
         <div className="container">
-          <SectionLabel>RESEARCH DOMAINS</SectionLabel>
+          <SectionLabel>RESEARCH AREAS</SectionLabel>
           <div className="split-heading">
-            <h2>Six connected areas of investigation.</h2>
-            <p>Each domain addresses a distinct systems problem while remaining connected to the wider infrastructure layer.</p>
+            <h2>Current fields of investigation.</h2>
+            <p>These are organizing areas, not separate departments or product categories.</p>
           </div>
-          <PillarCards items={[
-            { title: "Identity", summary: "Reusable proof and portable credentials.", signal: "Trust" },
-            { title: "Privacy", summary: "Continuity and communication without unnecessary exposure.", signal: "Privacy" },
-            { title: "Security", summary: "Threat-aware systems designed around failure and recovery.", signal: "Defense" },
-            { title: "Intelligent Systems", summary: "Bounded AI assistance, structured reasoning, and automation.", signal: "Intelligence" },
-            { title: "Financial Systems", summary: "Safer value exchange, lending, settlement, and financial coordination.", signal: "Value" },
-            { title: "Internet Systems", summary: "Infrastructure for communication, coordination, and safer digital participation.", signal: "Network" },
-          ]} />
+          <div className="pillar-grid">
+            {RESEARCH_AREAS.map(([title, description]) => (
+              <article key={title} className="pillar-card light-panel"><strong>{title}</strong><p>{description}</p></article>
+            ))}
+          </div>
         </div>
-      </Reveal>
+      </section>
       <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={false} />
+      <div className="container home-actions"><AppLink href="/labs" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">See the Labs</AppLink></div>
     </>
   );
 }
-
 export default ResearchPage;
