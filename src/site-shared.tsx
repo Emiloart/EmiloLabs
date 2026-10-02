@@ -247,77 +247,7 @@ export function contactHref(subject: string) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 
-export function LiveNetworkScene() {
-  const mountRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return undefined;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobile = window.innerWidth < 720;
-    const count = reduced ? 120 : mobile ? 260 : 620;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 120);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.5));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.domElement.className = "live-network-canvas";
-    mount.appendChild(renderer.domElement);
-
-    const positions = new Float32Array(count * 3);
-    const radius = mobile ? 6.4 : 10.5;
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < count; i += 1) {
-      const y = 1 - (i / Math.max(1, count - 1)) * 2;
-      const ring = Math.sqrt(Math.max(0, 1 - y * y));
-      const angle = i * golden;
-      positions[i * 3] = Math.cos(angle) * ring * radius;
-      positions[i * 3 + 1] = y * radius;
-      positions[i * 3 + 2] = Math.sin(angle) * ring * radius;
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const material = new THREE.PointsMaterial({
-      color: 0x6fded3,
-      size: mobile ? 0.07 : 0.055,
-      transparent: true,
-      opacity: reduced ? 0.28 : 0.58,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-    camera.position.z = mobile ? 34 : 30;
-
-    let frame = 0;
-    const animate = (time = 0) => {
-      points.rotation.y = time * 0.00018;
-      points.rotation.x = Math.sin(time * 0.0001) * 0.08;
-      renderer.render(scene, camera);
-      if (!reduced) frame = requestAnimationFrame(animate);
-    };
-    animate();
-
-    const resize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener("resize", resize);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
-    };
-  }, []);
-  return <div ref={mountRef} className="live-network-scene" aria-hidden="true" />;
-}
-
-export function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
+export function LiveNetworkScene() {\n  return null;\n}\nexport function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
   return <img className={className} src={compact ? "/emilo-labs-mark.svg" : "/emilo-labs-logo.svg"} alt={compact ? "" : "Emilo Labs"} draggable="false" />;
 }
 
