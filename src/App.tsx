@@ -27,7 +27,9 @@ export default function EmiloLabsWebsite() {
     link.href = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
-    return () => document.head.removeChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
   }, []);
 
   return (
