@@ -47,6 +47,14 @@ export const PAGE_META = {
   },
 };
 
+export const INSTITUTION_FLOW = [
+  { title: "Research", text: "Defines the questions worth solving.", signal: "Direction" },
+  { title: "Labs", text: "Tests ideas through experiments.", signal: "Exploration" },
+  { title: "Infrastructure", text: "Builds reusable systems and protocols.", signal: "Foundation" },
+  { title: "Products", text: "Delivers systems to people and organizations.", signal: "Surface" },
+  { title: "Public Impact", text: "Improves safety, trust, and coordination online.", signal: "Outcome" },
+];
+
 export const RESEARCH_AREAS = [
   ["Identity", "Reusable proof and portable credentials."],
   ["Privacy", "Continuity and communication without unnecessary exposure."],
@@ -85,6 +93,8 @@ export const PRODUCT_TIERS = [
     ],
   },
 ];
+
+type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];
 
 export const INSIGHTS: InsightRow[] = [
   [
