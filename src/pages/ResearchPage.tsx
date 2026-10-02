@@ -1,4 +1,4 @@
-import { PageHero, InsightGrid, RESEARCH_AREAS, SectionLabel, type PageProps } from "../site-shared";
+import { PageHero, InsightGrid, RESEARCH_AREAS, SectionLabel } from "../site-shared";
 
 function ResearchPage() {
   return (
