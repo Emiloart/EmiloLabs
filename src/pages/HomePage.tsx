@@ -1,4 +1,4 @@
-import { AppLink, InsightsPreview, PRODUCT_TIERS, ResearchTrackGrid, SectionLabel, type PageProps } from "../site-shared";
+import { AppLink, InsightsPreview, PRODUCT_TIERS, SectionLabel, type PageProps } from "../site-shared";
 
 function HomePage({ currentPath, onNavigate }: PageProps) {
   const active = PRODUCT_TIERS.find(tier => tier.title === "Active")?.products ?? [];
@@ -45,7 +45,6 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
         </div>
       </section>
 
-      <ResearchTrackGrid />
 
       <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={true} />
 
