@@ -1,20 +1,25 @@
-import { PageHero, ResearchTrackGrid, InsightsPreview, RESEARCH_AREAS, SectionLabel, AppLink, type PageProps } from "../site-shared";
+import { PageHero, InsightGrid, RESEARCH_AREAS, SectionLabel, type PageProps } from "../site-shared";
 
-function ResearchPage({ currentPath, onNavigate }: PageProps) {
+function ResearchPage() {
   return (
     <>
-      <PageHero
-        label="RESEARCH"
-        title="Published work and active investigations."
-        summary="Emilo Labs publishes research and maintains ongoing investigations across identity, privacy, security, intelligent systems, finance, and internet infrastructure."
-      />
-      <ResearchTrackGrid />
+      <PageHero label="RESEARCH" title="Published work and active investigations." summary="Emilo Labs publishes research and maintains ongoing investigations across identity, privacy, security, intelligent systems, finance, and internet infrastructure." />
+      <section className="section insights-section">
+        <div className="container">
+          <SectionLabel>PUBLISHED</SectionLabel>
+          <div className="split-heading">
+            <h2>Research already in the world.</h2>
+            <p>Published work from the institution, linked directly to the original source.</p>
+          </div>
+          <InsightGrid />
+        </div>
+      </section>
       <section className="section">
         <div className="container">
           <SectionLabel>RESEARCH AREAS</SectionLabel>
           <div className="split-heading">
             <h2>Current fields of investigation.</h2>
-            <p>These are organizing areas, not separate departments or product categories.</p>
+            <p>Organizing areas, not separate departments or product categories.</p>
           </div>
           <div className="pillar-grid">
             {RESEARCH_AREAS.map(([title, description]) => (
@@ -23,8 +28,6 @@ function ResearchPage({ currentPath, onNavigate }: PageProps) {
           </div>
         </div>
       </section>
-      <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={false} />
-      <div className="container home-actions"><AppLink href="/labs" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">See the Labs</AppLink></div>
     </>
   );
 }
