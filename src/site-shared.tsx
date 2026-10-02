@@ -286,7 +286,10 @@ export function contactHref(subject: string) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 
-export function LiveNetworkScene() {\n  return null;\n}\nexport function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
+export function LiveNetworkScene() {
+  return null;
+}
+export function EmiloLogo({ className = "", compact = false }: { className?: string; compact?: boolean }) {
   return <img className={className} src={compact ? "/emilo-labs-mark.svg" : "/emilo-labs-logo.svg"} alt={compact ? "" : "Emilo Labs"} draggable="false" />;
 }
 
