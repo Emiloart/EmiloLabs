@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
 import * as THREE from "three";
 
 export type PageProps = {
