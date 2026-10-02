@@ -6,7 +6,7 @@ const LABS = [
   ["SCOS Pro", "An operating layer for persistent AI-assisted coordination across a person's digital life.", "In development"],
 ];
 
-function LabsPage({ currentPath, onNavigate }: PageProps) {
+function LabsPage() {
   return (
     <>
       <PageHero label="LABS" title="Work that has not become a product yet." summary="Experiments, prototypes, and systems under active investigation. Labs work can become products, infrastructure, or remain research." />
