@@ -31,11 +31,11 @@ export const PAGE_META = {
   },
   "/about": {
     title: "About | Emilo Labs",
-    description: "Understand the problems Emilo Labs exists to investigate and how research, infrastructure, products, and public impact connect.",
+    description: "The origin, founder, operating principles, and contact information for Emilo Labs.",
   },
   "/research": {
     title: "Research | Emilo Labs",
-    description: "Research domains and investigation tracks across identity, privacy, security, intelligent systems, finance, and internet infrastructure.",
+    description: "Published essays and papers from Emilo Labs, followed by areas of inquiry across connected digital systems.",
   },
   "/products": {
     title: "Products | Emilo Labs",
@@ -43,7 +43,7 @@ export const PAGE_META = {
   },
   "/labs": {
     title: "Labs | Emilo Labs",
-    description: "Experiments, prototypes, and systems under active investigation at Emilo Labs.",
+    description: "Experiments and systems in development at Emilo Labs, with links to related products.",
   },
 };
 
@@ -123,6 +123,16 @@ export const PRODUCT_TIERS = [
     ],
   },
 ];
+
+export const LABS_EXPERIMENTS = [
+  ["Celetixo", "Engineering-state coordination and optimistic concurrency for AI coding agents."],
+];
+
+export const LABS_PRODUCT_NAMES = ["UTB", "SCOS Pro"];
+
+export function slugify(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 
 type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];
 
@@ -216,10 +226,7 @@ export function useReducedMotion() {
 }
 
 export function normalizePath(pathname: string) {
-  const path = (pathname || "/").replace(/\/+$/, "") || "/";
-  if (PAGE_META[path as keyof typeof PAGE_META]) return path;
-  if (/^\/(products|research)\/[^/]+$/.test(path)) return path;
-  return "/";
+  return (pathname || "/").split(/[?#]/)[0].replace(/\/+$/, "") || "/";
 }
 
 export function useRoute() {
@@ -235,14 +242,26 @@ export function useRoute() {
       window.history.pushState({}, "", nextPath);
       setPath(nextPath);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   };
   return [path, navigate] as const;
 }
 
 export function usePageMeta(path: string) {
   useEffect(() => {
-    const meta = PAGE_META[path as keyof typeof PAGE_META] || (path.startsWith("/products/") ? { title: "Product | Emilo Labs", description: "A product in the Emilo Labs portfolio." } : path.startsWith("/research/") ? { title: "Research | Emilo Labs", description: "Published research from Emilo Labs." } : PAGE_META["/"]);
+    const product = path.startsWith("/products/")
+      ? PRODUCT_TIERS.flatMap(tier => tier.products).find(([name]) => `/products/${slugify(name)}` === path)
+      : undefined;
+    const publication = path.startsWith("/research/")
+      ? INSIGHTS.find(([title]) => `/research/${slugify(title)}` === path)
+      : undefined;
+    const staticMeta = PAGE_META[path as keyof typeof PAGE_META];
+    const known = Boolean(staticMeta || product || publication);
+    const meta = staticMeta || (product
+      ? { title: `${product[0]} | Products | Emilo Labs`, description: product[2] }
+      : publication
+        ? { title: `${publication[0]} | Research | Emilo Labs`, description: publication[2] }
+        : { title: "Page unavailable | Emilo Labs", description: "The requested page is unavailable." });
     document.title = meta.title;
     const update = (selector: string, attribute: string, value: string) => {
       document.head.querySelector(selector)?.setAttribute(attribute, value);
@@ -252,7 +271,8 @@ export function usePageMeta(path: string) {
     update('meta[property="og:description"]', "content", meta.description);
     update('meta[name="twitter:title"]', "content", meta.title);
     update('meta[name="twitter:description"]', "content", meta.description);
-    const pageUrl = `https://emilolabs.com${path === "/" ? "/" : path}`;
+    update('meta[name="robots"]', "content", known ? "index,follow" : "noindex");
+    const pageUrl = `https://emilolabs.com${known ? (path === "/" ? "/" : path) : "/"}`;
     update('link[rel="canonical"]', "href", pageUrl);
     update('meta[property="og:url"]', "content", pageUrl);
   }, [path]);
@@ -321,6 +341,14 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 761px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
   return (
     <nav className={`nav ${scrolled || menuOpen ? "nav-scrolled" : ""}`}>
       <div className="nav-inner">
@@ -332,7 +360,7 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
         </div>
         <button type="button" className="menu-button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}><span /><span /><span /></button>
       </div>
-      {menuOpen && <div id="mobile-navigation" className="mobile-menu">{NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={href => { setMenuOpen(false); onNavigate(href); }}>{link.label}</AppLink>)}</div>}
+      <div id="mobile-navigation" className="mobile-menu" hidden={!menuOpen}>{NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={href => { setMenuOpen(false); onNavigate(href); }}>{link.label}</AppLink>)}</div>
     </nav>
   );
 }
@@ -340,14 +368,19 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
 export function Origin() {
   return (
     <Reveal id="origin" className="origin-section">
-      <div className="container origin-layout">
+      <div className="container">
         <SectionLabel>ORIGIN</SectionLabel>
-        <div className="origin-block light-panel">
-          <p>Connected technology creates connected problems.</p>
-          <p>Identity needs verification. Communication needs privacy. Digital services need security. Online finance needs trust. Complex systems need coordination and recovery.</p>
-          <p>These are infrastructure problems, not isolated product categories. Emilo Labs exists to research and build across that connective layer.</p>
-          <div className="origin-signal"><span>EMILO LABS</span><strong>At the Core of a Connected Future.</strong><p>Research, infrastructure, products, and public impact connected by the systems people depend on.</p></div>
-          <p className="origin-close">The institution works on the class of problems created by a connected digital world.</p>
+        <div className="origin-content">
+          <div className="origin-statement">
+            <h2>Connected technology creates connected problems.</h2>
+            <p>Identity needs verification. Communication needs privacy. Digital services need security. Online finance needs trust. Complex systems need coordination and recovery.</p>
+            <p>Emilo Labs brings research and product work under one organization to address the dependencies between those systems.</p>
+          </div>
+          <dl className="origin-facts">
+            <div><dt>Founder</dt><dd>Chukwuemeka Ilodubah</dd></div>
+            <div><dt>Work</dt><dd>Research, Labs, and products</dd></div>
+            <div><dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd></div>
+          </dl>
         </div>
       </div>
     </Reveal>
@@ -462,8 +495,8 @@ export function CredibilityBand() {
   return <Reveal id="ecosystems" className="credibility-section"><div className="ecosystem-marquee" aria-label="Technology ecosystem"><div className="ecosystem-track">{loop.map(([name, logo], index) => <div className="ecosystem-logo" key={`${name}-${index}`}><span><img src={logo} alt="" loading="lazy" /></span><strong>{name}</strong></div>)}</div></div></Reveal>;
 }
 
-export function PageHero({ label, title, summary, children }: { label: string; title: string; summary: string; children?: ReactNode }) {
-  return <header className="page-hero"><div className="container page-hero-inner"><SectionLabel>{label}</SectionLabel><h1>{title}</h1><p>{summary}</p>{children}</div></header>;
+export function PageHero({ label, title, summary, children }: { label: string; title: string; summary?: string; children?: ReactNode }) {
+  return <header className="page-hero"><div className="container page-hero-inner"><SectionLabel>{label}</SectionLabel><h1>{title}</h1>{summary && <p>{summary}</p>}{children}</div></header>;
 }
 
 export function ProductOperatingModel() {
@@ -514,11 +547,11 @@ export function PressResources() {
 }
 
 export function Contact() {
-  return <Reveal id="contact" className="contact-section"><div className="container contact-inner"><div className="contact-panel light-panel"><SectionLabel>CONTACT</SectionLabel><a className="contact-email" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></div></div></Reveal>;
+  return <Reveal id="contact" className="contact-section"><div className="container contact-inner"><div><SectionLabel>CONTACT</SectionLabel><h2>Contact Emilo Labs.</h2></div><a className="contact-email" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL} <span aria-hidden="true">↗</span></a></div></Reveal>;
 }
 
 export function PrincipleGrid() {
-  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="initiative-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="initiative-card light-panel" style={staggerStyle(index, 70)}><strong>{title}</strong><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="principle-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="principle-item"><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function Footer({ currentPath, onNavigate }: PageProps) {

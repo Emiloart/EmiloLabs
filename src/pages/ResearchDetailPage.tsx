@@ -1,18 +1,31 @@
-import { PageHero, INSIGHTS, AppLink, type PageProps } from "../site-shared";
+import { PageHero, INSIGHTS, AppLink, SectionLabel, slugify, type PageProps } from "../site-shared";
+import NotFoundPage from "./NotFoundPage";
 
 function ResearchDetailPage({ currentPath, onNavigate }: PageProps) {
   const slug = currentPath.split("/").pop() || "";
-  const article = INSIGHTS.find(item => item[7].split("/").pop()?.replace(/^[^a-z]+/i, "").startsWith(slug) || item[0].toLowerCase().replace(/[^a-z0-9]+/g, "-") === slug);
-  if (!article) return <PageHero label="RESEARCH" title="Research entry not found." summary="The requested research entry does not exist in the current archive." />;
+  const article = INSIGHTS.find(([title]) => slugify(title) === slug);
+  if (!article) return <NotFoundPage currentPath={currentPath} onNavigate={onNavigate} />;
   const [title, category, summary, date, time, status, , url, cover] = article;
   return (
     <>
-      <PageHero label={category.toUpperCase()} title={title} summary={summary} />
-      <section className="section">
+      <PageHero label="PUBLISHED RESEARCH" title={title} />
+      <section className="section detail-section">
         <div className="container">
-          <article className="split-panel light-panel">
-            {cover && <img src={cover} alt="" style={{ width: "100%", maxWidth: 620, aspectRatio: "16 / 9", objectFit: "cover" }} />}
-            <div><span>{date} · {time} · {status}</span><p>{summary}</p><a href={url} target="_blank" rel="noreferrer" className="primary-button">Read on Medium ↗</a><AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Back to research</AppLink></div>
+          <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="back-link">← All research</AppLink>
+          <article className="publication-layout">
+            <div className="publication-cover">
+              {cover ? <img src={cover} alt="" /> : <div className="insight-cover-fallback"><span>EMILO LABS</span><strong>{title}</strong></div>}
+            </div>
+            <div className="publication-record">
+              <SectionLabel>{category.toUpperCase()}</SectionLabel>
+              <p>{summary}</p>
+              <dl className="detail-facts">
+                <div><dt>Status</dt><dd>{status}</dd></div>
+                <div><dt>Published</dt><dd>{date}</dd></div>
+                <div><dt>Reading time</dt><dd>{time}</dd></div>
+              </dl>
+              <a href={url} target="_blank" rel="noreferrer" className="primary-button">Read original on Medium ↗</a>
+            </div>
           </article>
         </div>
       </section>

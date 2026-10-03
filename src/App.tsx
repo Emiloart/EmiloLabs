@@ -1,6 +1,6 @@
 import { useEffect, type ComponentType } from "react";
 import { Footer, Navbar, usePageMeta, useRoute, type PageProps } from "./site-shared";
-import { HomePage, AboutPage, ResearchPage, ProductsPage, LabsPage, ProductDetailPage, ResearchDetailPage } from "./pages";
+import { HomePage, AboutPage, ResearchPage, ProductsPage, LabsPage, ProductDetailPage, ResearchDetailPage, NotFoundPage } from "./pages";
 
 const ROUTES: Record<string, ComponentType<PageProps>> = {
   "/": HomePage,
@@ -14,7 +14,7 @@ function resolveRoute(path: string): ComponentType<PageProps> {
   if (ROUTES[path]) return ROUTES[path];
   if (path.startsWith("/products/")) return ProductDetailPage;
   if (path.startsWith("/research/")) return ResearchDetailPage;
-  return HomePage;
+  return NotFoundPage;
 }
 
 export default function EmiloLabsWebsite() {

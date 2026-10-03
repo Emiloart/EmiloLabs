@@ -1,6 +1,4 @@
-import { PageHero, PRODUCT_TIERS, AppLink, SectionLabel, type PageProps } from "../site-shared";
-
-const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+import { PageHero, PRODUCT_TIERS, AppLink, SectionLabel, slugify, type PageProps } from "../site-shared";
 
 function ProductsPage({ currentPath, onNavigate }: PageProps) {
   return (

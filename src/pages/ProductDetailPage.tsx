@@ -1,20 +1,29 @@
-import { PageHero, PRODUCT_TIERS, AppLink, type PageProps } from "../site-shared";
+import { PageHero, PRODUCT_TIERS, AppLink, SectionLabel, contactHref, slugify, type PageProps } from "../site-shared";
+import NotFoundPage from "./NotFoundPage";
 
 function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
   const slug = currentPath.split("/").pop() || "";
   const match = PRODUCT_TIERS.flatMap(tier => tier.products.map(([name, domain, summary]) => ({ name, domain, summary, status: tier.title })))
-    .find(product => product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === slug);
+    .find(product => slugify(product.name) === slug);
 
-  if (!match) return <PageHero label="PRODUCT" title="Product not found." summary="The requested product does not exist in the current portfolio." />;
+  if (!match) return <NotFoundPage currentPath={currentPath} onNavigate={onNavigate} />;
 
   return (
     <>
-      <PageHero label={match.status.toUpperCase()} title={match.name} summary={match.summary} />
-      <section className="section">
+      <PageHero label={match.status.toUpperCase()} title={match.name} />
+      <section className="section detail-section">
         <div className="container">
-          <div className="split-panel light-panel">
-            <div><span>{match.domain}</span><h2>{match.name}</h2><p>{match.summary}</p></div>
-            <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Back to products</AppLink>
+          <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="back-link">← All products</AppLink>
+          <div className="detail-layout">
+            <div className="detail-overview">
+              <SectionLabel>OVERVIEW</SectionLabel>
+              <p>{match.summary}</p>
+              <a href={contactHref(`Product inquiry: ${match.name}`)} className="primary-button">Product inquiry</a>
+            </div>
+            <dl className="detail-facts">
+              <div><dt>Status</dt><dd>{match.status}</dd></div>
+              <div><dt>Area</dt><dd>{match.domain}</dd></div>
+            </dl>
           </div>
         </div>
       </section>

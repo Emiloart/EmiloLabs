@@ -52,7 +52,7 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
 
       <section className="section">
         <div className="container">
-          <div className="cta-band light-panel">
+          <div className="cta-band">
             <div><SectionLabel>ABOUT</SectionLabel><h2>One institution. Multiple systems.</h2><p>Research, infrastructure, products, and experiments are developed under one parent organization.</p></div>
             <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">About Emilo Labs</AppLink>
           </div>
