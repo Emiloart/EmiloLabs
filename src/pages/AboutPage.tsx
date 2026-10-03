@@ -6,7 +6,7 @@ function AboutPage() {
       <PageHero
         label="ABOUT"
         title="The parent institution behind the work."
-        summary="Emilo Labs researches and builds systems across identity, privacy, security, intelligence, finance, communication, and digital coordination."
+        summary="Emilo Labs brings research, experiments, and products together to work on the shared problems of a connected digital world."
       />
       <Origin />
       <PrincipleGrid />

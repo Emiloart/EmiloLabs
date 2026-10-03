@@ -5,3 +5,4 @@ export { default as ProductsPage } from "./ProductsPage";
 export { default as LabsPage } from "./LabsPage";
 export { default as ProductDetailPage } from "./ProductDetailPage";
 export { default as ResearchDetailPage } from "./ResearchDetailPage";
+export { default as NotFoundPage } from "./NotFoundPage";

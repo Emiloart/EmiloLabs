@@ -27,20 +27,22 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
           <SectionLabel>PRODUCTS</SectionLabel>
           <div className="split-heading">
             <h2>What exists.</h2>
-            <p>Products are grouped by lifecycle so the portfolio can be understood without interpretation.</p>
+            <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="section-link">Full portfolio <span aria-hidden="true">↗</span></AppLink>
           </div>
-          <div className="product-grid">
-            <article className="product-card light-panel">
-              <span>ACTIVE</span><strong>{active.length} systems</strong>
-              <p>{active.slice(0, 5).map(product => product[0]).join(" · ")}</p>
-            </article>
-            <article className="product-card light-panel">
-              <span>COMING SOON</span><strong>{upcoming.length} systems</strong>
-              <p>{upcoming.slice(0, 5).map(product => product[0]).join(" · ")}</p>
-            </article>
-          </div>
-          <div className="home-actions">
-            <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">View all products</AppLink>
+          <div className="portfolio-preview">
+            {[
+              { label: "ACTIVE", products: active },
+              { label: "COMING SOON", products: upcoming },
+            ].map(group => (
+              <div className="portfolio-preview-group" key={group.label}>
+                <div className="preview-heading"><span>{group.label}</span><strong>{group.products.length} systems</strong></div>
+                <ul>
+                  {group.products.slice(0, 3).map(([name, domain]) => (
+                    <li key={name}><strong>{name}</strong><span>{domain}</span></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -50,7 +52,7 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
 
       <section className="section">
         <div className="container">
-          <div className="cta-band light-panel">
+          <div className="cta-band">
             <div><SectionLabel>ABOUT</SectionLabel><h2>One institution. Multiple systems.</h2><p>Research, infrastructure, products, and experiments are developed under one parent organization.</p></div>
             <AppLink href="/about" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">About Emilo Labs</AppLink>
           </div>
