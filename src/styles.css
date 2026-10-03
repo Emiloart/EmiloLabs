@@ -42,6 +42,19 @@ button {
   font-family: inherit;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.nav :focus-visible,
+.hero-section :focus-visible,
+.page-hero :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--accent-border);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -54,7 +67,7 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Shell — white field with deliberate dark interaction surfaces
+   Shell - white field with deliberate dark interaction surfaces
 ---------------------------------------------------------------------- */
 .site-shell {
   position: relative;
@@ -77,7 +90,7 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Navigation — the permanent dark header
+   Navigation - the permanent dark header
 ---------------------------------------------------------------------- */
 .nav {
   position: fixed;
@@ -183,26 +196,26 @@ button {
   gap: 14px;
   background: rgba(6, 1, 94, 0.97);
   border: 1px solid var(--accent-border);
-  border-radius: var(--radius);
+  border-radius: 8px;
 }
 
 /* ----------------------------------------------------------------------
-   Hero — a contained dark interaction surface inside the white field
+   Hero - a contained dark interaction surface inside the white field
 ---------------------------------------------------------------------- */
 .hero-section {
   position: relative;
   z-index: 1;
-  padding: 112px 0 56px;
+  padding: 104px 0 28px;
 }
 
 .hero-frame {
   position: relative;
   overflow: hidden;
-  padding: clamp(28px, 4vw, 58px);
+  padding: 52px;
   background: var(--navy);
   border: 1px solid rgba(255, 163, 255, 0.5);
-  border-radius: 24px;
-  box-shadow: 0 22px 60px rgba(6, 1, 94, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(6, 1, 94, 0.10);
 }
 
 .hero-frame > * {
@@ -219,7 +232,7 @@ button {
 
 .hero-copy {
   min-width: 0;
-  max-width: 620px;
+  max-width: 900px;
 }
 
 .hero-kicker {
@@ -234,14 +247,14 @@ button {
 .hero-copy h1 {
   margin: 0 0 20px;
   color: var(--on-navy);
-  font-size: clamp(2.5rem, 5vw, 4.8rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
+  font-size: 4.5rem;
+  line-height: 1.06;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
 .hero-copy > p {
-  max-width: 540px;
+  max-width: 680px;
   color: var(--on-navy-soft);
   font-size: 1.08rem;
   line-height: 1.7;
@@ -451,12 +464,12 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Sections — uninterrupted white field
+   Sections - uninterrupted white field
 ---------------------------------------------------------------------- */
 .section {
   position: relative;
   z-index: 1;
-  padding: 78px 0;
+  padding: 64px 0;
   scroll-margin-top: 88px;
 }
 
@@ -492,7 +505,7 @@ button {
   max-width: 700px;
   margin: 0;
   color: var(--ink);
-  font-size: clamp(1.75rem, 3vw, 2.6rem);
+  font-size: 2.4rem;
   line-height: 1.12;
 }
 
@@ -508,7 +521,7 @@ button {
 .light-panel {
   background: var(--field-deep);
   border: 1px solid #dfe5e2;
-  border-radius: 12px;
+  border-radius: 8px;
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
@@ -985,7 +998,7 @@ button {
 .insight-cover-fallback strong {
   max-width: 460px;
   color: var(--on-navy);
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-size: 1.35rem;
   line-height: 1.12;
 }
 
@@ -1061,20 +1074,19 @@ button {
   border-color: var(--accent-button);
 }
 
-/* Page hero — same contained dark language as the home hero */
+/* Page hero - same contained dark language as the home hero */
 .page-hero {
   position: relative;
   z-index: 1;
-  padding: 112px 0 56px;
+  padding: 104px 0 28px;
 }
 
 .page-hero-inner {
-  max-width: none;
-  padding: clamp(32px, 5vw, 64px);
+  padding: 52px;
   background: var(--navy);
   border: 1px solid rgba(255, 163, 255, 0.5);
-  border-radius: 24px;
-  box-shadow: 0 22px 60px rgba(6, 1, 94, 0.10);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(6, 1, 94, 0.10);
 }
 
 .page-hero .section-label {
@@ -1082,14 +1094,16 @@ button {
 }
 
 .page-hero h1 {
+  max-width: 900px;
   margin: 0 0 16px;
   color: var(--on-navy);
-  font-size: clamp(2.1rem, 4vw, 3.2rem);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-size: 3.1rem;
+  line-height: 1.12;
+  letter-spacing: 0;
 }
 
 .page-hero p {
+  max-width: 780px;
   margin: 0;
   color: var(--on-navy-soft);
   font-size: 1.02rem;
@@ -1117,7 +1131,7 @@ button {
 }
 
 /* ----------------------------------------------------------------------
-   Footer — back on the navy band
+   Footer - back on the navy band
 ---------------------------------------------------------------------- */
 .footer {
   position: relative;
@@ -1183,6 +1197,8 @@ button {
   .desktop-nav a { font-size: 0.75rem; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-copy { max-width: 760px; }
+  .hero-copy h1 { font-size: 4rem; }
+  .page-hero h1 { font-size: 2.8rem; }
   .institution-preview { max-width: 760px; justify-self: start; }
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pillar-grid,
@@ -1207,17 +1223,19 @@ button {
   .nav { padding: 10px 0; }
   .desktop-nav { display: none; }
   .menu-button { display: inline-flex; }
-  .hero-section { padding: 92px 0 40px; }
-  .hero-frame { padding: 22px; border-radius: 18px; }
+  .hero-section { padding: 88px 0 24px; }
+  .hero-frame { padding: 26px 22px; }
   .hero-grid { gap: 28px; }
-  .hero-copy h1 { font-size: clamp(2.25rem, 10vw, 3.4rem); }
+  .hero-copy h1 { font-size: 2.6rem; }
   .institution-preview { min-height: 0; padding: 14px; }
   .system-layer { grid-template-columns: 28px minmax(0, 1fr) 18px; }
   .system-signal { display: none; }
   .system-layer-copy small { white-space: normal; }
-  .section { padding: 54px 0; }
-  .page-hero { padding: 92px 0 40px; }
-  .page-hero-inner { padding: 28px 22px; border-radius: 18px; }
+  .section { padding: 48px 0; }
+  .page-hero { padding: 88px 0 24px; }
+  .page-hero-inner { padding: 28px 22px; }
+  .page-hero h1 { font-size: 2.25rem; }
+  .split-heading h2 { font-size: 1.9rem; }
   .split-heading { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .metric-grid,
   .pillar-grid,

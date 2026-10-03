@@ -18,7 +18,7 @@ export const NAV_LINKS = [
 ];
 
 export const FOOTER_GROUPS = [
-  { title: "Institution", links: [{ label: "About", href: "/about" }, { label: "Contact", href: "/about" }] },
+  { title: "Institution", links: [{ label: "About", href: "/about" }, { label: "Email", href: `mailto:${CONTACT_EMAIL}` }] },
   { title: "Products", links: [{ label: "Product portfolio", href: "/products" }] },
   { title: "Research", links: [{ label: "Research archive", href: "/research" }] },
   { title: "Labs", links: [{ label: "Experiments", href: "/labs" }] },
@@ -27,7 +27,7 @@ export const FOOTER_GROUPS = [
 export const PAGE_META = {
   "/": {
     title: "Emilo Labs | Humanity first. Technology second.",
-    description: "Emilo Labs is a technology institution building digital trust, applied AI, security, information infrastructure, products, and future-facing research programs.",
+    description: "Emilo Labs is a technology institution connecting research, experimental work, and products across the systems people use online.",
   },
   "/about": {
     title: "About | Emilo Labs",
@@ -252,6 +252,9 @@ export function usePageMeta(path: string) {
     update('meta[property="og:description"]', "content", meta.description);
     update('meta[name="twitter:title"]', "content", meta.title);
     update('meta[name="twitter:description"]', "content", meta.description);
+    const pageUrl = `https://emilolabs.com${path === "/" ? "/" : path}`;
+    update('link[rel="canonical"]', "href", pageUrl);
+    update('meta[property="og:url"]', "content", pageUrl);
   }, [path]);
 }
 
@@ -308,6 +311,16 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [currentPath]);
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
   return (
     <nav className={`nav ${scrolled || menuOpen ? "nav-scrolled" : ""}`}>
       <div className="nav-inner">
@@ -317,9 +330,9 @@ export function Navbar({ currentPath, onNavigate }: PageProps) {
         <div className="desktop-nav">
           {NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={onNavigate}>{link.label}</AppLink>)}
         </div>
-        <button type="button" className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}><span /><span /><span /></button>
+        <button type="button" className="menu-button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(v => !v)}><span /><span /><span /></button>
       </div>
-      {menuOpen && <div className="mobile-menu">{NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={href => { setMenuOpen(false); onNavigate(href); }}>{link.label}</AppLink>)}</div>}
+      {menuOpen && <div id="mobile-navigation" className="mobile-menu">{NAV_LINKS.map(link => <AppLink key={link.label} href={link.href} currentPath={currentPath} onNavigate={href => { setMenuOpen(false); onNavigate(href); }}>{link.label}</AppLink>)}</div>}
     </nav>
   );
 }
