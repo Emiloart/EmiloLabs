@@ -3,23 +3,23 @@ import { PageHero, InsightGrid, RESEARCH_AREAS, SectionLabel } from "../site-sha
 function ResearchPage() {
   return (
     <>
-      <PageHero label="RESEARCH" title="Published work and active investigations." summary="Emilo Labs publishes research and maintains ongoing investigations across identity, privacy, security, intelligent systems, finance, and internet infrastructure." />
+      <PageHero label="RESEARCH" title="Published work and questions under study." summary="Essays and papers sit alongside areas of inquiry across identity, privacy, security, intelligent systems, finance, and internet infrastructure." />
       <section className="section insights-section">
         <div className="container">
           <SectionLabel>PUBLISHED</SectionLabel>
           <div className="split-heading">
-            <h2>Research already in the world.</h2>
-            <p>Published work from the institution, linked directly to the original source.</p>
+            <h2>Published work.</h2>
+            <p>Essays and papers, with dates and links to the original publication.</p>
           </div>
-          <InsightGrid />
+          <InsightGrid layout="index" />
         </div>
       </section>
       <section className="section">
         <div className="container">
-          <SectionLabel>RESEARCH AREAS</SectionLabel>
+          <SectionLabel>AREAS OF INQUIRY</SectionLabel>
           <div className="split-heading">
-            <h2>Current fields of investigation.</h2>
-            <p>Organizing areas, not separate departments or product categories.</p>
+            <h2>Questions that continue beyond a publication.</h2>
+            <p>These areas describe the scope of inquiry. They are not claims of completed findings.</p>
           </div>
           <div className="pillar-grid">
             {RESEARCH_AREAS.map(([title, description]) => (

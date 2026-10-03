@@ -516,6 +516,21 @@ button:focus-visible {
   line-height: 1.7;
 }
 
+.section-link {
+  justify-self: end;
+  align-self: end;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--navy);
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.section-link:hover {
+  border-color: var(--accent-border);
+}
+
 /* Card used across every content grid on the white field. A light grey
    fill, not the paper color, so cards read as cards against white. */
 .light-panel {
@@ -826,6 +841,131 @@ button:focus-visible {
   line-height: 1.5;
 }
 
+.portfolio-preview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.portfolio-preview-group {
+  min-width: 0;
+  border-top: 1px solid var(--navy);
+}
+
+.preview-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.preview-heading span {
+  color: var(--navy);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+.preview-heading strong {
+  color: var(--ink);
+  font-size: 0.88rem;
+}
+
+.portfolio-preview ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-preview li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid #dfe5e2;
+}
+
+.portfolio-preview li strong {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.portfolio-preview li span {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.directory-section + .directory-section {
+  padding-top: 12px;
+}
+
+.directory-section .split-heading p {
+  justify-self: end;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.product-directory {
+  display: grid;
+  border-top: 1px solid var(--navy);
+}
+
+.product-entry {
+  display: grid;
+  grid-template-columns: 40px minmax(180px, 0.8fr) minmax(260px, 1.2fr) 20px;
+  align-items: center;
+  gap: 20px;
+  min-height: 92px;
+  padding: 18px 16px 18px 0;
+  border-bottom: 1px solid #dfe5e2;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 160ms ease, box-shadow 160ms ease;
+}
+
+.product-entry:hover,
+.product-entry:focus-visible {
+  background: var(--field-deep);
+  box-shadow: inset 3px 0 var(--accent-border);
+}
+
+.entry-index {
+  color: var(--navy-soft);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+.entry-name {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.entry-name strong {
+  color: var(--ink);
+  font-size: 1.16rem;
+  line-height: 1.3;
+}
+
+.entry-name small {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.entry-summary {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.entry-arrow {
+  color: var(--navy);
+  font-size: 1rem;
+  text-align: right;
+}
+
 /* ----------------------------------------------------------------------
    Origin / Institution map / Principles
 ---------------------------------------------------------------------- */
@@ -952,7 +1092,7 @@ button:focus-visible {
 .insight-card {
   padding: 0;
   display: grid;
-  gap: 0;
+  grid-template-rows: auto 1fr;
   overflow: hidden;
 }
 
@@ -1002,28 +1142,12 @@ button:focus-visible {
   line-height: 1.12;
 }
 
-.insight-card > .insight-meta,
-.insight-card > strong,
-.insight-card > p,
-.insight-card > .insight-foot {
-  margin-left: 22px;
-  margin-right: 22px;
-}
-
-.insight-card > .insight-meta {
-  margin-top: 18px;
-}
-
-.insight-card > strong {
-  margin-top: 10px;
-}
-
-.insight-card > p {
-  margin-top: 0;
-}
-
-.insight-card > .insight-foot {
-  margin-bottom: 22px;
+.insight-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px 22px;
 }
 
 .research-cover {
@@ -1034,6 +1158,8 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .insight-meta span {
@@ -1050,13 +1176,13 @@ button:focus-visible {
   font-family: var(--mono);
 }
 
-.insight-card strong {
+.insight-body > strong {
   color: var(--ink);
   font-size: 1.04rem;
   line-height: 1.35;
 }
 
-.insight-card p {
+.insight-body > p {
   margin: 0;
   color: var(--ink-muted);
   font-size: 0.86rem;
@@ -1066,12 +1192,62 @@ button:focus-visible {
 .insight-foot {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: auto;
+  padding-top: 8px;
   color: var(--ink-muted);
   font-size: 0.74rem;
 }
 
-.insight-card.is-featured {
-  border-color: var(--accent-button);
+.insight-foot span:last-child {
+  margin-left: auto;
+  color: var(--navy);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.insight-index {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--navy);
+}
+
+.insight-index .insight-card {
+  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-items: stretch;
+  gap: 28px;
+  padding: 18px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe5e2;
+  border-radius: 0;
+}
+
+.insight-index .insight-card:hover,
+.insight-index .insight-card:focus-visible {
+  transform: none;
+  box-shadow: none;
+  background: var(--field-deep);
+}
+
+.insight-index .insight-cover {
+  aspect-ratio: 16 / 10;
+  border: 0;
+  border-radius: 6px;
+}
+
+.insight-index .insight-body {
+  padding: 6px 16px 6px 0;
+}
+
+.insight-index .insight-body > strong {
+  font-size: 1.4rem;
+}
+
+.insight-index .insight-body > p {
+  font-size: 0.94rem;
 }
 
 /* Page hero - same contained dark language as the home hero */
@@ -1214,6 +1390,7 @@ button:focus-visible {
   .split-panel { grid-template-columns: minmax(0, 1fr); }
   .relationship-map { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .map-line { display: none; }
+  .insight-index .insight-card { grid-template-columns: 220px minmax(0, 1fr); }
 }
 
 @media (max-width: 760px) {
@@ -1237,6 +1414,7 @@ button:focus-visible {
   .page-hero h1 { font-size: 2.25rem; }
   .split-heading h2 { font-size: 1.9rem; }
   .split-heading { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .section-link { justify-self: start; }
   .metric-grid,
   .pillar-grid,
   .track-grid,
@@ -1246,6 +1424,21 @@ button:focus-visible {
   .initiative-grid,
   .technology-grid { grid-template-columns: minmax(0, 1fr); }
   .product-grid { grid-template-columns: 1fr; }
+  .portfolio-preview { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .directory-section .split-heading p { justify-self: start; }
+  .product-entry {
+    grid-template-columns: 28px minmax(0, 1fr) 20px;
+    gap: 6px 12px;
+    padding: 18px 8px 18px 0;
+  }
+  .entry-index { grid-column: 1; grid-row: 1; align-self: start; padding-top: 4px; }
+  .entry-name { grid-column: 2; grid-row: 1; }
+  .entry-summary { grid-column: 2; grid-row: 2; }
+  .entry-arrow { grid-column: 3; grid-row: 1; align-self: start; }
+  .insight-index .insight-card { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .insight-index .insight-cover { aspect-ratio: 16 / 9; }
+  .insight-index .insight-body { padding: 18px 0 8px; }
+  .insight-index .insight-body > strong { font-size: 1.2rem; }
   .relationship-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-inner { grid-template-columns: minmax(0, 1fr); }
   .footer-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
