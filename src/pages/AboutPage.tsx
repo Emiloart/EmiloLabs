@@ -5,8 +5,7 @@ function AboutPage() {
     <>
       <PageHero
         label="ABOUT"
-        title="The parent institution behind the work."
-        summary="Emilo Labs brings research, experiments, and products together to work on the shared problems of a connected digital world."
+        title="Emilo Labs"
       />
       <Origin />
       <PrincipleGrid />
