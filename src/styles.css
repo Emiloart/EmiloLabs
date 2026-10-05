@@ -994,7 +994,7 @@ button:focus-visible {
 
 .carousel-product-copy {
   display: grid;
-  grid-template-rows: minmax(2.6em, auto) auto;
+  grid-template-rows: minmax(1.3em, auto) auto;
   align-content: start;
   gap: 6px;
   padding-top: 12px;
@@ -1750,7 +1750,7 @@ button:focus-visible {
   .product-grid { grid-template-columns: 1fr; }
   .product-carousel { --visible-products: 3; --product-gap: 8px; }
   .carousel-heading { min-height: 62px; margin-bottom: 8px; }
-  .carousel-product-copy { gap: 6px; padding-top: 10px; font-size: 0.8125rem; }
+  .carousel-product-copy { grid-template-rows: minmax(2.6em, auto) auto; gap: 6px; padding-top: 10px; font-size: 0.8125rem; }
   .carousel-product-copy h4 { font-size: 0.8125rem; }
   .carousel-product-copy p { font-size: 0.75rem; line-height: 1.5; }
   .lab-feature,

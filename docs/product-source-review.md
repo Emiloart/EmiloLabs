@@ -55,3 +55,24 @@ coordinated software-engineering agents.
 The source URLs follow `https://github.com/Emiloart/<repository>`. Private source
 material is deliberately not reproduced here beyond the product-level facts used
 by the website.
+
+## Validation
+
+The final production build was checked on October 5, 2026:
+
+- `npm run build` passed TypeScript checking and Vite compilation.
+- 115 browser cases covered the five public routes, all 17 product detail routes,
+  and the unavailable-page route at 1440, 1024, 768, 390, and 320 pixels.
+- All product thumbnails loaded, remained square, and had unclipped names and
+  descriptions. Mobile tracks displayed three complete thumbnails.
+- Arrow controls, first/last boundaries, Home/End, focus on an offscreen product,
+  a dispatched touch swipe, detail navigation, and browser Back passed.
+- Reduced-motion scrolling returned immediately to the first products.
+- Main content contained no product links to GitHub and none of the rejected
+  headings (`What exists`, `Full portfolio`, or `Also in the portfolio`).
+- Desktop and mobile screenshots were inspected. Existing publication images
+  were also checked for successful browser loading.
+- The copy scan found no em dashes or en dashes in source, scripts, or documents.
+- Build dependencies were patched within their existing version families:
+  PostCSS 8.5.29, nanoid 3.3.20, and source-map-js 1.2.2. `npm audit` reported
+  zero vulnerabilities after the update.
