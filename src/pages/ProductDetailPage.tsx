@@ -19,6 +19,22 @@ function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
               <SectionLabel>OVERVIEW</SectionLabel>
               <p>{match.summary}</p>
               <p className="product-description">{match.description}</p>
+              {match.functions && (
+                <section className="product-function-section" aria-labelledby="product-functions-title">
+                  <h2 id="product-functions-title">Functions</h2>
+                  <dl className="product-functions">
+                    {match.functions.map(item => (
+                      <div key={item.title}><dt>{item.title}</dt><dd>{item.description}</dd></div>
+                    ))}
+                  </dl>
+                </section>
+              )}
+              {match.scope && (
+                <section className="product-scope" aria-labelledby="product-scope-title">
+                  <h2 id="product-scope-title">{match.scope.title}</h2>
+                  <p>{match.scope.description}</p>
+                </section>
+              )}
               <a href={contactHref(`Product inquiry: ${match.name}`)} className="primary-button">Product inquiry</a>
             </div>
             <aside className="product-record" aria-label="Product details">

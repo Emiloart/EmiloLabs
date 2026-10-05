@@ -117,6 +117,8 @@ export type Product = {
   description: string;
   status: "Active" | "Coming Soon" | "Paused" | "Discontinued";
   stage: string;
+  functions?: { title: string; description: string }[];
+  scope?: { title: string; description: string };
 };
 
 export const PRODUCT_TIERS: { title: string; products: Product[] }[] = [
@@ -128,18 +130,45 @@ export const PRODUCT_TIERS: { title: string; products: Product[] }[] = [
         summary: "Pseudonymous feeds, communities, and private rooms.",
         description: "ShadeFast lets people publish posts, join communities, respond to polls, and exchange messages without publishing a real-world identity. Its social experience includes Ask links, Drops, challenges, and private rooms.",
         stage: "Android release; iOS and web development ongoing",
+        functions: [
+          { title: "Feeds and communities", description: "Global and community feeds support posts, media, replies, and discussions." },
+          { title: "Polls and challenges", description: "People can respond to polls and participate in challenges in the social feeds." },
+          { title: "Rooms and Drops", description: "The inbox includes room conversations, private side sessions, and incoming Drops." },
+        ],
+        scope: {
+          title: "Privacy model",
+          description: "Pseudonymous accounts do not guarantee complete anonymity. Some activity remains linkable within the service, and Drops are processed as plaintext.",
+        },
       },
       {
         name: "HDIP", domain: "Identity", status: "Active",
         summary: "Reusable credentials with selective disclosure and recovery.",
         description: "HDIP connects credential issuance, verification, and identity lifecycle management. Current work covers a reusable-KYC foundation, selective disclosure, key history, and recovery authorization.",
         stage: "Reusable-KYC and identity foundations in development",
+        functions: [
+          { title: "Issuance and verification", description: "Issuer and verifier services handle credential issuance, validity checks, and verification decisions." },
+          { title: "Selective disclosure", description: "The credential foundation validates selected claims and the proofs that support them." },
+          { title: "Identity lifecycle", description: "Internal identity mechanics cover key history, status changes, and recovery authorization." },
+        ],
+        scope: {
+          title: "Foundation stage",
+          description: "Work currently covers a reusable-KYC pilot foundation and internal identity mechanics. Production rollout depends on outstanding audit and deployment requirements.",
+        },
       },
       {
         name: "VerifyFlow", domain: "Verification", status: "Active",
         summary: "Measure KYC onboarding, decisions, re-checks, and upgrades.",
         description: "VerifyFlow runs a consistent onboarding and verification sequence through configured KYC provider adapters. Teams can examine provider decisions and how those decisions affect access, re-checks, and account upgrades.",
         stage: "Implementation with a local mock provider; launch work ongoing",
+        functions: [
+          { title: "Provider adapters", description: "KYC providers connect through a neutral adapter contract, keeping provider access in the backend." },
+          { title: "Verification decisions", description: "After normalized onboarding, provider decisions determine access to product tiers." },
+          { title: "Re-checks and upgrades", description: "Repeat checks and tier upgrades follow the same provider contract as initial verification." },
+        ],
+        scope: {
+          title: "Provider integration",
+          description: "The current development setup uses a local mock provider. Launch work includes configuring and validating a live provider adapter.",
+        },
       },
       {
         name: "Reach", domain: "Private communication", status: "Active",
