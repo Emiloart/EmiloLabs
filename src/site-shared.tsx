@@ -25,6 +25,21 @@ export const FOOTER_GROUPS = [
   { title: "Labs", links: [{ label: "Experiments", href: "/labs" }] },
 ];
 
+export const INSTITUTION_PROFILE = {
+  summary: "Research, experiments, and product development under one institution.",
+  founder: "Chukwuemeka Ilodubah",
+  purpose: [
+    "Emilo Labs connects research with the engineering of products and the systems they depend on. Questions about how technology handles information, decisions, and control inform both its investigations and its implementation work.",
+    "Current work includes ShadeFast's pseudonymous communities, HDIP's reusable credentials, and VerifyFlow's measurement of identity checks. Research on data value, consent, and agent coordination extends the work beyond any one application.",
+  ],
+  direction: "The long-term direction is a parent institution with several technology programs, each developing its own research agenda and products under shared operating principles.",
+  model: [
+    { title: "Research", href: "/research", description: "Published work on data value, identity proofing, and consent sits alongside continuing investigations." },
+    { title: "Experiments", href: "/labs", description: "Experimental systems test specific technical questions, including Celetixo's work on coordinating software-engineering agents." },
+    { title: "Products", href: "/products", description: "Product programs have individual scopes and development stages, from initial designs to releases." },
+  ],
+};
+
 export const PAGE_META = {
   "/": {
     title: "Emilo Labs | Humanity first. Technology second.",
@@ -32,7 +47,7 @@ export const PAGE_META = {
   },
   "/about": {
     title: "About | Emilo Labs",
-    description: "The origin, founder, operating principles, and contact information for Emilo Labs.",
+    description: "Emilo Labs' purpose, operating model, leadership, and principles for research and product development.",
   },
   "/research": {
     title: "Research | Emilo Labs",
@@ -380,10 +395,10 @@ const CAREER_PATHS = [
 ];
 
 const PRINCIPLES = [
-  ["Limit data collection", "Define what each interaction needs to establish before deciding which personal data to collect."],
-  ["Make authority explicit", "Give users and services defined permissions. Keep consequential actions traceable to their authorization."],
-  ["Design for recovery", "Test account continuity, device loss, and key changes alongside the normal path through a product."],
-  ["Verify release behavior", "Check deployed behavior against implementation evidence before presenting a capability as available."],
+  ["Evidence before claims", "Research findings, prototypes, and released capabilities carry different levels of evidence. Public claims follow documented results."],
+  ["Human authority", "Permissions establish what a system may do. Consequential actions require defined authority and an accountable owner."],
+  ["Necessary data", "The task determines which information a system collects, retains, and exposes."],
+  ["Recovery and continuity", "Failure, loss of access, and changes in control are considered from the beginning of a system's design."],
 ];
 
 export function useInView(threshold = 0.1) {
@@ -557,18 +572,38 @@ export function Origin() {
   return (
     <Reveal id="origin" className="origin-section">
       <div className="container">
-        <SectionLabel>ORIGIN</SectionLabel>
         <div className="origin-content">
           <div className="origin-statement">
-            <h2>Founded by Chukwuemeka Ilodubah.</h2>
-            <p>Emilo Labs develops products and conducts research around how people participate in digital systems. Its work includes ShadeFast's pseudonymous communities, HDIP's reusable credentials, and VerifyFlow's measurement of identity checks.</p>
-            <p>Research examines the assumptions behind those systems, including what identity checks establish, how consent is obtained, and how the value of data changes with technical capability.</p>
+            <h2>Purpose</h2>
+            {INSTITUTION_PROFILE.purpose.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+            <h3>Long-term direction</h3>
+            <p>{INSTITUTION_PROFILE.direction}</p>
           </div>
-          <dl className="origin-facts">
-            <div><dt>Founder</dt><dd>Chukwuemeka Ilodubah</dd></div>
-            <div><dt>Work</dt><dd>Research, Labs, and products</dd></div>
-            <div><dt>Contact</dt><dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd></div>
-          </dl>
+          <aside className="institution-leadership" aria-labelledby="leadership-title">
+            <h3 id="leadership-title">Leadership</h3>
+            <dl className="origin-facts">
+              <div><dt>Founder</dt><dd>{INSTITUTION_PROFILE.founder}</dd></div>
+              <div><dt>Structure</dt><dd>Parent institution</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+export function InstitutionApproach({ currentPath, onNavigate }: PageProps) {
+  return (
+    <Reveal id="operating-model" className="institution-model-section">
+      <div className="container">
+        <h2 className="institution-section-heading">Operating model</h2>
+        <div className="institution-model">
+          {INSTITUTION_PROFILE.model.map(item => (
+            <article key={item.title}>
+              <h3><AppLink href={item.href} currentPath={currentPath} onNavigate={onNavigate}>{item.title} <span aria-hidden="true">↗</span></AppLink></h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </Reveal>
@@ -712,7 +747,7 @@ export function Contact() {
 }
 
 export function PrincipleGrid() {
-  return <Reveal id="principles" className="principles-section"><div className="container"><SectionLabel>OPERATING PRINCIPLES</SectionLabel><div className="principle-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="principle-item"><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></Reveal>;
+  return <Reveal id="principles" className="principles-section"><div className="container"><h2 className="institution-section-heading">Operating principles</h2><div className="principle-grid">{PRINCIPLES.map(([title, text], index) => <article key={title} className="principle-item"><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></Reveal>;
 }
 
 export function Footer({ currentPath, onNavigate }: PageProps) {
