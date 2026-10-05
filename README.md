@@ -8,7 +8,7 @@ Website: https://emilo-labs.vercel.app/
 
 Public routes
 - `/`: institutional overview
-- `/products`: portfolio directory with product detail routes
+- `/products`: product directory with individual detail routes
 - `/research`: published work and research areas
 - `/labs`: experiments and prototypes
 - `/about`: institution, principles, and contact

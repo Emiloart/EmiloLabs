@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
 
 export type PageProps = {
   currentPath: string;
@@ -19,7 +19,7 @@ export const NAV_LINKS = [
 
 export const FOOTER_GROUPS = [
   { title: "Institution", links: [{ label: "About", href: "/about" }, { label: "Email", href: `mailto:${CONTACT_EMAIL}` }] },
-  { title: "Products", links: [{ label: "Product portfolio", href: "/products" }] },
+  { title: "Products", links: [{ label: "All products", href: "/products" }] },
   { title: "Research", links: [{ label: "Research archive", href: "/research" }] },
   { title: "Labs", links: [{ label: "Experiments", href: "/labs" }] },
 ];
@@ -56,12 +56,12 @@ const INSTITUTION_FLOW = [
 ];
 
 export const RESEARCH_AREAS = [
-  ["Identity", "Reusable proof and portable credentials."],
-  ["Privacy", "Continuity and communication without unnecessary exposure."],
-  ["Security", "Threat-aware systems designed around failure and recovery."],
-  ["Intelligent Systems", "Bounded AI assistance, structured reasoning, and automation."],
-  ["Financial Systems", "Safer value exchange, lending, settlement, and coordination."],
-  ["Internet Systems", "Infrastructure for communication, coordination, and safer participation."],
+  ["Identity", "What can a service verify without retaining a person's full identity?"],
+  ["Privacy", "How can people recover an account without connecting it to a public identity?"],
+  ["Security", "Which device and recovery controls remain reliable when trust is lost?"],
+  ["Intelligent Systems", "How can multiple agents coordinate work while preserving permissions and verifiable outcomes?"],
+  ["Financial Systems", "How should lending and exchange workflows make settlement obligations explicit?"],
+  ["Internet Systems", "How can pseudonymous communities handle participation, continuity, and abuse?"],
 ];
 
 const TECHNOLOGY_AREAS = [
@@ -94,35 +94,136 @@ const ECOSYSTEM_MARKS = [
   ["Vercel", "/ecosystem/vercel.svg"],
 ];
 
-export const PRODUCT_TIERS = [
+export type Product = {
+  name: string;
+  domain: string;
+  summary: string;
+  description: string;
+  status: "Active" | "Coming Soon" | "Paused" | "Discontinued";
+  stage: string;
+};
+
+export const PRODUCT_TIERS: { title: string; products: Product[] }[] = [
   {
     title: "Active",
     products: [
-      ["ShadeFast", "Social systems", "Anonymous communities for real world groups."],
-      ["Reach", "Private communication", "Encrypted messaging and anonymous groups."],
-      ["HDIP", "Identity", "Portable identity and credential infrastructure."],
-      ["VerifyFlow", "Verification", "Controlled measurement for identity flows."],
-      ["Achievo", "Credentials", "Verifiable achievement records."],
-      ["LabGuard", "Security", "Device protection and recovery control."],
-      ["LendEarn", "Finance", "Peer lending and referral finance."],
+      {
+        name: "ShadeFast", domain: "Social systems", status: "Active",
+        summary: "Pseudonymous feeds, communities, and private rooms.",
+        description: "ShadeFast lets people publish posts, join communities, respond to polls, and exchange messages without publishing a real-world identity. Its social experience includes Ask links, Drops, challenges, and private rooms.",
+        stage: "Android release; iOS and web development ongoing",
+      },
+      {
+        name: "HDIP", domain: "Identity", status: "Active",
+        summary: "Reusable identity credentials with selective disclosure and controlled recovery.",
+        description: "HDIP connects credential issuance, verification, and identity lifecycle management. Current work covers a reusable-KYC foundation, selective disclosure, key history, and recovery authorization.",
+        stage: "Reusable-KYC and identity foundations in development",
+      },
+      {
+        name: "VerifyFlow", domain: "Verification", status: "Active",
+        summary: "Measure KYC onboarding, provider decisions, re-checks, and tier upgrades.",
+        description: "VerifyFlow runs a consistent onboarding and verification sequence through configured KYC provider adapters. Teams can examine provider decisions and how those decisions affect access, re-checks, and account upgrades.",
+        stage: "Implementation with a local mock provider; launch work ongoing",
+      },
+      {
+        name: "Reach", domain: "Private communication", status: "Active",
+        summary: "Private messaging for direct conversations, small groups, and pseudonymous communities.",
+        description: "Reach is being developed for direct messaging, private groups, and pseudonymous communities. Its architecture focuses on device trust, message encryption, reduced metadata, and scoped abuse reporting.",
+        stage: "Architecture and service foundations in development",
+      },
+      {
+        name: "LabGuard", domain: "Device security", status: "Active",
+        summary: "VPN, trusted-device management, and lost-device recovery for Emilo Labs.",
+        description: "LabGuard is an internal Android-first security suite combining a WireGuard VPN client, a device registry, lost-device workflows, and remote security actions. Production provisioning remains in development.",
+        stage: "Internal suite; production provisioning in development",
+      },
+      {
+        name: "LendEarn", domain: "Peer lending", status: "Active",
+        summary: "Peer-to-peer lending with referral flows on Shardeum.",
+        description: "LendEarn explores peer-to-peer lending and referral participation on Shardeum. The project connects lending workflows with a web interface for participants.",
+        stage: "Web implementation; public release status unconfirmed",
+      },
     ],
   },
   {
     title: "Coming Soon",
     products: [
-      ["ZKShade", "Privacy recovery", "Identity continuity without exposure."],
-      ["ZKShade Starknet", "Identity recovery", "Anonymous recovery on Starknet."],
-      ["UTB", "Research intelligence", "Automated research and structured insight."],
-      ["HYEX", "Financial exchange", "Safer value exchange and settlement."],
-      ["SCOS Pro", "Agent operations", "Autonomous coordination layer."],
-      ["HSG Pro", "Safety intelligence", "Deception detection for digital environments."],
-      ["SPFS Pro", "Personal finance", "AI native finance operating system."],
-      ["ASL Pro", "Security automation", "Continuous vulnerability defense."],
-      ["Ransomware DSS", "Threat defense", "Ransomware detection and deterrence."],
-      ["AI Finance Tracker", "Finance intelligence", "Spending insight and budget intelligence."],
+      {
+        name: "ZKShade", domain: "Identity recovery", status: "Coming Soon",
+        summary: "Aleo-based recovery proofs for pseudonymous accounts.",
+        description: "ZKShade registers an opaque recovery commitment and verifies knowledge of the same private recovery material on Aleo. The prototype covers the recovery primitive; ShadeFast session restoration is future integration work.",
+        stage: "Aleo testnet prototype; application integration pending",
+      },
+      {
+        name: "UTB", domain: "Research intelligence", status: "Coming Soon",
+        summary: "Continuous source monitoring, connected research, and intelligence briefs.",
+        description: "Ultra Hybrid Brain is being designed to monitor selected information sources, connect findings in a knowledge graph, and prepare reports and alerts. Its research workflows are intended to continue between user sessions.",
+        stage: "Architecture and build specification",
+      },
+      {
+        name: "SCOS Pro", domain: "Workflow coordination", status: "Coming Soon",
+        summary: "Email, calendar, and task coordination with scoped permissions.",
+        description: "Smart Chief of Staff Pro is being designed to coordinate work across connected email, calendars, documents, and tasks. Its planned execution model uses scoped permissions, durable workflows, approvals, and an action history.",
+        stage: "Architecture and build specification",
+      },
+      {
+        name: "HYEX", domain: "Financial exchange", status: "Coming Soon",
+        summary: "Planned crypto-to-fiat exchange with custody and escrow settlement.",
+        description: "Hybrid Exchange is planned as a peer-to-peer crypto-to-fiat exchange. Its proposed trading flow combines in-app custody, escrow-controlled settlement, and merchant tools.",
+        stage: "Product direction; implementation not yet published",
+      },
+      {
+        name: "HSG Pro", domain: "Online safety", status: "Coming Soon",
+        summary: "A planned layer for detecting deception in online interactions.",
+        description: "Hybrid Smart Guard Pro is a planned AI-assisted deception detection layer for online interactions.",
+        stage: "Product direction; implementation not yet published",
+      },
+      {
+        name: "SPFS Pro", domain: "Personal finance", status: "Coming Soon",
+        summary: "A planned system for coordinating personal finances with AI.",
+        description: "Smart Personal Finance System Pro is planned as an AI-assisted personal finance system.",
+        stage: "Product direction; implementation not yet published",
+      },
+      {
+        name: "ASL Pro", domain: "Security automation", status: "Coming Soon",
+        summary: "Planned vulnerability scanning and remediation across code and infrastructure.",
+        description: "Autonomous Security Layer Pro is planned to inspect code, dependencies, infrastructure, and delivery pipelines. Its proposed workflow includes vulnerability prioritization and automated remediation.",
+        stage: "Product direction; implementation not yet published",
+      },
+      {
+        name: "Ransomware DSS", domain: "Security education", status: "Coming Soon",
+        summary: "Simulated scanning, ransomware awareness, and team assessments.",
+        description: "Ransomware DSS combines simulated scanning and quarantine workflows with awareness quizzes and team assessment dashboards. The documented scanning behavior is a simulation, not a validated endpoint detection engine.",
+        stage: "Research prototype with simulated security workflows",
+      },
+      {
+        name: "AI Finance Tracker", domain: "Personal finance", status: "Coming Soon",
+        summary: "Expense tracking, budget management, and spending analysis.",
+        description: "AI Finance Tracker is a project for recording expenses, managing budgets, and developing spending insights. The repository contains an initial application and database foundation.",
+        stage: "Initial application foundation",
+      },
+    ],
+  },
+  {
+    title: "Earlier work",
+    products: [
+      {
+        name: "Achievo", domain: "Achievement credentials", status: "Paused",
+        summary: "Milestones, reviewed evidence, and verifiable achievement records.",
+        description: "Achievo connects organization-issued programs and milestones with submitted evidence, reviewer attestations, and portable proof artifacts. Development is currently paused.",
+        stage: "Development paused",
+      },
+      {
+        name: "ZKShade Starknet", domain: "Identity recovery", status: "Discontinued",
+        summary: "A Cairo prototype for pseudonymous account recovery.",
+        description: "This earlier ZKShade implementation explored recovery commitments on Starknet using Cairo. The project has been discontinued; current ZKShade work uses Aleo.",
+        stage: "Discontinued prototype",
+      },
     ],
   },
 ];
+
+export const ALL_PRODUCTS = PRODUCT_TIERS.flatMap(tier => tier.products);
 
 export const LABS_EXPERIMENTS = [
   ["Celetixo", "Engineering-state coordination and optimistic concurrency for AI coding agents."],
@@ -192,10 +293,10 @@ const CAREER_PATHS = [
 ];
 
 const PRINCIPLES = [
-  ["Build for trust", "Digital systems should be safer, more verifiable, and more private by default."],
-  ["Research before scale", "Important technology should be shaped by clear questions, tests, and constraints."],
-  ["Products as surfaces", "Products are how deeper infrastructure reaches people, teams, and institutions."],
-  ["Avoid empty claims", "Ambition should be visible without presenting future research as finished proof."],
+  ["Limit data collection", "Define what each interaction needs to establish before deciding which personal data to collect."],
+  ["Make authority explicit", "Give users and services defined permissions. Keep consequential actions traceable to their authorization."],
+  ["Design for recovery", "Test account continuity, device loss, and key changes alongside the normal path through a product."],
+  ["Verify release behavior", "Check deployed behavior against implementation evidence before presenting a capability as available."],
 ];
 
 export function useInView(threshold = 0.1) {
@@ -250,7 +351,7 @@ export function useRoute() {
 export function usePageMeta(path: string) {
   useEffect(() => {
     const product = path.startsWith("/products/")
-      ? PRODUCT_TIERS.flatMap(tier => tier.products).find(([name]) => `/products/${slugify(name)}` === path)
+      ? ALL_PRODUCTS.find(product => `/products/${slugify(product.name)}` === path)
       : undefined;
     const publication = path.startsWith("/research/")
       ? INSIGHTS.find(([title]) => `/research/${slugify(title)}` === path)
@@ -258,7 +359,7 @@ export function usePageMeta(path: string) {
     const staticMeta = PAGE_META[path as keyof typeof PAGE_META];
     const known = Boolean(staticMeta || product || publication);
     const meta = staticMeta || (product
-      ? { title: `${product[0]} | Products | Emilo Labs`, description: product[2] }
+      ? { title: `${product.name} | Products | Emilo Labs`, description: product.summary }
       : publication
         ? { title: `${publication[0]} | Research | Emilo Labs`, description: publication[2] }
         : { title: "Page unavailable | Emilo Labs", description: "The requested page is unavailable." });
@@ -372,9 +473,9 @@ export function Origin() {
         <SectionLabel>ORIGIN</SectionLabel>
         <div className="origin-content">
           <div className="origin-statement">
-            <h2>Connected technology creates connected problems.</h2>
-            <p>Identity needs verification. Communication needs privacy. Digital services need security. Online finance needs trust. Complex systems need coordination and recovery.</p>
-            <p>Emilo Labs brings research and product work under one organization to address the dependencies between those systems.</p>
+            <h2>Founded by Chukwuemeka Ilodubah.</h2>
+            <p>Emilo Labs develops products and conducts research around how people participate in digital systems. Its work includes ShadeFast's pseudonymous communities, HDIP's reusable credentials, and VerifyFlow's measurement of identity checks.</p>
+            <p>Research examines the assumptions behind those systems, including what identity checks establish, how consent is obtained, and how the value of data changes with technical capability.</p>
           </div>
           <dl className="origin-facts">
             <div><dt>Founder</dt><dd>Chukwuemeka Ilodubah</dd></div>
@@ -463,29 +564,6 @@ export function PillarCards({ items = RESEARCH_AREAS, limit }: { items?: PillarI
   );
 }
 
-export function Products() {
-  const [tierIndex, setTierIndex] = useState(0);
-  const [productIndex, setProductIndex] = useState(0);
-  const tier = PRODUCT_TIERS[tierIndex];
-  const productCards = useMemo(() => tier.products.map(([name, domain, summary]) => ({ name, domain, summary })), [tier]);
-  const activeProduct = tier.products[productIndex] || tier.products[0];
-  const move = (offset: number) => setProductIndex((productIndex + offset + productCards.length) % productCards.length);
-  return (
-    <Reveal id="products" className="products-section">
-      <div className="container">
-        <SectionLabel>PRODUCTS</SectionLabel>
-        <div className="tier-tabs" aria-label="Product status">
-          {PRODUCT_TIERS.map((item, index) => <button key={item.title} type="button" className={index === tierIndex ? "is-active" : ""} onClick={() => { setTierIndex(index); setProductIndex(0); }}>{item.title}</button>)}
-        </div>
-        <div className="product-stage light-panel">
-          <div className="product-rail">{productCards.map((product, index) => <button key={product.name} type="button" className={`product-card ${index === productIndex ? "is-active" : ""}`} onClick={() => setProductIndex(index)} aria-pressed={index === productIndex}><span>{product.domain}</span><strong>{product.name}</strong><p>{product.summary}</p></button>)}</div>
-          <aside className="active-product"><span>{tier.title}</span><h3>{activeProduct[0]}</h3><p>{activeProduct[2]}</p><strong>{activeProduct[1]}</strong><div className="product-controls"><button type="button" onClick={() => move(-1)} aria-label="Previous product">&lt;</button><small>{String(productIndex + 1).padStart(2, "0")} / {String(productCards.length).padStart(2, "0")}</small><button type="button" onClick={() => move(1)} aria-label="Next product">&gt;</button></div></aside>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
 export function Technology() {
   return <Reveal id="technology" className="technology-section"><div className="container"><SectionLabel>TECHNOLOGY</SectionLabel><div className="technology-system light-panel"><div className="technology-grid">{TECHNOLOGY_AREAS.map(([title, text, signal], index) => <article key={title} className="technology-card" style={staggerStyle(index)}><span>{signal}</span><strong>{title}</strong><p>{text}</p></article>)}</div></div></div></Reveal>;
 }
@@ -497,10 +575,6 @@ export function CredibilityBand() {
 
 export function PageHero({ label, title, summary, children }: { label: string; title: string; summary?: string; children?: ReactNode }) {
   return <header className="page-hero"><div className="container page-hero-inner"><SectionLabel>{label}</SectionLabel><h1>{title}</h1>{summary && <p>{summary}</p>}{children}</div></header>;
-}
-
-export function ProductOperatingModel() {
-  return <Reveal id="portfolio-model" className="portfolio-model-section"><div className="container"><SectionLabel>PORTFOLIO MODEL</SectionLabel><div className="split-panel light-panel"><div><h2>Products are the practical surface of deeper infrastructure.</h2><p>Active systems are separated from upcoming systems so the portfolio communicates what exists now without presenting future work as finished.</p></div><div className="mini-list"><span>Active</span><span>Coming Soon</span><span>Research-backed</span></div></div></div></Reveal>;
 }
 
 export function InsightGrid({ items = INSIGHTS, layout = "cards" }: { items?: InsightRow[]; layout?: "cards" | "index" }) {
@@ -535,7 +609,7 @@ export function InsightGrid({ items = INSIGHTS, layout = "cards" }: { items?: In
 
 export function InsightsPreview({ currentPath, onNavigate, featuredOnly = true }: PageProps & { featuredOnly?: boolean }) {
   const items = featuredOnly ? INSIGHTS.filter(item => item[6]).slice(0, 3) : INSIGHTS;
-  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><SectionLabel>RESEARCH</SectionLabel><div className="split-heading"><h2>Published work.</h2><p>Research publications from the institution, linked to their original sources.</p></div><InsightGrid items={items} /><div className="home-actions"><AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Open research</AppLink></div></div></Reveal>;
+  return <Reveal id="insights-preview" className="insights-preview-section"><div className="container"><div className="split-heading"><h2>Publications</h2><AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="section-link">All research <span aria-hidden="true">↗</span></AppLink></div><InsightGrid items={items} /></div></Reveal>;
 }
 
 export function CareersGrid() {

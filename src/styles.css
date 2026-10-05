@@ -96,6 +96,11 @@ button:focus-visible {
   margin-inline: auto;
 }
 
+.detail-overview .product-description {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
 /* ----------------------------------------------------------------------
    Navigation - the permanent dark header
 ---------------------------------------------------------------------- */

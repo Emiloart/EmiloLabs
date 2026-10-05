@@ -1,9 +1,9 @@
-import { PageHero, PRODUCT_TIERS, AppLink, SectionLabel, contactHref, slugify, type PageProps } from "../site-shared";
+import { PageHero, ALL_PRODUCTS, AppLink, SectionLabel, contactHref, slugify, type PageProps } from "../site-shared";
 import NotFoundPage from "./NotFoundPage";
 
 function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
   const slug = currentPath.split("/").pop() || "";
-  const match = PRODUCT_TIERS.flatMap(tier => tier.products.map(([name, domain, summary]) => ({ name, domain, summary, status: tier.title })))
+  const match = ALL_PRODUCTS
     .find(product => slugify(product.name) === slug);
 
   if (!match) return <NotFoundPage currentPath={currentPath} onNavigate={onNavigate} />;
@@ -18,11 +18,13 @@ function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
             <div className="detail-overview">
               <SectionLabel>OVERVIEW</SectionLabel>
               <p>{match.summary}</p>
+              <p className="product-description">{match.description}</p>
               <a href={contactHref(`Product inquiry: ${match.name}`)} className="primary-button">Product inquiry</a>
             </div>
             <dl className="detail-facts">
               <div><dt>Status</dt><dd>{match.status}</dd></div>
               <div><dt>Area</dt><dd>{match.domain}</dd></div>
+              <div><dt>Development</dt><dd>{match.stage}</dd></div>
             </dl>
           </div>
         </div>
