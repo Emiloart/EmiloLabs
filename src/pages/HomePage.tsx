@@ -1,4 +1,4 @@
-import { AppLink, InsightsPreview, PRODUCT_TIERS, SectionLabel, type PageProps } from "../site-shared";
+import { AppLink, InsightsPreview, ProductCarousel, PRODUCT_TIERS, SectionLabel, type PageProps } from "../site-shared";
 
 function HomePage({ currentPath, onNavigate }: PageProps) {
   const active = PRODUCT_TIERS.find(tier => tier.title === "Active")?.products ?? [];
@@ -24,26 +24,12 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
 
       <section className="section products-section">
         <div className="container">
-          <SectionLabel>PRODUCTS</SectionLabel>
           <div className="split-heading">
             <h2>Products</h2>
             <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="section-link">All products <span aria-hidden="true">↗</span></AppLink>
           </div>
-          <div className="portfolio-preview">
-            {[
-              { label: "ACTIVE", products: active },
-              { label: "COMING SOON", products: upcoming },
-            ].map(group => (
-              <div className="portfolio-preview-group" key={group.label}>
-                <div className="preview-heading"><span>{group.label}</span><strong>{group.products.length} systems</strong></div>
-                <ul>
-                  {group.products.slice(0, 3).map(({ name, domain }) => (
-                    <li key={name}><strong>{name}</strong><span>{domain}</span></li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <ProductCarousel title="Active" products={active} currentPath={currentPath} onNavigate={onNavigate} />
+          <ProductCarousel title="Coming Soon" products={upcoming} currentPath={currentPath} onNavigate={onNavigate} />
         </div>
       </section>
 

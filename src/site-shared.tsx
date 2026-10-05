@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type AnchorHTMLAttributes, type CSSProperties, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type PageProps = {
   currentPath: string;
@@ -233,6 +234,92 @@ export const LABS_PRODUCT_NAMES = ["UTB", "SCOS Pro"];
 
 export function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+export function ProductThumbnail({ product }: { product: Product }) {
+  return (
+    <div className={`product-thumbnail${product.name === "ShadeFast" ? " is-logo" : ""}`}>
+      <img src={`/products/${slugify(product.name)}.svg`} alt="" width="320" height="320" loading="lazy" decoding="async" />
+    </div>
+  );
+}
+
+export function ProductCarousel({ title, products, currentPath, onNavigate, headingLevel = 3 }: PageProps & { title: string; products: Product[]; headingLevel?: 2 | 3 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
+  const id = useId();
+  const track = useRef<HTMLUListElement>(null);
+  const reducedMotion = useReducedMotion();
+  const [bounds, setBounds] = useState({ previous: false, next: false });
+
+  useEffect(() => {
+    const node = track.current;
+    if (!node) return undefined;
+    const update = () => {
+      const maximum = node.scrollWidth - node.clientWidth;
+      const previous = node.scrollLeft > 2;
+      const next = node.scrollLeft < maximum - 2;
+      setBounds(current => current.previous === previous && current.next === next ? current : { previous, next });
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(node);
+    node.addEventListener("scroll", update, { passive: true });
+    return () => {
+      observer.disconnect();
+      node.removeEventListener("scroll", update);
+    };
+  }, [products]);
+
+  const move = (direction: number) => {
+    const node = track.current;
+    if (!node) return;
+    const tile = node.firstElementChild;
+    const step = tile ? tile.getBoundingClientRect().width + parseFloat(getComputedStyle(node).columnGap) : node.clientWidth;
+    const visible = Math.max(1, Math.round(node.clientWidth / step));
+    node.scrollBy({ left: step * visible * direction, behavior: reducedMotion ? "instant" : "smooth" });
+  };
+
+  return (
+    <div className="product-carousel" role="region" aria-roledescription="carousel" aria-labelledby={`${id}-title`}>
+      <div className="carousel-heading">
+        <Heading id={`${id}-title`}>{title} <span>{products.length}</span></Heading>
+        <div className="carousel-controls">
+          <button type="button" aria-label={`Previous ${title.toLowerCase()} products`} title="Previous products" aria-controls={`${id}-track`} disabled={!bounds.previous} onClick={() => move(-1)}><ChevronLeft size={18} aria-hidden="true" /></button>
+          <button type="button" aria-label={`Next ${title.toLowerCase()} products`} title="Next products" aria-controls={`${id}-track`} disabled={!bounds.next} onClick={() => move(1)}><ChevronRight size={18} aria-hidden="true" /></button>
+        </div>
+      </div>
+      <ul
+        className="carousel-track"
+        id={`${id}-track`}
+        ref={track}
+        tabIndex={0}
+        aria-label={`${title} products`}
+        onKeyDown={event => {
+          if (event.target !== event.currentTarget) return;
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            move(event.key === "ArrowLeft" ? -1 : 1);
+          } else if (event.key === "Home" || event.key === "End") {
+            event.preventDefault();
+            track.current?.scrollTo({ left: event.key === "Home" ? 0 : track.current.scrollWidth, behavior: reducedMotion ? "instant" : "smooth" });
+          }
+        }}
+      >
+        {products.map(product => (
+          <li className="carousel-item" key={product.name}>
+            <AppLink href={`/products/${slugify(product.name)}`} currentPath={currentPath} onNavigate={onNavigate} className="carousel-product">
+              <ProductThumbnail product={product} />
+              <div className="carousel-product-copy">
+                <h4>{product.name}</h4>
+                <p>{product.summary}</p>
+                {(product.status === "Paused" || product.status === "Discontinued") && <small>{product.status}</small>}
+              </div>
+            </AppLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 type InsightRow = [title: string, category: string, summary: string, date: string, time: string, status: string, featured: boolean, url: string, cover: string | null];

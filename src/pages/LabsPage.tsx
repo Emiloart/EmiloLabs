@@ -1,4 +1,4 @@
-import { AppLink, LABS_EXPERIMENTS, LABS_PRODUCT_NAMES, PageHero, PRODUCT_TIERS, SectionLabel, slugify, type PageProps } from "../site-shared";
+import { LABS_EXPERIMENTS, LABS_PRODUCT_NAMES, PageHero, ProductCarousel, PRODUCT_TIERS, SectionLabel, type PageProps } from "../site-shared";
 
 function LabsPage({ currentPath, onNavigate }: PageProps) {
   const inDevelopment = PRODUCT_TIERS.find(tier => tier.title === "Coming Soon")?.products
@@ -20,20 +20,7 @@ function LabsPage({ currentPath, onNavigate }: PageProps) {
       </section>
       <section className="section labs-development-section">
         <div className="container">
-          <SectionLabel>PRODUCT DEVELOPMENT</SectionLabel>
-          <div className="split-heading">
-            <h2>In development</h2>
-          </div>
-          <div className="product-directory">
-            {inDevelopment.map(({ name, domain, summary }, index) => (
-              <AppLink key={name} href={`/products/${slugify(name)}`} currentPath={currentPath} onNavigate={onNavigate} className="product-entry">
-                <span className="entry-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <span className="entry-name"><strong>{name}</strong><small>{domain}</small></span>
-                <span className="entry-summary">{summary}</span>
-                <span className="entry-arrow" aria-hidden="true">↗</span>
-              </AppLink>
-            ))}
-          </div>
+          <ProductCarousel title="In development" products={inDevelopment} currentPath={currentPath} onNavigate={onNavigate} headingLevel={2} />
         </div>
       </section>
     </>

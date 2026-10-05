@@ -1,4 +1,4 @@
-import { PageHero, ALL_PRODUCTS, AppLink, SectionLabel, contactHref, slugify, type PageProps } from "../site-shared";
+import { PageHero, ALL_PRODUCTS, AppLink, ProductThumbnail, SectionLabel, contactHref, slugify, type PageProps } from "../site-shared";
 import NotFoundPage from "./NotFoundPage";
 
 function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
@@ -21,11 +21,14 @@ function ProductDetailPage({ currentPath, onNavigate }: PageProps) {
               <p className="product-description">{match.description}</p>
               <a href={contactHref(`Product inquiry: ${match.name}`)} className="primary-button">Product inquiry</a>
             </div>
-            <dl className="detail-facts">
-              <div><dt>Status</dt><dd>{match.status}</dd></div>
-              <div><dt>Area</dt><dd>{match.domain}</dd></div>
-              <div><dt>Development</dt><dd>{match.stage}</dd></div>
-            </dl>
+            <aside className="product-record" aria-label="Product details">
+              <ProductThumbnail product={match} />
+              <dl className="detail-facts">
+                <div><dt>Status</dt><dd>{match.status}</dd></div>
+                <div><dt>Area</dt><dd>{match.domain}</dd></div>
+                <div><dt>Development</dt><dd>{match.stage}</dd></div>
+              </dl>
+            </aside>
           </div>
         </div>
       </section>
