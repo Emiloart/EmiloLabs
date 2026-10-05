@@ -52,11 +52,31 @@ coordinated software-engineering agents.
 - Supply approved marks for projects that currently have no product logo asset.
 - Confirm any status changes after this source review before updating public labels.
 
+## Detail page follow-up
+
+ShadeFast, HDIP, and VerifyFlow sources were rechecked on October 5, 2026 at
+the same revisions recorded above. Their detail pages now include three concise
+function summaries and one product-specific scope note:
+
+- ShadeFast: feeds and communities, polls and challenges, rooms and Drops. Its
+  privacy note distinguishes pseudonymous participation from complete anonymity
+  and identifies plaintext processing of Drops.
+- HDIP: issuance and verification, selective-disclosure validation, and internal
+  identity lifecycle mechanics. Its scope remains a foundation with outstanding
+  audit and deployment work, not a production service.
+- VerifyFlow: neutral provider adapters, verification decisions, and re-checks
+  and upgrades. Its development setup uses a mock provider; live integration
+  remains launch work.
+
+The additions use product facts only. They do not reproduce private architecture
+documents, operational credentials, or unpublished infrastructure details. Other
+product pages retain their existing summaries and development records.
+
 The source URLs follow `https://github.com/Emiloart/<repository>`. Private source
 material is deliberately not reproduced here beyond the product-level facts used
 by the website.
 
-## Validation
+## Initial carousel validation
 
 The final production build was checked on October 5, 2026:
 
@@ -76,3 +96,20 @@ The final production build was checked on October 5, 2026:
 - Build dependencies were patched within their existing version families:
   PostCSS 8.5.29, nanoid 3.3.20, and source-map-js 1.2.2. `npm audit` reported
   zero vulnerabilities after the update.
+
+## Institutional content validation
+
+The About page and three expanded product pages were checked on October 5, 2026:
+
+- `npm run build` passed after each content milestone.
+- The About page was checked at 1440, 768, 390, and 320 pixels. Its founder record
+  appears once, all four principles have descriptive headings, and the Research,
+  Experiments, and Products links navigate correctly and support browser Back.
+- A production browser pass covered 24 page and viewport combinations: About,
+  ShadeFast, HDIP, VerifyFlow, Reach, and Achievo at those four widths.
+- All three expanded pages displayed their three function summaries and scope
+  notes. Reach and Achievo did not acquire empty or unrelated content sections.
+- No horizontal overflow, clipped text, missing product images, JavaScript
+  errors, product repository links, or em/en dashes were found.
+- Desktop and mobile screenshots were inspected. The existing color tokens,
+  product artwork, and carousel presentation were retained.
