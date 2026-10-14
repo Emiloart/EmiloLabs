@@ -1,4 +1,6 @@
 import { AppLink, InsightsPreview, ProductCarousel, PRODUCT_TIERS, SectionLabel, type PageProps } from "../site-shared";
+import heroDesktop from "../assets/hero-desktop.png";
+import heroMobile from "../assets/hero-mobile.png";
 
 function HomePage({ currentPath, onNavigate }: PageProps) {
   const active = PRODUCT_TIERS.find(tier => tier.title === "Active")?.products ?? [];
@@ -22,9 +24,9 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
 
               <div className="hero-media" aria-label="Emilo Labs visual hero">
                 <picture>
-                  <source media="(min-width: 900px)" srcSet="/hero-desktop.png" />
+                  <source media="(min-width: 900px)" srcSet={heroDesktop} />
                   <img
-                    src="/hero-mobile.png"
+                    src={heroMobile}
                     alt="Emilo Labs"
                     loading="eager"
                     style={{
