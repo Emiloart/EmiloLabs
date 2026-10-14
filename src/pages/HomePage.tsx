@@ -9,13 +9,33 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
       <header className="hero-section">
         <div className="container">
           <div className="hero-frame">
-            <div className="hero-copy">
-              <div className="hero-kicker">EMILO LABS</div>
-              <h1>Humanity first. Technology second.</h1>
-              <p>Emilo Labs develops technology around how people participate in digital systems and retain control over their information.</p>
-              <div className="hero-actions">
-                <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore products</AppLink>
-                <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Read research</AppLink>
+            <div className="hero-grid">
+              <div className="hero-copy">
+                <div className="hero-kicker">EMILO LABS</div>
+                <h1>Humanity first. Technology second.</h1>
+                <p>Emilo Labs develops technology around how people participate in digital systems and retain control over their information.</p>
+                <div className="hero-actions">
+                  <AppLink href="/products" currentPath={currentPath} onNavigate={onNavigate} className="primary-button">Explore products</AppLink>
+                  <AppLink href="/research" currentPath={currentPath} onNavigate={onNavigate} className="secondary-button">Read research</AppLink>
+                </div>
+              </div>
+
+              <div className="hero-media" aria-label="Emilo Labs visual hero">
+                <picture>
+                  <source media="(min-width: 900px)" srcSet="/hero-desktop.png" />
+                  <img
+                    src="/hero-mobile.png"
+                    alt="Emilo Labs"
+                    loading="eager"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                      borderRadius: "10px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -32,7 +52,6 @@ function HomePage({ currentPath, onNavigate }: PageProps) {
           <ProductCarousel title="Coming Soon" products={upcoming} currentPath={currentPath} onNavigate={onNavigate} />
         </div>
       </section>
-
 
       <InsightsPreview currentPath={currentPath} onNavigate={onNavigate} featuredOnly={true} />
 
