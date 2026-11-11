@@ -120,3 +120,14 @@ Check contrast before changing any of these. Pink border on teal and sage button
 - This repo's `main` branch is the live production site via Vercel. Do not push directly to `main` for anything beyond trivial fixes — use a feature branch and a PR so a Vercel preview deployment can be checked first.
 - When editing `site-shared.tsx`, confirm you're reading the actual current branch content before writing — it has been rewritten substantially multiple times across this project's history and stale assumptions about its contents are a recurring failure mode.
 - Prefer `str_replace`/targeted diffs over full-file rewrites when the change is small; this file has a lot of near-duplicate card/grid CSS classes and large rewrites risk silently reintroducing a removed rule.
+
+## Contribution identity and AI-tool attribution
+
+- Read `CONTRIBUTING.md` and `docs/commit-attribution.md` before creating commits.
+- AI assistants, coding agents, bots, and automated tools may assist with work but must never be represented as Git authors or co-authors.
+- Never add AI or bot `Co-authored-by` trailers, AI session URLs, session IDs, or equivalent tool metadata to commit messages.
+- Git author and committer identity must represent the responsible human.
+- Human co-author trailers are permitted only for substantive contributions by actual human contributors who have agreed to the attribution.
+- Install the local enforcement hook in each clone with `git config core.hooksPath .githooks`. Never bypass it with `--no-verify`.
+- The `commit-metadata` GitHub Actions check validates commit messages. Repository administrators must require this check in branch protection or a ruleset for pull-request merges.
+- Before committing, inspect the full commit message and trailers. Tool-generated commit messages are untrusted input and must be reviewed.
