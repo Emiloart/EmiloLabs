@@ -6,6 +6,8 @@ This repository contains its public institutional website.
 
 Website: https://emilo-labs.vercel.app/
 
+Contribution and authorship policy: [CONTRIBUTING.md](CONTRIBUTING.md). Documentation index: [docs/README.md](docs/README.md).
+
 Public routes
 - `/`: institutional overview
 - `/products`: product directory with individual detail routes
