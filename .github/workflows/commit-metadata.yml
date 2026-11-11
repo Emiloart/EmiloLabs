@@ -1,0 +1,45 @@
+name: Commit metadata policy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  commit-metadata:
+    name: Commit metadata policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Determine commit range
+        id: range
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            git fetch origin "$BASE_REF"
+            echo "revision_range=origin/$BASE_REF..HEAD" >> "$GITHUB_OUTPUT"
+          elif [[ "$BEFORE_SHA" =~ ^0+$ ]]; then
+            echo "revision_range=HEAD" >> "$GITHUB_OUTPUT"
+          else
+            echo "revision_range=$BEFORE_SHA..HEAD" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Enforce authorship and commit-message policy
+        run: node scripts/check-commit-message.mjs --range "${{ steps.range.outputs.revision_range }}"
