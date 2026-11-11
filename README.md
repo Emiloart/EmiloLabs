@@ -71,6 +71,6 @@ Project layout (key files)
 - `vercel.json`: SPA route rewrite
 
 Contact
-- Website: https://emilolabs.com/
+- Website: [https://emilolabs.com/](https://emilo-labs.vercel.app/)
 - Email: emilolabs@gmail.com
 
